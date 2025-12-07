@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const sportsData = [
     {
@@ -199,7 +200,9 @@ const TiltCard = ({ item, index }) => {
     );
 };
 
-const HashiraShowcase = () => {
+const HashiraShowcase = ({ limit }) => {
+    const displayedData = limit ? sportsData.slice(0, limit) : sportsData;
+
     return (
         <section id="hashira" className="py-24 bg-black relative perspective-1000">
             <div className="container mx-auto px-6">
@@ -210,10 +213,21 @@ const HashiraShowcase = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {sportsData.map((item, idx) => (
+                    {displayedData.map((item, idx) => (
                         <TiltCard key={idx} item={item} index={idx} />
                     ))}
                 </div>
+
+                {limit && (
+                    <div className="mt-16 text-center">
+                        <Link
+                            to="/sports"
+                            className="inline-block px-8 py-3 border border-prakida-flame text-prakida-flame font-bold tracking-widest hover:bg-prakida-flame hover:text-white transition-all duration-300 skew-x-[-12deg]"
+                        >
+                            <span className="block skew-x-[12deg]">VIEW ALL SPORTS</span>
+                        </Link>
+                    </div>
+                )}
             </div>
         </section>
     );

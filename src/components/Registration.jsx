@@ -21,6 +21,7 @@ const Registration = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log("handleSubmit triggered"); // Debug Log
         setIsSubmitting(true);
         setStatus({ type: '', message: '' });
 
@@ -28,6 +29,7 @@ const Registration = () => {
         const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
         const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
         const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+        console.log("Env Vars:", { serviceId, templateId, publicKey }); // Debug Log
 
         if (!serviceId || !templateId || !publicKey) {
             // Fallback for demo/offline mode if keys aren't set
@@ -64,6 +66,7 @@ const Registration = () => {
                     role: 'Player'
                 });
             }, (error) => {
+                console.log("EmailJS Error:", error); // Debug Log
                 console.log(error.text);
                 setStatus({ type: 'error', message: 'Failed to send registration. Please try again or contact support.' });
             })
@@ -166,7 +169,7 @@ const Registration = () => {
                                         className="relative w-full overflow-hidden group bg-prakida-flame text-white font-bold py-5 tracking-[0.3em] transition-all hover:bg-prakida-flameDark disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         <span className="relative z-10">{isSubmitting ? 'INITIALIZING...' : 'INITIATE REGISTRATION'}</span>
-                                        <div className="absolute inset-0 bg-white/20 transform -skew-x-12 translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
+                                        <div className="absolute inset-0 bg-white/20 transform -skew-x-12 translate-x-full group-hover:translate-x-0 transition-transform duration-500 pointer-events-none"></div>
                                     </button>
                                 </div>
                             </form>
@@ -199,7 +202,7 @@ const Registration = () => {
                             </ul>
                             <div className="mt-8 pt-6 border-t border-white/10 text-center">
                                 <p className="text-sm text-gray-500">Need help?</p>
-                                <a href="mailto:prakida@bitmesra.ac.in" className="text-prakida-water hover:text-white transition-colors">prakida@bitmesra.ac.in</a>
+                                <a href="mailto:ahmadsiftain0007@gmail.com" className="text-prakida-water hover:text-white transition-colors">prakida@bitmesra.ac.in</a>
                             </div>
                         </div>
                     </div>

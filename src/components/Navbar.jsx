@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
+import GlitchLink from './ui/GlitchLink';
 import logo from '../assets/prakida-logo.png';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const location = useLocation();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -15,43 +18,46 @@ const Navbar = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    // Close mobile menu when route changes
+    useEffect(() => {
+        setIsOpen(false);
+    }, [location]);
+
     const navLinks = [
-        { name: 'About', href: '#about' },
-        { name: 'Hashira', href: '#hashira' },
-        { name: 'Schedule', href: '#schedule' },
-        { name: 'Register', href: '#register' },
-        { name: 'Contact', href: '#footer' },
+        { name: 'Home', kanji: 'ホーム', path: '/' },
+        { name: 'Events', kanji: 'イベント', path: '/events' },
+        { name: 'Merchandise', kanji: 'グッズ', path: '/merchandise' },
+        { name: 'Sports', kanji: '競技', path: '/sports' },
+        { name: 'Contact', kanji: '連絡', path: '/contact' },
     ];
 
     return (
         <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/90 backdrop-blur-md py-4' : 'bg-transparent py-6'}`}>
             <div className="container mx-auto px-6 flex justify-between items-center">
-                <a href="#" className="flex items-center gap-2 group">
+                <Link to="/" className="flex items-center gap-2 group">
                     <img
                         src={logo}
                         alt="PRAKIDA Logo"
                         className="h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
                     />
-                </a>
+                </Link>
 
                 {/* Desktop Menu */}
                 <div className="hidden md:flex items-center gap-8">
                     {navLinks.map((link) => (
-                        <a
+                        <GlitchLink
                             key={link.name}
-                            href={link.href}
-                            className="text-gray-300 hover:text-white font-medium tracking-wide text-sm relative group overflow-hidden"
-                        >
-                            {link.name}
-                            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-prakida-water transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-                        </a>
+                            to={link.path}
+                            text={link.name}
+                            kanji={link.kanji}
+                        />
                     ))}
-                    <a
-                        href="#register"
+                    <Link
+                        to="/register" // Changed to Register page for 'Join Now'
                         className="px-6 py-2 bg-transparent border border-prakida-flame text-prakida-flame hover:bg-prakida-flame hover:text-white font-bold transition-all duration-300 rounded-sm skew-x-[-12deg] hover:skew-x-0 hover:shadow-[0_0_15px_rgba(244,140,6,0.5)]"
                     >
                         <span className="block skew-x-[12deg] hover:skew-x-0">JOIN NOW</span>
-                    </a>
+                    </Link>
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -63,7 +69,7 @@ const Navbar = () => {
                 </button>
             </div>
 
-            {/* Mobile Mobile Menu Overlay */}
+            {/* Mobile Menu Overlay */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
@@ -74,22 +80,20 @@ const Navbar = () => {
                     >
                         <div className="flex flex-col items-center py-8 gap-6">
                             {navLinks.map((link) => (
-                                <a
+                                <Link
                                     key={link.name}
-                                    href={link.href}
-                                    onClick={() => setIsOpen(false)}
-                                    className="text-xl text-gray-300 hover:text-prakida-flame font-display tracking-widest"
+                                    to={link.path}
+                                    className={`text-xl font-display tracking-widest ${location.pathname === link.path ? 'text-prakida-flame' : 'text-gray-300 hover:text-white'}`}
                                 >
                                     {link.name}
-                                </a>
+                                </Link>
                             ))}
-                            <a
-                                href="#register"
-                                onClick={() => setIsOpen(false)}
+                            <Link
+                                to="/register"
                                 className="mt-4 px-8 py-3 bg-prakida-flame text-white font-bold tracking-wider"
                             >
                                 JOIN NOW
-                            </a>
+                            </Link>
                         </div>
                     </motion.div>
                 )}

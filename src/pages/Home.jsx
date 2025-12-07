@@ -1,0 +1,50 @@
+import Hero from '../components/Hero';
+import About from '../components/About';
+import HashiraShowcase from '../components/HashiraShowcase';
+import Gallery from '../components/Gallery';
+import Sponsors from '../components/Sponsors';
+import Marquee from '../components/ui/Marquee';
+import { Link } from 'react-router-dom';
+
+const Home = () => {
+    return (
+        <>
+            <Hero />
+            <Marquee
+                items={[
+                    "Registration Open Now",
+                    "Demon Slayer Corps Recruitment",
+                    "Win Prizes Worth ₹50k",
+                    "Prove Your Strength",
+                    "Blood Sweat & Glory",
+                    "Jan 13-15 2026",
+                    "Become a Hashira"
+                ]}
+                speed={30}
+            />
+            <About />
+            {/* Show only 3 items on Home page as requested */}
+            <HashiraShowcase limit={3} />
+            <Gallery />
+
+            {/* Registration CTA instead of full form */}
+            <section className="py-24 bg-prakida-bg relative overflow-hidden">
+                <div className="container mx-auto px-6 text-center">
+                    <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-8">
+                        READY TO JOIN THE CORPS?
+                    </h2>
+                    <Link
+                        to="/register"
+                        className="inline-block px-10 py-4 bg-prakida-flame text-white font-bold text-xl tracking-widest hover:bg-orange-600 transition-all duration-300 transform hover:scale-105 skew-x-[-12deg]"
+                    >
+                        <span className="block skew-x-[12deg]">REGISTER NOW</span>
+                    </Link>
+                </div>
+            </section>
+
+            <Sponsors />
+        </>
+    );
+};
+
+export default Home;

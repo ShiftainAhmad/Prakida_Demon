@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 
@@ -110,8 +111,8 @@ const Hero = () => {
 
                     <motion.h1
                         variants={itemVariants}
-                        className="text-7xl md:text-9xl lg:text-[12rem] font-display font-black text-white mb-2 tracking-tighter leading-[0.8] relative z-20 mix-blend-overlay opacity-90"
-                        style={{ textShadow: '0 0 40px rgba(255,255,255,0.1)' }}
+                        className="text-5xl md:text-9xl lg:text-[12rem] font-display font-black text-white mb-2 tracking-tighter leading-[0.8] relative z-20 mix-blend-overlay opacity-90"
+                        style={{ textShadow: '0 0 40px rgba(255,255,255,0.1)', fontFamily: "'Nosifer', cursive" }}
                     >
                         PRAKIDA
                     </motion.h1>
@@ -125,26 +126,26 @@ const Hero = () => {
                     </motion.p>
 
                     <motion.div variants={itemVariants} className="flex flex-col md:flex-row gap-6 justify-center items-center mb-20">
-                        <a
-                            href="#register"
+                        <Link
+                            to="/sports"
                             className="group relative px-10 py-5 bg-prakida-flame text-white font-bold text-xl tracking-widest overflow-hidden clip-path-slant shadow-lg shadow-prakida-flame/50 hover:shadow-prakida-flame/80 transition-all"
                         >
                             <span className="relative z-10 group-hover:tracking-[0.2em] transition-all duration-300">ENTER ARENA</span>
                             <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                             <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
-                        </a>
-                        <a
-                            href="#schedule"
+                        </Link>
+                        <Link
+                            to="/events"
                             className="group px-8 py-5 border border-white/20 text-white font-bold text-lg tracking-widest hover:bg-white/5 transition-all hover:border-white/50 backdrop-blur-sm"
                         >
                             VIEW SCHEDULE
-                        </a>
+                        </Link>
                     </motion.div>
 
                     {/* Countdown */}
                     <motion.div
                         variants={itemVariants}
-                        className="grid grid-cols-4 gap-4 md:gap-12 max-w-4xl mx-auto border-t border-white/10 pt-10"
+                        className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-12 max-w-4xl mx-auto border-t border-white/10 pt-10"
                     >
                         {[
                             { label: 'DAYS', value: timeLeft.days },
@@ -164,14 +165,7 @@ const Hero = () => {
             </div>
 
             {/* Scroll Indicator */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1, y: [0, 10, 0] }}
-                transition={{ duration: 2, repeat: Infinity, delay: 2 }}
-                className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white/30 text-sm tracking-widest"
-            >
-                SCROLL TO EXPLORE
-            </motion.div>
+
         </section>
     );
 };
