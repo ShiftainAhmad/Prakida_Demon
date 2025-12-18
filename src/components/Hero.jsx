@@ -125,10 +125,10 @@ const Hero = () => {
                     <ParallaxElement speed={0.2} direction="up">
                         <motion.p
                             variants={itemVariants}
-                            className="text-gray-300 text-lg md:text-2xl max-w-3xl mx-auto mb-12 font-light tracking-wide leading-relaxed"
+                            className="text-gray-300 text-xl md:text-[26px] max-w-3xl mx-auto mt-8 mb-12 font-light tracking-wide leading-relaxed"
                         >
                             The arena awaits. Unleash your inner <span className="text-prakida-water font-bold drop-shadow-glow">Hashira</span>.<br />
-                            <span className="text-white/60 text-base">Victory is not given. It is taken.</span>
+                            <span className="text-white/60 text-lg">Victory is not given. It is taken.</span>
                         </motion.p>
                     </ParallaxElement>
 
