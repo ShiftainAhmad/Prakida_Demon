@@ -7,20 +7,38 @@ import ParallaxElement from './ui/ParallaxElement';
 
 const Hero = () => {
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-    // Mouse parallax effect
-    const handleMouseMove = (e) => {
-        const { clientX, clientY } = e;
-        const moveX = clientX - window.innerWidth / 2;
-        const moveY = clientY - window.innerHeight / 2;
-        setMousePosition({ x: moveX, y: moveY });
-    };
+    // Performance optimization: Use motion values instead of state to prevent re-renders on mouse move
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    // Smooth spring animation for the mouse values
+    const springConfig = { damping: 30, stiffness: 200 };
+    const mouseXSpring = useSpring(mouseX, springConfig);
+    const mouseYSpring = useSpring(mouseY, springConfig);
+
+    // Transform values for parallax layers
+    const rotateX = useTransform(mouseYSpring, [-500, 500], [5, -5]);
+    const rotateY = useTransform(mouseXSpring, [-500, 500], [-5, 5]);
+
+    const orb1X = useTransform(mouseXSpring, (val) => val * -0.05);
+    const orb1Y = useTransform(mouseYSpring, (val) => val * -0.05);
+
+    const orb2X = useTransform(mouseXSpring, (val) => val * 0.05);
+    const orb2Y = useTransform(mouseYSpring, (val) => val * 0.05);
 
     useEffect(() => {
+        const handleMouseMove = (e) => {
+            const { clientX, clientY } = e;
+            const moveX = clientX - window.innerWidth / 2;
+            const moveY = clientY - window.innerHeight / 2;
+            mouseX.set(moveX);
+            mouseY.set(moveY);
+        };
+
         window.addEventListener('mousemove', handleMouseMove);
         return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, []);
+    }, [mouseX, mouseY]);
 
     useEffect(() => {
         // Set target date to January 13, 2026
@@ -76,23 +94,21 @@ const Hero = () => {
 
                 {/* Parallax Orbs */}
                 <motion.div
-                    animate={{
-                        x: mousePosition.x * -0.05,
-                        y: mousePosition.y * -0.05,
+                    style={{
+                        x: orb1X,
+                        y: orb1Y,
                     }}
-                    transition={{ type: "spring", damping: 30, stiffness: 200 }}
-                    className="absolute top-0 right-0 w-full h-full"
+                    className="absolute top-0 right-0 w-full h-full will-change-transform"
                 >
                     <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-prakida-water/30 rounded-full blur-[120px] mix-blend-screen" />
                 </motion.div>
 
                 <motion.div
-                    animate={{
-                        x: mousePosition.x * 0.05,
-                        y: mousePosition.y * 0.05,
+                    style={{
+                        x: orb2X,
+                        y: orb2Y,
                     }}
-                    transition={{ type: "spring", damping: 30, stiffness: 200 }}
-                    className="absolute bottom-0 left-0 w-full h-full"
+                    className="absolute bottom-0 left-0 w-full h-full will-change-transform"
                 >
                     <div className="absolute bottom-1/4 left-1/4 w-[600px] h-[600px] bg-prakida-flame/20 rounded-full blur-[150px] mix-blend-screen" />
                 </motion.div>

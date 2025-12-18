@@ -97,6 +97,7 @@ const sportsData = [
 
 const TiltCard = ({ item, index }) => {
     const ref = useRef(null);
+    const rectRef = useRef(null);
 
     const x = useMotionValue(0);
     const y = useMotionValue(0);
@@ -107,14 +108,18 @@ const TiltCard = ({ item, index }) => {
     const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
     const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
 
+    const handleMouseEnter = () => {
+        rectRef.current = ref.current.getBoundingClientRect();
+    };
+
     const handleMouseMove = (e) => {
-        const rect = ref.current.getBoundingClientRect();
+        if (!rectRef.current) return;
 
-        const width = rect.width;
-        const height = rect.height;
+        const width = rectRef.current.width;
+        const height = rectRef.current.height;
 
-        const mouseX = e.clientX - rect.left;
-        const mouseY = e.clientY - rect.top;
+        const mouseX = e.clientX - rectRef.current.left;
+        const mouseY = e.clientY - rectRef.current.top;
 
         const xPct = mouseX / width - 0.5;
         const yPct = mouseY / height - 0.5;
@@ -131,6 +136,7 @@ const TiltCard = ({ item, index }) => {
     return (
         <motion.div
             ref={ref}
+            onMouseEnter={handleMouseEnter}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             style={{
