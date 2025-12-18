@@ -3,15 +3,14 @@ import { motion } from 'framer-motion';
 const PageTransition = ({ children }) => {
     return (
         <motion.div
-            initial={{ opacity: 0, scale: 1.05, filter: 'blur(10px)' }}
-            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
             exit={{
                 opacity: 0,
-                scale: 0.95,
-                filter: 'blur(10px) brightness(0.5)',
-                transition: { duration: 0.8, ease: "easeInOut" }
+                y: -10,
+                transition: { duration: 0.3, ease: "easeIn" }
             }}
-            transition={{ duration: 0.8, ease: "circOut" }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
             className="w-full h-full"
         >
             {children}
