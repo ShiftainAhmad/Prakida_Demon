@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { sectionSlide, gridStagger, cardSnap, cardHover } from '../utils/motion';
 
 const sportsData = [
     {
@@ -135,6 +136,9 @@ const TiltCard = ({ item, index }) => {
 
     return (
         <motion.div
+            variants={cardSnap}
+            whileHover={cardHover}
+            viewport={{ once: true }}
             ref={ref}
             onMouseEnter={handleMouseEnter}
             onMouseMove={handleMouseMove}
@@ -144,10 +148,6 @@ const TiltCard = ({ item, index }) => {
                 rotateX,
                 transformStyle: "preserve-3d",
             }}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
             className={`group relative h-[400px] border border-white/10 bg-white/5 rounded-sm overflow-hidden`}
         >
             {/* Background Gradient */}
@@ -212,17 +212,29 @@ const HashiraShowcase = ({ limit }) => {
     return (
         <section id="hashira" className="py-24 bg-black relative perspective-1000">
             <div className="container mx-auto px-6">
-                <div className="text-center mb-16">
+                <motion.div
+                    variants={sectionSlide}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    className="text-center mb-16"
+                >
                     <h2 className="text-prakida-flame font-bold tracking-[0.2em] mb-4 text-sm md:text-base">THE ARENA</h2>
                     <h3 className="text-4xl md:text-5xl font-display font-bold text-white">HASHIRA x SPORTS</h3>
                     <div className="w-24 h-1 bg-gradient-to-r from-transparent via-gray-500 to-transparent mx-auto mt-6"></div>
-                </div>
+                </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <motion.div
+                    variants={gridStagger}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                >
                     {displayedData.map((item, idx) => (
                         <TiltCard key={idx} item={item} index={idx} />
                     ))}
-                </div>
+                </motion.div>
 
                 {limit && (
                     <div className="mt-16 text-center">

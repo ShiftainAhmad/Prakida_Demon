@@ -59,7 +59,7 @@ const Contact = () => {
                         <label className="block text-sm font-medium text-gray-400 mb-2">Name</label>
                         <input
                             type="text"
-                            className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-prakida-flame focus:outline-none transition-colors"
+                            className="w-full bg-black/50 border border-gray-700 px-4 py-3 text-white focus:border-prakida-flame focus:outline-none transition-colors"
                             placeholder="Your Name"
                         />
                     </div>
@@ -67,7 +67,7 @@ const Contact = () => {
                         <label className="block text-sm font-medium text-gray-400 mb-2">Email</label>
                         <input
                             type="email"
-                            className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-prakida-flame focus:outline-none transition-colors"
+                            className="w-full bg-black/50 border border-gray-700 px-4 py-3 text-white focus:border-prakida-flame focus:outline-none transition-colors"
                             placeholder="your@email.com"
                         />
                     </div>
@@ -75,13 +75,13 @@ const Contact = () => {
                         <label className="block text-sm font-medium text-gray-400 mb-2">Message</label>
                         <textarea
                             rows="4"
-                            className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-prakida-flame focus:outline-none transition-colors"
+                            className="w-full bg-black/50 border border-gray-700 px-4 py-3 text-white focus:border-prakida-flame focus:outline-none transition-colors"
                             placeholder="Your message..."
                         ></textarea>
                     </div>
                     <button
                         type="button" // Changed to button to prevent subagent submission issues if clicked
-                        className="w-full bg-prakida-flame hover:bg-orange-600 text-white font-bold py-4 rounded-lg transition-all transform hover:scale-[1.02]"
+                        className="w-full bg-prakida-flame hover:bg-orange-600 text-white font-bold py-4 transition-all transform hover:scale-[1.02]"
                     >
                         Send Message
                     </button>

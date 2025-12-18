@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { buttonHover, buttonTap } from '../../utils/motion';
 
 const KatanaButton = ({ children, onClick, className = "", variant = "primary" }) => {
     const baseClasses = "relative overflow-hidden font-display font-bold uppercase tracking-widest px-6 py-3 md:px-8 md:py-4 transition-all duration-300 group";
@@ -11,7 +12,9 @@ const KatanaButton = ({ children, onClick, className = "", variant = "primary" }
     };
 
     return (
-        <button
+        <motion.button
+            whileHover={buttonHover}
+            whileTap={buttonTap}
             onClick={onClick}
             className={`${baseClasses} ${variants[variant] || variants.primary} ${className}`}
         >
@@ -19,7 +22,7 @@ const KatanaButton = ({ children, onClick, className = "", variant = "primary" }
 
             {/* The Slash Effect */}
             <div className="absolute inset-0 bg-white/20 translate-x-[-150%] skew-x-[-20deg] group-hover:animate-slash"></div>
-        </button>
+        </motion.button>
     );
 };
 

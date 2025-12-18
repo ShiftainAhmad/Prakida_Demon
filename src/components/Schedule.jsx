@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { sectionSlide } from '../utils/motion';
 import ParallaxElement from './ui/ParallaxElement';
 import MatchModal from './ui/MatchModal';
 
@@ -36,10 +37,10 @@ const Schedule = () => {
             <div className="container mx-auto px-6">
                 <div className="text-center mb-16 relative">
                     <ParallaxElement speed={-0.1} direction="up">
-                        <h2 className="text-prakida-water font-bold tracking-[0.2em] mb-4">TIMELINE</h2>
-                    </ParallaxElement>
-                    <ParallaxElement speed={0.1} direction="down">
-                        <h3 className="text-4xl md:text-5xl font-display font-bold text-white">EVENTS SCHEDULE</h3>
+                        <motion.div variants={sectionSlide} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+                            <h2 className="text-prakida-water font-bold tracking-[0.2em] mb-4">TIMELINE</h2>
+                            <h3 className="text-4xl md:text-5xl font-display font-bold text-white">EVENTS SCHEDULE</h3>
+                        </motion.div>
                     </ParallaxElement>
                 </div>
 

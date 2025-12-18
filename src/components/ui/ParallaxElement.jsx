@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useRef } from 'react';
+import { scrollLagConfig } from '../../utils/motion';
 
 const ParallaxElement = ({
     children,
@@ -22,11 +23,7 @@ const ParallaxElement = ({
     const y = useTransform(scrollYProgress, [0, 1], yRange);
 
     // Add spring physics for that "cinematic" weight
-    const smoothY = useSpring(y, {
-        damping: 15,
-        stiffness: 50,
-        mass: 0.5
-    });
+    const smoothY = useSpring(y, scrollLagConfig);
 
     // Check if we should disable on mobile (simple check, could be more robust)
     if (!enableMobile && typeof window !== 'undefined' && window.innerWidth < 768) {

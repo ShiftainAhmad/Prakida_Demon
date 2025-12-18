@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
+import { heroPunchIn, buttonHover, buttonTap } from '../utils/motion';
 import ParallaxElement from './ui/ParallaxElement';
 
 const Hero = () => {
@@ -129,43 +130,54 @@ const Hero = () => {
 
                     <div className="relative z-20 mix-blend-overlay opacity-90 mb-2">
                         <ParallaxElement speed={0.5} direction="down">
-                            <h1
-                                className="text-5xl md:text-9xl lg:text-[12rem] font-display font-black text-white tracking-tighter leading-[0.8]"
-                                style={{ textShadow: '0 0 40px rgba(255,255,255,0.1)', fontFamily: "'Nosifer', cursive" }}
-                            >
-                                PRAKIDA
-                            </h1>
+                            <motion.div variants={heroPunchIn} initial="hidden" animate="visible">
+                                <h1
+                                    className="text-5xl md:text-9xl lg:text-[12rem] font-display font-black text-white tracking-tighter leading-[0.8]"
+                                    style={{ textShadow: '0 0 40px rgba(255,255,255,0.1)', fontFamily: "'Nosifer', cursive" }}
+                                >
+                                    PRAKIDA
+                                </h1>
+                            </motion.div>
                         </ParallaxElement>
                     </div>
 
-                    <ParallaxElement speed={0.2} direction="up">
-                        <motion.p
-                            variants={itemVariants}
-                            className="text-gray-300 text-xl md:text-[26px] max-w-3xl mx-auto mt-8 mb-12 font-light tracking-wide leading-relaxed"
-                        >
-                            The arena awaits. Unleash your inner <span className="text-prakida-water font-bold drop-shadow-glow">Hashira</span>.<br />
-                            <span className="text-white/60 text-lg">Victory is not given. It is taken.</span>
-                        </motion.p>
-                    </ParallaxElement>
+                    <motion.p
+                        variants={heroPunchIn}
+                        initial="hidden"
+                        animate="visible"
+                        transition={{ delay: 0.1 }}
+                        className="text-gray-300 text-xl md:text-[26px] max-w-3xl mx-auto mt-8 mb-12 font-light tracking-wide leading-relaxed"
+                    >
+                        The arena awaits. Unleash your inner <span className="text-prakida-water font-bold drop-shadow-glow">Hashira</span>.<br />
+                        <span className="text-white/60 text-lg">Victory is not given. It is taken.</span>
+                    </motion.p>
 
-                    <ParallaxElement speed={0.3} direction="up">
-                        <motion.div variants={itemVariants} className="flex flex-col md:flex-row gap-4 md:gap-6 justify-center items-center mb-20">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                        className="flex flex-col md:flex-row gap-4 md:gap-6 justify-center items-center mb-20"
+                    >
+                        <motion.div whileHover={buttonHover} whileTap={buttonTap}>
                             <Link
                                 to="/sports"
-                                className="group relative px-6 py-3 md:px-10 md:py-5 bg-prakida-flame text-white font-bold text-lg md:text-xl tracking-widest overflow-hidden clip-path-slant shadow-lg shadow-prakida-flame/50 hover:shadow-prakida-flame/80 transition-all active:scale-95"
+                                className="block group relative px-6 py-3 md:px-10 md:py-5 bg-prakida-flame text-white font-bold text-lg md:text-xl tracking-widest overflow-hidden clip-path-slant shadow-lg shadow-prakida-flame/50"
                             >
                                 <span className="relative z-10 group-hover:tracking-[0.2em] transition-all duration-300">ENTER ARENA</span>
                                 <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                 <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
                             </Link>
+                        </motion.div>
+
+                        <motion.div whileHover={buttonHover} whileTap={buttonTap}>
                             <Link
                                 to="/events"
-                                className="group px-6 py-3 md:px-8 md:py-5 border border-white/20 text-white font-bold text-base md:text-lg tracking-widest hover:bg-white/5 transition-all hover:border-white/50 backdrop-blur-sm active:scale-95"
+                                className="block group px-6 py-3 md:px-8 md:py-5 border border-white/20 text-white font-bold text-base md:text-lg tracking-widest hover:border-white/50 backdrop-blur-sm"
                             >
                                 VIEW SCHEDULE
                             </Link>
                         </motion.div>
-                    </ParallaxElement>
+                    </motion.div>
 
                     {/* Countdown */}
                     <motion.div

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import GlitchLink from './ui/GlitchLink';
 import logo from '../assets/prakida-logo.png';
+import { buttonHover, buttonTap } from '../utils/motion';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -52,12 +53,14 @@ const Navbar = () => {
                             kanji={link.kanji}
                         />
                     ))}
-                    <Link
-                        to="/register" // Changed to Register page for 'Join Now'
-                        className="px-6 py-2 bg-transparent border border-prakida-flame text-prakida-flame hover:bg-prakida-flame hover:text-white font-bold transition-all duration-300 rounded-sm skew-x-[-12deg] hover:skew-x-0 hover:shadow-[0_0_15px_rgba(244,140,6,0.5)]"
-                    >
-                        <span className="block skew-x-[12deg] hover:skew-x-0">JOIN NOW</span>
-                    </Link>
+                    <motion.div whileHover={buttonHover} whileTap={buttonTap}>
+                        <Link
+                            to="/register" // Changed to Register page for 'Join Now'
+                            className="block px-6 py-2 bg-transparent border border-prakida-flame text-prakida-flame hover:bg-prakida-flame hover:text-white font-bold transition-all duration-300 rounded-sm skew-x-[-12deg] hover:skew-x-0 hover:shadow-[0_0_15px_rgba(244,140,6,0.5)]"
+                        >
+                            <span className="block skew-x-[12deg] hover:skew-x-0">JOIN NOW</span>
+                        </Link>
+                    </motion.div>
                 </div>
 
                 {/* Mobile Menu Button */}

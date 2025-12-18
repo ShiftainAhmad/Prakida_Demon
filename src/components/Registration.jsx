@@ -1,5 +1,7 @@
 import { useState, useRef } from 'react';
+import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
+import { buttonHover, buttonTap, sectionSlide } from '../utils/motion';
 
 const Registration = () => {
     const form = useRef();
@@ -82,11 +84,11 @@ const Registration = () => {
 
                     {/* Form Section */}
                     <div className="lg:w-2/3">
-                        <div className="mb-10">
+                        <motion.div variants={sectionSlide} initial="hidden" whileInView="visible" viewport={{ once: true }} className="mb-10">
                             <h2 className="text-prakida-flame font-bold tracking-[0.2em] mb-4">JOIN THE CORPS</h2>
                             <h3 className="text-4xl font-display font-bold text-white mb-6">REGISTER YOUR TEAM</h3>
                             <p className="text-gray-400">Slots are limited. Total Concentration Breathing recommended for quick sign-ups.</p>
-                        </div>
+                        </motion.div>
 
                         {status.message && (
                             <div className={`mb-6 p-4 rounded border ${status.type === 'success' ? 'bg-green-900/20 border-green-500/50 text-green-400' : 'bg-red-900/20 border-red-500/50 text-red-400'}`}>
@@ -163,14 +165,16 @@ const Registration = () => {
                                 </div>
 
                                 <div className="md:col-span-2 mt-6">
-                                    <button
+                                    <motion.button
+                                        whileHover={buttonHover}
+                                        whileTap={buttonTap}
                                         type="submit"
                                         disabled={isSubmitting}
                                         className="relative w-full overflow-hidden group bg-prakida-flame text-white font-bold py-3 md:py-5 tracking-[0.3em] transition-all hover:bg-prakida-flameDark disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         <span className="relative z-10">{isSubmitting ? 'INITIALIZING...' : 'INITIATE REGISTRATION'}</span>
                                         <div className="absolute inset-0 bg-white/20 transform -skew-x-12 translate-x-full group-hover:translate-x-0 transition-transform duration-500 pointer-events-none"></div>
-                                    </button>
+                                    </motion.button>
                                 </div>
                             </form>
                         </div>
