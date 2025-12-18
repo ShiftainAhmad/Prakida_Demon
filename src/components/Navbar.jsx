@@ -90,7 +90,7 @@ const Navbar = () => {
                             ))}
                             <Link
                                 to="/register"
-                                className="mt-4 px-8 py-3 bg-prakida-flame text-white font-bold tracking-wider"
+                                className="mt-4 px-6 py-2 md:px-8 md:py-3 bg-prakida-flame text-white font-bold tracking-wider"
                             >
                                 JOIN NOW
                             </Link>

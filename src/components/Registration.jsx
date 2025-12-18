@@ -166,7 +166,7 @@ const Registration = () => {
                                     <button
                                         type="submit"
                                         disabled={isSubmitting}
-                                        className="relative w-full overflow-hidden group bg-prakida-flame text-white font-bold py-5 tracking-[0.3em] transition-all hover:bg-prakida-flameDark disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="relative w-full overflow-hidden group bg-prakida-flame text-white font-bold py-3 md:py-5 tracking-[0.3em] transition-all hover:bg-prakida-flameDark disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         <span className="relative z-10">{isSubmitting ? 'INITIALIZING...' : 'INITIATE REGISTRATION'}</span>
                                         <div className="absolute inset-0 bg-white/20 transform -skew-x-12 translate-x-full group-hover:translate-x-0 transition-transform duration-500 pointer-events-none"></div>

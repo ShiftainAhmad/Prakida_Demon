@@ -228,9 +228,9 @@ const HashiraShowcase = ({ limit }) => {
                     <div className="mt-16 text-center">
                         <Link
                             to="/sports"
-                            className="inline-block px-8 py-3 border border-prakida-flame text-prakida-flame font-bold tracking-widest hover:bg-prakida-flame hover:text-white transition-all duration-300 skew-x-[-12deg]"
+                            className="inline-block px-6 py-2 md:px-8 md:py-3 border border-prakida-flame text-prakida-flame font-bold tracking-widest hover:bg-prakida-flame hover:text-white transition-all duration-300 skew-x-[-12deg]"
                         >
-                            <span className="block skew-x-[12deg]">VIEW ALL SPORTS</span>
+                            <span className="block skew-x-[12deg] text-sm md:text-base">VIEW ALL SPORTS</span>
                         </Link>
                     </div>
                 )}

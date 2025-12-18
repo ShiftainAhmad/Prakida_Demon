@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 
 const KatanaButton = ({ children, onClick, className = "", variant = "primary" }) => {
-    const baseClasses = "relative overflow-hidden font-display font-bold uppercase tracking-widest px-8 py-4 transition-all duration-300 group";
+    const baseClasses = "relative overflow-hidden font-display font-bold uppercase tracking-widest px-6 py-3 md:px-8 md:py-4 transition-all duration-300 group";
 
     // Variants for different contexts (e.g., Flame vs Water)
     const variants = {

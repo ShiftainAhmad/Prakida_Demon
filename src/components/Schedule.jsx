@@ -56,13 +56,13 @@ const Schedule = () => {
                         <button
                             key={day.id}
                             onClick={() => setActiveDay(day.id)}
-                            className={`px-6 py-3 md:px-8 font-display font-bold text-lg tracking-wider transition-all duration-300 border-b-2 group relative z-10 bg-prakida-bg ${activeDay === day.id
+                            className={`px-4 py-2 md:px-8 md:py-3 font-display font-bold text-sm md:text-lg tracking-wider transition-all duration-300 border-b-2 group relative z-10 bg-prakida-bg ${activeDay === day.id
                                 ? 'text-white border-prakida-flame'
                                 : 'text-gray-500 border-transparent hover:text-gray-300'
                                 }`}
                         >
                             <span className="block">{day.label}</span>
-                            <span className={`text-xs block mt-1 tracking-widest ${activeDay === day.id ? 'text-prakida-flame' : 'text-gray-600 group-hover:text-gray-500'}`}>{day.sub}</span>
+                            <span className={`text-[10px] md:text-xs block mt-1 tracking-widest ${activeDay === day.id ? 'text-prakida-flame' : 'text-gray-600 group-hover:text-gray-500'}`}>{day.sub}</span>
                         </button>
                     ))}
                 </div>
