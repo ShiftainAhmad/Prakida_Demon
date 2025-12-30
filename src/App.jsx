@@ -8,6 +8,8 @@ import ScrollToTop from './components/ui/ScrollToTop';
 import AshOverlay from './components/ui/AshOverlay';
 import PageTransition from './components/ui/PageTransition';
 
+import ScrollPath from './components/ui/ScrollPath';
+
 // Lazy load pages
 const Home = lazy(() => import('./pages/Home'));
 const Events = lazy(() => import('./pages/Events'));
@@ -40,6 +42,7 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
+      <ScrollPath />
       <div className="bg-prakida-bg min-h-screen text-white overflow-x-hidden selection:bg-prakida-flame selection:text-white">
         <NoiseOverlay />
         <Navbar />

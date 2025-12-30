@@ -21,18 +21,20 @@
   }
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar - Hidden visually but functional */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 0px;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-prakida-bg;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-700 rounded-full hover:bg-prakida-water transition-colors;
+  background: transparent;
 }
+
 
 /* Glitch Effect */
 @layer components {
