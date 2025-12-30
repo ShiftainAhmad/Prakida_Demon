@@ -40,7 +40,7 @@ const Footer = () => {
                                 src="https://maps.google.com/maps?q=BIT%20Mesra%20Patna&t=&z=15&ie=UTF8&iwloc=&output=embed"
                                 width="100%"
                                 height="100%"
-                                className="filter grayscale invert-[0.9] opacity-80 group-hover:grayscale-0 group-hover:invert-0 group-hover:opacity-100 transition-all duration-700 delay-100 ease-out"
+                                className="filter grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 delay-100 ease-out"
                                 style={{ border: 0 }}
                                 allowFullScreen=""
                                 loading="lazy"

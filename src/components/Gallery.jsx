@@ -13,16 +13,16 @@ import gallery9 from '../assets/gallery-9.jpg';
 import gallery10 from '../assets/gallery-10.jpg';
 
 const images = [
-    { src: gallery1, alt: "DJ Night", span: "md:col-span-2 md:row-span-2", speed: 0.1 }, // 1. DJ (Anchor, slow)
-    { src: gallery3, alt: "Board Games", span: "md:col-span-1 md:row-span-2", speed: 0.3 }, // 2. Board (Faster)
-    { src: gallery6, alt: "Badminton Smash", span: "md:col-span-1 md:row-span-2", speed: -0.5 }, // 3. Smash (Reverse depth)
-    { src: gallery4, alt: "Football Kick", span: "md:col-span-2 md:row-span-2", speed: 0.2 }, // 5. Football
-    { src: gallery10, alt: "Speech & Crowd", span: "md:col-span-2 md:row-span-2", speed: -0.6 }, // 7. Speech (Anchor)
-    { src: gallery7, alt: "Chess Focus", span: "md:col-span-2 md:row-span-2", speed: 0.3 }, // 8. Chess
+    { src: gallery1, alt: "DJ", span: "md:col-span-2 md:row-span-2", speed: 0.1 }, // 1. DJ (Anchor, slow)
+    { src: gallery3, alt: "Board", span: "md:col-span-1 md:row-span-2", speed: 0.3 }, // 2. Board (Faster)
+    { src: gallery6, alt: "Badminton", span: "md:col-span-1 md:row-span-2", speed: -0.5 }, // 3. Smash (Reverse depth)
+    { src: gallery4, alt: "Football", span: "md:col-span-2 md:row-span-2", speed: 0.2 }, // 5. Football
+    { src: gallery10, alt: "Speech", span: "md:col-span-2 md:row-span-2", speed: -0.6 }, // 7. Speech (Anchor)
+    { src: gallery7, alt: "Chess", span: "md:col-span-2 md:row-span-2", speed: 0.3 }, // 8. Chess
     { src: gallery8, alt: "Table Tennis", span: "md:col-span-2 md:row-span-2", speed: -0.6 }, // 9. TT
-    { src: gallery9, alt: "Basketball Dribble", span: "md:col-span-2 md:row-span-2", speed: 0.2 }, // 10. Basketball
+    { src: gallery9, alt: "Basketball", span: "md:col-span-2 md:row-span-2", speed: 0.2 }, // 10. Basketball
     { src: gallery5, alt: "Badminton", span: "md:col-span-1 md:row-span-2", speed: -0.4 }, // 6. Badminton
-    { src: gallery2, alt: "Carrom Match", span: "md:col-span-1 md:row-span-2", speed: 0.1 },// 4. Carrom
+    { src: gallery2, alt: "Carrom", span: "md:col-span-1 md:row-span-2", speed: 0.1 },// 4. Carrom
 ];
 
 const Gallery = () => {
