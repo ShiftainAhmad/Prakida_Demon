@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { sectionSlide } from '../utils/motion';
 import ParallaxElement from './ui/ParallaxElement';
@@ -92,7 +93,7 @@ const Schedule = () => {
                                         <h4 className="text-xl font-bold text-white font-display group-hover:text-prakida-flame transition-colors">{item.sport}</h4>
                                         <div className="text-gray-400 text-sm">{item.match} @ <span className="text-gray-500">{item.venue}</span></div>
                                     </div>
-                                    <div className="mt-4 md:mt-0">
+                                    <div className="mt-4 md:mt-0 flex flex-col md:flex-row items-center gap-4">
                                         <span className={`px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${item.tag === 'Water' ? 'bg-blue-900/50 text-blue-300' :
                                             item.tag === 'Flame' ? 'bg-red-900/50 text-red-300' :
                                                 item.tag === 'Sound' ? 'bg-purple-900/50 text-purple-300' :
@@ -106,6 +107,13 @@ const Schedule = () => {
                                             }`}>
                                             {item.tag} Pillar
                                         </span>
+                                        <Link
+                                            to="/register"
+                                            onClick={(e) => e.stopPropagation()}
+                                            className="px-6 py-1.5 bg-transparent border border-prakida-flame text-prakida-flame hover:bg-prakida-flame hover:text-white text-sm font-bold skew-x-[-12deg] transition-all duration-300"
+                                        >
+                                            <span className="block skew-x-[12deg]">REGISTER</span>
+                                        </Link>
                                     </div>
                                 </div>
                             ))}
