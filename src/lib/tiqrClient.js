@@ -9,10 +9,12 @@ class TiQRClient {
     constructor() {
         this.baseUrl = import.meta.env.VITE_TIQR_API_BASE_URL || 'https://api.tiqr.events';
         this.sessionId = import.meta.env.VITE_TIQR_SESSION_ID; // Your static session ID
-        this.isMockMode = !import.meta.env.VITE_TIQR_SESSION_ID; // Auto-mock if no ID provided
+
+        // Check explicit mock mode flag OR fallback to auto-mock if no session ID
+        this.isMockMode = import.meta.env.VITE_TIQR_MOCK_MODE === 'true' || !this.sessionId;
 
         if (this.isMockMode) {
-            console.warn("⚠️ TiQRClient initialized in MOCK MODE (No VITE_TIQR_SESSION_ID found)");
+            console.warn("⚠️ TiQRClient initialized in MOCK MODE");
         }
     }
 
