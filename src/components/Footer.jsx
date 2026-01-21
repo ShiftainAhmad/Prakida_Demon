@@ -44,9 +44,9 @@ const Footer = () => {
                   size={20}
                   className="group-hover:text-[#25D366] transition-colors duration-300"
                 />
-                <span className="group-hover:text-white transition-colors duration-300">
+                <a href="tel:+917903555032" className="group-hover:text-white transition-colors duration-300">
                   Contact: 79035 55032
-                </span>
+                </a>
               </div>
               <div className="flex items-center gap-3 group">
                 <SiGmail

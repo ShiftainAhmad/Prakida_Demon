@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+uuimport { motion } from "framer-motion";
 import { Mail, MapPin, Phone, Instagram, Twitter } from "lucide-react";
 
 const Contact = () => {
@@ -11,7 +11,7 @@ const Contact = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 max-w-6xl mx-auto">
         <div className="bg-white/5 border border-white/10 p-6 backdrop-blur-sm hover:bg-white/10 transition-colors group text-center">
           <div className="w-24 h-24 rounded-full bg-white/10 mx-auto mb-4 overflow-hidden border-2 border-prakida-flame/20 group-hover:border-prakida-flame transition-colors">
-            {}
+            { }
             <div className="w-full h-full flex items-center justify-center text-gray-500">
               <svg
                 className="w-12 h-12"
@@ -26,13 +26,13 @@ const Contact = () => {
             CONVENER
           </h3>
           <p className="text-white font-bold text-lg mb-1">Rohit Kumar</p>
-          <p className="text-gray-400 group-hover:text-white transition-colors">
+          <a href="tel:+91XXXXXXXXXX" className="text-gray-400 group-hover:text-white transition-colors block">
             +91 XXXXX XXXXX
-          </p>
+          </a>
         </div>
         <div className="bg-white/5 border border-white/10 p-6 backdrop-blur-sm hover:bg-white/10 transition-colors group text-center">
           <div className="w-24 h-24 rounded-full bg-white/10 mx-auto mb-4 overflow-hidden border-2 border-prakida-flame/20 group-hover:border-prakida-flame transition-colors">
-            {}
+            { }
             <div className="w-full h-full flex items-center justify-center text-gray-500">
               <svg
                 className="w-12 h-12"
@@ -47,13 +47,13 @@ const Contact = () => {
             EVENT HEAD
           </h3>
           <p className="text-white font-bold text-lg mb-1">Anurag Anand</p>
-          <p className="text-gray-400 group-hover:text-white transition-colors">
+          <a href="tel:+91XXXXXXXXXX" className="text-gray-400 group-hover:text-white transition-colors block">
             +91 XXXXX XXXXX
-          </p>
+          </a>
         </div>
         <div className="bg-white/5 border border-white/10 p-6 backdrop-blur-sm hover:bg-white/10 transition-colors group text-center">
           <div className="w-24 h-24 rounded-full bg-white/10 mx-auto mb-4 overflow-hidden border-2 border-prakida-flame/20 group-hover:border-prakida-flame transition-colors">
-            {}
+            { }
             <div className="w-full h-full flex items-center justify-center text-gray-500">
               <svg
                 className="w-12 h-12"
@@ -68,14 +68,14 @@ const Contact = () => {
             SOCIAL MEDIA HEAD
           </h3>
           <p className="text-white font-bold text-lg mb-1">Udit Ojha</p>
-          <p className="text-gray-400 group-hover:text-white transition-colors">
+          <a href="tel:+91XXXXXXXXXX" className="text-gray-400 group-hover:text-white transition-colors block">
             +91 XXXXX XXXXX
-          </p>
+          </a>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-        {}
+        { }
         <div className="space-y-8">
           <h2 className="text-3xl font-bold text-white mb-6">Get in Touch</h2>
 
@@ -95,7 +95,7 @@ const Contact = () => {
             </div>
             <div>
               <h3 className="text-xl font-semibold text-white">Call Us</h3>
-              <p className="text-gray-400">+91 79035 55032</p>
+              <a href="tel:+917903555032" className="text-gray-400 hover:text-prakida-flame transition-colors">+91 79035 55032</a>
             </div>
           </div>
 
@@ -116,7 +116,7 @@ const Contact = () => {
           </div>
         </div>
 
-        {}
+        { }
         <motion.form
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
