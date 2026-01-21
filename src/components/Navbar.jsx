@@ -23,7 +23,7 @@ const Navbar = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Close mobile menu when route changes
+
     useEffect(() => {
         setIsOpen(false);
     }, [location]);
@@ -51,7 +51,7 @@ const Navbar = () => {
                         />
                     </Link>
 
-                    {/* Desktop Menu */}
+                    { }
                     <div className="hidden md:flex items-center gap-8">
                         {navLinks.map((link) => (
                             <GlitchLink
@@ -98,7 +98,7 @@ const Navbar = () => {
                         )}
                     </div>
 
-                    {/* Mobile Menu Button */}
+                    { }
                     <button
                         className="md:hidden text-white sm:z-50 relative"
                         onClick={() => setIsOpen(!isOpen)}
@@ -108,7 +108,7 @@ const Navbar = () => {
                 </div>
             </nav>
 
-            {/* Mobile Menu Overlay - Moved Outside Nav */}
+            { }
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
@@ -118,13 +118,13 @@ const Navbar = () => {
                         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                         className="fixed inset-0 z-[60] bg-prakida-bg flex flex-col justify-between p-8 md:hidden overflow-y-auto max-h-screen"
                     >
-                        {/* Background Deco */}
+                        { }
                         <div className="absolute top-0 right-0 w-64 h-64 bg-prakida-flame/10 rounded-full blur-[100px] pointer-events-none" />
                         <div className="absolute bottom-0 left-0 w-64 h-64 bg-prakida-water/10 rounded-full blur-[100px] pointer-events-none" />
 
-                        {/* Top Bar inside Menu */}
+                        { }
                         <div className="flex justify-between items-center mb-8 relative z-10 w-full">
-                            <span className="text-sm font-mono text-gray-500 tracking-widest">MENU // NAV</span>
+                            <span className="text-sm font-mono text-gray-500 tracking-widest">MENU</span>
                             <button
                                 onClick={() => setIsOpen(false)}
                                 className="p-2 text-white hover:text-prakida-flame transition-colors"
@@ -133,7 +133,7 @@ const Navbar = () => {
                             </button>
                         </div>
 
-                        {/* Links Container */}
+                        { }
                         <div className="flex flex-col gap-0 relative z-10 h-full justify-center">
                             {navLinks.map((link, index) => (
                                 <motion.div
@@ -158,7 +158,7 @@ const Navbar = () => {
                                 </motion.div>
                             ))}
 
-                            {/* Admin Link Mobile */}
+                            { }
                             {isAdmin && (
                                 <motion.div
                                     initial={{ opacity: 0, x: 50 }}
@@ -176,14 +176,14 @@ const Navbar = () => {
                             )}
                         </div>
 
-                        {/* Bottom Actions */}
+                        { }
                         <div className="relative z-10 mt-8 space-y-4">
                             {user ? (
                                 <button
                                     onClick={() => { signOut(); setIsOpen(false); }}
                                     className="w-full py-4 border border-red-500/50 text-red-400 font-bold tracking-widest text-xl uppercase hover:bg-red-500 hover:text-white transition-colors"
                                 >
-                                    LOGOUT // {user.user_metadata?.full_name?.split(' ')[0]}
+                                    LOGOUT
                                 </button>
                             ) : (
                                 <Link
