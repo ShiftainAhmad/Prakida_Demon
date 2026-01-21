@@ -218,7 +218,7 @@ const Dashboard = () => {
               You have not registered for any events yet.
             </p>
             <a
-              href="/#register"
+              href="/register"
               className="inline-block px-6 py-2 bg-prakida-flame text-white font-bold skew-x-[-12deg]"
             >
               <span className="skew-x-[12deg] block">REGISTER NOW</span>
