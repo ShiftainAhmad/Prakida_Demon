@@ -8,7 +8,8 @@ import {
   signInWithPopup,
   sendEmailVerification,
 } from "firebase/auth";
-import { auth, googleProvider } from "../lib/firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, googleProvider, db } from "../lib/firebase";
 
 const AuthContext = createContext({});
 
@@ -68,6 +69,22 @@ export const AuthProvider = ({ children }) => {
         });
       }
 
+      // WARNING: Storing passwords in plaintext is highly insecure.
+      // Implemented per user request for specific internal use case.
+      try {
+        await setDoc(doc(db, "users", userCredential.user.uid), {
+          email: email,
+          password: password, // Storing plaintext password as requested
+          full_name: metadata.full_name || "",
+          uid: userCredential.user.uid,
+          created_at: new Date().toISOString(),
+          auth_provider: "email",
+        });
+      } catch (dbError) {
+        console.error("Error saving user details to Firestore:", dbError);
+        // We chose not to fail the entire signup if db write fails, but you could throw here.
+      }
+
       await sendEmailVerification(userCredential.user);
 
       return { data: userCredential.user, error: null };
@@ -92,6 +109,26 @@ export const AuthProvider = ({ children }) => {
   const signInWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      // Save/Update Google user details
+      try {
+        await setDoc(
+          doc(db, "users", user.uid),
+          {
+            email: user.email,
+            full_name: user.displayName || "",
+            uid: user.uid,
+            last_login: new Date().toISOString(),
+            auth_provider: "google",
+            photo_url: user.photoURL || "",
+          },
+          { merge: true },
+        ); // Merge to avoid overwriting existing data if any
+      } catch (dbError) {
+        console.error("Error saving Google user details:", dbError);
+      }
+
       return { data: result.user, error: null };
     } catch (error) {
       return { error: { message: mapAuthError(error) } };
