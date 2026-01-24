@@ -155,9 +155,9 @@ const Schedule = () => {
           <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white/10 -z-10"></div>
 
           {[
-            { id: 1, label: "JAN 13", sub: "Day 1" },
-            { id: 2, label: "JAN 14", sub: "Day 2" },
-            { id: 3, label: "JAN 15", sub: "Day 3" },
+            { id: 1, label: "MARCH 13", sub: "Day 1" },
+            { id: 2, label: "MARCH 14", sub: "Day 2" },
+            { id: 3, label: "MARCH 15", sub: "Day 3" },
           ].map((day) => (
             <button
               key={day.id}
