@@ -79,8 +79,8 @@ const Dashboard = () => {
           AUTHENTICATION REQUIRED
         </h2>
         <p className="text-gray-400 mb-8 max-w-md">
-          You must be logged in to view your Dashboard, Tickets, and Registration
-          details.
+          You must be logged in to view your Dashboard, Tickets, and
+          Registration details.
         </p>
         <div className="flex gap-4">
           <motion.button
@@ -137,7 +137,7 @@ const Dashboard = () => {
           </div>
         </motion.div>
 
-        { }
+        {}
         {tickets.length > 0 && (
           <div className="mb-12">
             <h2 className="text-xl font-display font-bold text-white mb-6 flex items-center gap-2">
@@ -161,10 +161,11 @@ const Dashboard = () => {
                       </p>
                     </div>
                     <div
-                      className={`px-2 py-1 rounded text-xs font-bold uppercase border ${ticket.payment_status === "confirmed"
-                        ? "bg-green-900/30 text-green-400 border-green-500/30"
-                        : "bg-yellow-900/30 text-yellow-400 border-yellow-500/30"
-                        }`}
+                      className={`px-2 py-1 rounded text-xs font-bold uppercase border ${
+                        ticket.payment_status === "confirmed"
+                          ? "bg-green-900/30 text-green-400 border-green-500/30"
+                          : "bg-yellow-900/30 text-yellow-400 border-yellow-500/30"
+                      }`}
                     >
                       {ticket.payment_status}
                     </div>
@@ -282,7 +283,7 @@ const Dashboard = () => {
                       </span>
                     </div>
 
-                    { }
+                    {}
                     <div className="flex items-center gap-3 mt-4 pt-2 border-t border-white/5">
                       {reg.payment_status === "confirmed" ? (
                         <a
@@ -302,13 +303,15 @@ const Dashboard = () => {
                               console.log("Missing UID, generating new one...");
                               uid = `mock_uid_healed_${Date.now()}`;
 
-                              const { error } = await supabase
-                                .from("registrations")
-                                .update({ tiqr_booking_uid: uid })
-                                .eq("id", reg.id || reg.registration_id);
-
-                              if (error) {
-                                console.error("Failed to heal UID:", error);
+                              const { paymentService } =
+                                await import("../services/paymentService");
+                              try {
+                                uid = await paymentService.healMissingUid(
+                                  "registrations",
+                                  reg.id || reg.registration_id,
+                                );
+                              } catch (err) {
+                                console.error("Failed to heal UID:", err);
                                 alert(
                                   "Error initiating payment. Please contact support.",
                                 );

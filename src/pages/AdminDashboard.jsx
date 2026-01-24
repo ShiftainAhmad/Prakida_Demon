@@ -104,12 +104,18 @@ const AdminDashboard = () => {
     }
 
     try {
-      const { error } = await supabase
-        .from(table)
-        .update(updatePayload)
-        .eq("id", id);
-
-      if (error) throw error;
+      if (type === "registration") {
+        const { registrationService } =
+          await import("../services/api/registrations");
+        await registrationService.updatePaymentStatus(
+          id,
+          newStatus,
+          updatePayload.payment_amount,
+        );
+      } else {
+        const { ticketService } = await import("../services/api/tickets");
+        await ticketService.updatePaymentStatus(id, newStatus);
+      }
       fetchData();
     } catch (err) {
       alert("Update failed: " + err.message);

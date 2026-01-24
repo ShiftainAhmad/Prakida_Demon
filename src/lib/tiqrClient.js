@@ -1,4 +1,4 @@
-import { supabase } from "./supabase";
+
 
 class TiQRClient {
   constructor() {
