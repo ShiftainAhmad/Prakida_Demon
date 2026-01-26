@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { sectionSlide, gridStagger, cardSnap } from "../utils/motion";
 import {
@@ -12,10 +12,13 @@ import {
   Maximize2,
   Gamepad2,
   Swords,
+  RefreshCw,
+  LogIn,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import SportDetailsModal from "../components/ui/SportDetailsModal";
 import { SPORTS_CONFIG } from "../lib/sportsConfig";
+import { useAuth } from "../context/AuthContext";
 
 // Import images
 import img1 from "../assets/gallery-1.webp";
@@ -100,7 +103,7 @@ const SPORTS_DATA = [
     title: "CHESS",
     icon: Trophy,
     configSport: "Chess",
-    players: "1 vs 1",
+    players: "4 Players",
     category: "Open",
     desc: "The ultimate battle of minds. Checkmate your opponent in silence.",
     detailedDesc: "A war fought without a single sound. Chess at Prakida is the pinnacle of intellectual combat. In the quiet hall of the Arena, Grandmasters and novices alike engage in a strategic struggle where every move could be their last. Checkmate your way to the top.",
@@ -113,11 +116,11 @@ const SPORTS_DATA = [
     title: "LAWN TENNIS",
     icon: Swords,
     configSport: "Lawn Tennis",
-    players: "Doubles / Team Entry",
+    players: "Per Head (1-12 Players)",
     category: "Men & Women",
-    desc: "Precision, footwork, and killer instincts. Own the baseline.",
+    desc: "Precision, footwork, and killer instincts. Per-head registration.",
     detailedDesc:
-      "Lawn Tennis at Prakida is a test of composure under pressure. Lightning serves, ruthless volleys, and long rallies decide who earns the right to lift the trophy.",
+      "Lawn Tennis at Prakida is a test of composure under pressure. Lightning serves, ruthless volleys, and long rallies decide who earns the right to lift the trophy. Registration is per head.",
     color: "from-lime-600 to-green-900",
     rulebook: "#",
     images: [img9, img10, img1],
@@ -234,7 +237,92 @@ const getCategoryLabelForSport = (sport) => {
 };
 
 const Sports = () => {
+  const { user } = useAuth();
   const [selectedSport, setSelectedSport] = useState(null);
+  const [registeredEvents, setRegisteredEvents] = useState([]);
+  const [registeredLoading, setRegisteredLoading] = useState(false);
+  const [registeredRefreshedAt, setRegisteredRefreshedAt] = useState(null);
+
+  const getRegisterTo = (sport) => {
+    const params = new URLSearchParams();
+    if (sport?.configSport) params.set("sport", sport.configSport);
+    if (sport?.focusCategoryId) params.set("category", sport.focusCategoryId);
+    const qs = params.toString();
+    return qs ? `/register?${qs}` : "/register";
+  };
+
+  const refreshRegisteredEvents = async () => {
+    if (!user) {
+      setRegisteredEvents([]);
+      return;
+    }
+
+    setRegisteredLoading(true);
+    try {
+      const { eventsService } = await import("../services/api/events");
+      const data = await eventsService.getRegisteredEvents();
+      const raw = Array.isArray(data?.events) ? data.events : [];
+
+      // Force-refresh statuses so UI updates from pending -> confirmed
+      const refreshed = await Promise.all(
+        raw.map(async (e) => {
+          try {
+            const statusRes = await eventsService.getEventStatus(e.eventId);
+            return { ...e, ...statusRes };
+          } catch {
+            return e;
+          }
+        }),
+      );
+
+      setRegisteredEvents(refreshed);
+      setRegisteredRefreshedAt(new Date());
+    } catch (err) {
+      console.error("Failed to load registered events:", err);
+      setRegisteredEvents([]);
+      setRegisteredRefreshedAt(new Date());
+    } finally {
+      setRegisteredLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    refreshRegisteredEvents();
+  }, [user]);
+
+  const registeredByEventId = useMemo(() => {
+    const map = new Map();
+    for (const e of registeredEvents) {
+      const key = e?.eventId != null ? String(e.eventId) : null;
+      if (key) map.set(key, e);
+    }
+    return map;
+  }, [registeredEvents]);
+
+  const getRegistrationForCard = (sport) => {
+    const configKey = sport?.configSport;
+    const categories = configKey ? SPORTS_CONFIG[configKey]?.categories || [] : [];
+    const scoped = sport?.focusCategoryId
+      ? categories.filter((c) => c.id === sport.focusCategoryId)
+      : categories;
+
+    for (const c of scoped) {
+      const id = c?.eventID;
+      if (id == null) continue;
+      const reg = registeredByEventId.get(String(id));
+      if (reg) return reg;
+    }
+    return null;
+  };
+
+  const getStatusPillClass = (status) => {
+    const s = String(status || "").toLowerCase();
+    if (s === "confirmed") return "bg-green-900/30 text-green-400 border-green-500/30";
+    if (s.includes("pending")) return "bg-yellow-900/30 text-yellow-400 border-yellow-500/30";
+    if (s.includes("failed") || s.includes("cancel"))
+      return "bg-red-900/30 text-red-400 border-red-500/30";
+    return "bg-white/10 text-gray-200 border-white/20";
+  };
 
   return (
     <section className="bg-black min-h-screen pt-24 pb-20 px-4 relative overflow-hidden">
@@ -264,6 +352,40 @@ const Sports = () => {
             Choose your battlefield. Prove your mettle. Glory awaits the victors
             in Prakida's most intense sporting showdowns.
           </p>
+
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={refreshRegisteredEvents}
+              disabled={!user || registeredLoading}
+              className="inline-flex items-center gap-2 px-5 py-2 border border-white/15 bg-white/5 text-white font-bold text-xs tracking-widest uppercase hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed"
+              title={
+                !user
+                  ? "Login required to refresh status"
+                  : registeredLoading
+                    ? "Refreshing..."
+                    : "Refresh registration status"
+              }
+            >
+              <RefreshCw size={16} className={registeredLoading ? "animate-spin" : ""} />
+              {registeredLoading ? "Refreshing" : "Refresh Status"}
+            </button>
+
+            {!user ? (
+              <Link
+                to="/login"
+                className="inline-flex items-center gap-2 px-5 py-2 bg-prakida-flame text-white font-bold text-xs tracking-widest uppercase hover:bg-prakida-flameDark"
+              >
+                <LogIn size={16} /> Login
+              </Link>
+            ) : (
+              <span className="text-[10px] font-mono tracking-widest uppercase text-gray-500">
+                {registeredRefreshedAt
+                  ? `Last refresh: ${registeredRefreshedAt.toLocaleTimeString()}`
+                  : ""}
+              </span>
+            )}
+          </div>
         </motion.div>
 
         <motion.div
@@ -273,6 +395,7 @@ const Sports = () => {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {SPORTS_DATA.map((sport) => {
+            const reg = getRegistrationForCard(sport);
             return (
               <motion.div
                 key={sport.id}
@@ -280,6 +403,19 @@ const Sports = () => {
                 onClick={() => setSelectedSport(sport)}
                 className="group relative bg-white/5 border border-white/10 rounded-sm overflow-hidden hover:border-prakida-flame/50 transition-all duration-500 cursor-pointer"
               >
+                {reg && (
+                  <div className="absolute left-4 top-4 z-20">
+                    <span
+                      className={`px-2 py-1 rounded text-[10px] font-bold uppercase border ${getStatusPillClass(
+                        reg.status,
+                      )}`}
+                      title={registeredLoading ? "Updating..." : "Registered"}
+                    >
+                      {String(reg.status || "registered").replace(/_/g, " ")}
+                    </span>
+                  </div>
+                )}
+
                 {/* Visual Flair */}
                 <div
                   className={`absolute inset-0 bg-gradient-to-br ${sport.color} opacity-0 group-hover:opacity-10 transition-opacity duration-700`}
@@ -321,10 +457,10 @@ const Sports = () => {
                         View Intel
                       </button>
                       <Link
-                        to="/register"
+                        to={user ? getRegisterTo(sport) : "/login"}
                         onClick={(e) => e.stopPropagation()}
                         className="px-6 py-4 border border-white/10 text-white hover:bg-white/10 transition-colors"
-                        title="Direct Registration"
+                        title={user ? "Register" : "Login required to register"}
                       >
                         <ArrowRight size={16} />
                       </Link>
@@ -401,10 +537,10 @@ const Sports = () => {
                         View Intel
                       </button>
                       <Link
-                        to="/register"
+                        to={user ? getRegisterTo(game) : "/login"}
                         onClick={(e) => e.stopPropagation()}
                         className="px-6 py-4 border border-white/10 text-white hover:bg-white/10 transition-colors"
-                        title="Direct Registration"
+                        title={user ? "Register" : "Login required to register"}
                       >
                         <ArrowRight size={16} />
                       </Link>

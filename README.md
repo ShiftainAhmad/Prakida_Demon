@@ -66,6 +66,11 @@ The project features a high-performance, visually striking interface with a focu
 
     # TiQR Configuration (Optional/Mock)
     VITE_TIQR_MOCK_MODE=true
+
+    # Backend API (Events + Payments)
+    # The frontend sends Firebase ID Tokens as: Authorization: Bearer <token>
+    # Example: https://api.prakrida.example.com
+    VITE_API_BASE_URL=
     ```
 
 4.  **Run the application**:

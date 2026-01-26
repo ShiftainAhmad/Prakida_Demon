@@ -1,31 +1,52 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 import { SPORTS_CONFIG } from "../lib/sportsConfig";
-import { getTicketTypeForEventID } from "../lib/eventRegistrations";
 import { buttonHover, buttonTap, sectionSlide } from "../utils/motion";
 import { Plus, Trash2, Trophy, Users, Shield, Crown } from "lucide-react";
 
 const Registration = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState({ type: "", message: "" });
 
-  const [selectedSport, setSelectedSport] = useState(
-    Object.keys(SPORTS_CONFIG)[0],
-  );
-  const [selectedCategory, setSelectedCategory] = useState(
-    SPORTS_CONFIG[Object.keys(SPORTS_CONFIG)[0]].categories[0].id,
-  );
+  const getInitialSelectionFromQuery = () => {
+    const params = new URLSearchParams(location.search);
+    const sportParam = params.get("sport");
+    const categoryParam = params.get("category");
+
+    const fallbackSport = Object.keys(SPORTS_CONFIG)[0];
+    const initialSport = sportParam && SPORTS_CONFIG[sportParam] ? sportParam : fallbackSport;
+
+    const categories = SPORTS_CONFIG[initialSport]?.categories || [];
+    const initialCategory =
+      categoryParam && categories.some((c) => c.id === categoryParam)
+        ? categoryParam
+        : categories[0]?.id;
+
+    return { initialSport, initialCategory };
+  };
+
+  const { initialSport, initialCategory } = getInitialSelectionFromQuery();
+
+  const [selectedSport, setSelectedSport] = useState(initialSport);
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+
+  const [registrationMode, setRegistrationMode] = useState("group");
 
   const [userRole, setUserRole] = useState("Captain");
 
+  const [registrantName, setRegistrantName] = useState(
+    user?.user_metadata?.full_name || user?.displayName || "",
+  );
+
   const [teamName, setTeamName] = useState("");
   const [college, setCollege] = useState("");
-  const [contactEmail, setContactEmail] = useState("");
+  const [contactEmail, setContactEmail] = useState(user?.email || "");
   const [contactPhone, setContactPhone] = useState("");
 
   const [members, setMembers] = useState([]);
@@ -37,14 +58,57 @@ const Registration = () => {
   };
 
   useEffect(() => {
-    const config = getCurrentConfig();
+    const { initialSport: sportFromQuery, initialCategory: categoryFromQuery } =
+      getInitialSelectionFromQuery();
 
-    const maxAdditional = config.maxPlayers - 1;
+    // If user navigates to /register with query params, reflect them.
+    setSelectedSport(sportFromQuery);
+    setSelectedCategory(categoryFromQuery);
+    setMembers([]);
+  }, [location.search]);
+
+  useEffect(() => {
+    setRegistrantName(user?.user_metadata?.full_name || user?.displayName || "");
+    // Auto-fill email once the user is available; don't overwrite manual edits.
+    if (!contactEmail) {
+      setContactEmail(user?.email || "");
+    }
+  }, [user]);
+
+  useEffect(() => {
+    const current = getCurrentConfig();
+    if (!current) return;
+
+    const allowSolo = current.minPlayers === 1;
+    const allowGroup = current.maxPlayers > 1;
+
+    let nextMode = registrationMode;
+    if (!allowGroup) nextMode = "solo";
+    else if (!allowSolo) nextMode = "group";
+    else if (registrationMode !== "solo" && registrationMode !== "group") nextMode = "solo";
+
+    if (nextMode !== registrationMode) {
+      setRegistrationMode(nextMode);
+    }
+
+    if (nextMode === "solo") {
+      setUserRole("Player");
+      if (members.length) setMembers([]);
+    } else {
+      if (userRole === "Player") setUserRole("Captain");
+    }
+  }, [selectedSport, selectedCategory]);
+
+  useEffect(() => {
+    const config = getCurrentConfig();
+    if (!config) return;
+
+    const maxAdditional = registrationMode === "group" ? config.maxPlayers - 1 : 0;
 
     if (members.length > maxAdditional) {
       setMembers(members.slice(0, maxAdditional));
     }
-  }, [selectedSport, selectedCategory]);
+  }, [selectedSport, selectedCategory, registrationMode]);
 
   const handleSportChange = (e) => {
     const newSport = e.target.value;
@@ -52,6 +116,12 @@ const Registration = () => {
 
     setSelectedCategory(SPORTS_CONFIG[newSport].categories[0].id);
     setMembers([]);
+  };
+
+  const canChooseMode = () => {
+    const current = getCurrentConfig();
+    if (!current) return false;
+    return current.minPlayers === 1 && current.maxPlayers > 1;
   };
 
   const handleMemberChange = (index, field, value) => {
@@ -62,6 +132,7 @@ const Registration = () => {
 
   const addMember = () => {
     const config = getCurrentConfig();
+    if (registrationMode !== "group") return;
     const maxAdditional = config.maxPlayers - 1;
 
     if (members.length < maxAdditional) {
@@ -86,8 +157,8 @@ const Registration = () => {
 
     const config = getCurrentConfig();
     const eventID = config?.eventID;
-    const ticketType = getTicketTypeForEventID(eventID);
     const totalTeamSize = 1 + members.length;
+    const registrationType = registrationMode;
 
     if (!eventID) {
       setStatus({
@@ -97,11 +168,10 @@ const Registration = () => {
       return;
     }
 
-    if (!ticketType) {
+    if (!registrantName?.trim()) {
       setStatus({
         type: "error",
-        message:
-          "This event is not configured yet. Please contact the organizers.",
+        message: "Your name is required.",
       });
       return;
     }
@@ -114,39 +184,57 @@ const Registration = () => {
       return;
     }
 
-    const rosterCaptains = members.filter((m) => m.role === "Captain").length;
-    const totalCaptains = (userRole === "Captain" ? 1 : 0) + rosterCaptains;
+    if (registrationType === "group") {
+      const rosterCaptains = members.filter((m) => m.role === "Captain").length;
+      const totalCaptains = (userRole === "Captain" ? 1 : 0) + rosterCaptains;
 
-    if (totalCaptains === 0) {
+      if (totalCaptains === 0) {
+        setStatus({
+          type: "error",
+          message: "Every team must have a Captain. Please assign one.",
+        });
+        return;
+      }
+      if (totalCaptains > 1) {
+        setStatus({
+          type: "error",
+          message: "There can be only one Captain per team.",
+        });
+        return;
+      }
+
+      const rosterVCs = members.filter((m) => m.role === "Vice-Captain").length;
+      const totalVCs = (userRole === "Vice-Captain" ? 1 : 0) + rosterVCs;
+
+      if (totalVCs > 1) {
+        setStatus({
+          type: "error",
+          message: "There can be only one Vice-Captain per team.",
+        });
+        return;
+      }
+    }
+
+    if (!contactPhone) {
       setStatus({
         type: "error",
-        message: "Every team must have a Captain. Please assign one.",
+        message: "Your phone number is required.",
       });
       return;
     }
-    if (totalCaptains > 1) {
+
+    if (!college) {
       setStatus({
         type: "error",
-        message: "There can be only one Captain per team.",
+        message: "College is required.",
       });
       return;
     }
 
-    const rosterVCs = members.filter((m) => m.role === "Vice-Captain").length;
-    const totalVCs = (userRole === "Vice-Captain" ? 1 : 0) + rosterVCs;
-
-    if (totalVCs > 1) {
+    if (registrationType === "group" && !teamName) {
       setStatus({
         type: "error",
-        message: "There can be only one Vice-Captain per team.",
-      });
-      return;
-    }
-
-    if (!contactEmail || !contactPhone) {
-      setStatus({
-        type: "error",
-        message: "Your contact details are incomplete.",
+        message: "Team name is required for team registrations.",
       });
       return;
     }
@@ -160,6 +248,24 @@ const Registration = () => {
         });
         return;
       }
+
+      if (registrationType === "group") {
+        if (!m.name) {
+          setStatus({
+            type: "error",
+            message: `Player #${i + 2} is missing a name.`,
+          });
+          return;
+        }
+        if (!m.contact) {
+          setStatus({
+            type: "error",
+            message: `Player #${i + 2} (${m.name || "Unknown"}) is missing a phone number.`,
+          });
+          return;
+        }
+      }
+
       if ((m.role === "Captain" || m.role === "Vice-Captain") && !m.contact) {
         setStatus({
           type: "error",
@@ -169,118 +275,72 @@ const Registration = () => {
       }
     }
 
-    setStatus({ type: "info", message: "Verifying eligibility..." });
-
-    const allEmails = [
-      contactEmail || user.email,
-      ...members.map((m) => m.email),
-    ]
-      .map((e) => e.trim().toLowerCase())
-      .filter(Boolean);
-
-    try {
-      const { registrationService } =
-        await import("../services/api/registrations");
-
-      const duplicates = await registrationService.checkDuplicates(
-        allEmails,
-        selectedSport,
-        selectedCategory,
-      );
-
-      if (duplicates && duplicates.length > 0) {
-        setStatus({
-          type: "error",
-          message: `Registration Failed: The following users are ALREADY registered for ${selectedSport} (${Object.values(SPORTS_CONFIG[selectedSport].categories).find((c) => c.id === selectedCategory)?.label || selectedCategory}): ${duplicates.join(", ")}`,
-        });
-        return;
-      }
-    } catch (err) {
-      console.error("Validation failed:", err);
-      setStatus({
-        type: "error",
-        message: "Validation check failed. Please try again.",
-      });
-      return;
-    }
-
     setIsSubmitting(true);
     setStatus({ type: "", message: "" });
 
-    const sanitizedName = (
-      teamName ||
-      user.user_metadata?.full_name ||
-      "Individual"
-    )
-      .toLowerCase()
-      .replace(/[^a-z0-9]/g, "");
-    const randomCode = Math.floor(1000 + Math.random() * 9000);
-    const teamUniqueId = `${sanitizedName}@${randomCode}`;
-
     try {
-      const { registrationService } =
-        await import("../services/api/registrations");
-      const { paymentService } = await import("../services/paymentService");
+      const { eventsService } = await import("../services/api/events");
 
-      const regData = await registrationService.createRegistration({
-        user_id: user.id,
-        sport: selectedSport,
-        category: selectedCategory,
-        eventID,
-        team_name: teamName || user.user_metadata?.full_name || "Individual",
-        college: college,
-        contact_email: contactEmail || user.email,
-        contact_phone: contactPhone,
-        team_unique_id: teamUniqueId,
-        payment_status: "pending",
-      });
+      const primaryName =
+        (registrationType === "group" ? teamName : "") ||
+        registrantName.trim() ||
+        user?.displayName ||
+        user?.user_metadata?.full_name ||
+        "Registrant";
 
-      const userEntry = {
-        registration_id: regData.id,
-        name: user.user_metadata?.full_name || "Registrant",
-        role: userRole,
-        email: contactEmail || user.email,
-        contact_info: contactPhone,
+      const primaryMember = {
+        name: registrantName.trim(),
+        email: contactEmail || user?.email || "",
+        phone: contactPhone,
       };
 
-      const rosterEntries = members.map((m) => ({
-        registration_id: regData.id,
-        name: m.name,
-        role: m.role,
-        email: m.email,
-        contact_info: m.contact,
-      }));
+      const memberPayload =
+        registrationType === "group"
+          ? [
+              primaryMember,
+              ...members.map((m) => ({
+                name: m.name,
+                email: m.email,
+                phone: m.contact,
+              })),
+            ]
+          : [primaryMember];
 
-      await registrationService.addTeamMembers([userEntry, ...rosterEntries]);
+      setStatus({ type: "info", message: "Creating booking..." });
 
-      setStatus({ type: "info", message: "Initiating Payment Gateway..." });
-
-      const bookingResponse = await paymentService.initiatePayment({
-        customer_name: user.user_metadata?.full_name || "Registrant",
-        customer_email: contactEmail || user.email,
-        customer_phone: contactPhone,
-        amount: 100,
-        meta_data: {
-          registration_id: regData.id,
-          team_unique_id: teamUniqueId,
-          eventID,
-          ticket_type: ticketType,
-        },
+      const response = await eventsService.bookEvent({
+        eventId: eventID,
+        type: registrationType,
+        name: primaryName,
+        phone: contactPhone,
+        college,
+        members: memberPayload,
       });
 
-      await registrationService.updateBookingUid(
-        regData.id,
-        bookingResponse.booking_uid,
-      );
+      setStatus({ type: "success", message: "Redirecting to payment..." });
+      if (response?.paymentUrl) {
+        const opened = window.open(
+          response.paymentUrl,
+          "_blank",
+          "noopener,noreferrer",
+        );
 
-      setStatus({ type: "success", message: "Redirecting to Payment..." });
-
-      window.location.href = bookingResponse.payment_url;
+        // If popup is blocked, fallback to same-tab navigation.
+        if (!opened) {
+          window.location.href = response.paymentUrl;
+        }
+      } else {
+        setStatus({
+          type: "error",
+          message: "Booking created but payment URL is missing. Please contact support.",
+        });
+        setIsSubmitting(false);
+      }
     } catch (error) {
       console.error("Registration Error:", error);
       setStatus({
         type: "error",
-        message: error.message || "Failed to register. Please try again.",
+        message: error?.message || "Failed to register. Please try again.",
       });
       setIsSubmitting(false);
     }
@@ -338,7 +398,7 @@ const Registration = () => {
             JOIN THE CORPS
           </h2>
           <h3 className="text-3xl md:text-4xl font-display font-bold text-white">
-            TEAM REGISTRATION
+            {registrationMode === "solo" ? "SOLO REGISTRATION" : "TEAM REGISTRATION"}
           </h3>
         </motion.div>
 
@@ -409,25 +469,70 @@ const Registration = () => {
                   </p>
                 </div>
 
+                {canChooseMode() && (
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-gray-500 tracking-wider uppercase">
+                      REGISTRATION TYPE
+                    </label>
+                    <select
+                      value={registrationMode}
+                      onChange={(e) => {
+                        const next = e.target.value;
+                        setRegistrationMode(next);
+                        setMembers([]);
+                        if (next === "solo") setUserRole("Player");
+                        else if (userRole === "Player") setUserRole("Captain");
+                      }}
+                      className="w-full bg-black/50 border border-white/10 p-3 text-white focus:outline-none focus:border-prakida-flame transition-colors"
+                    >
+                      <option value="solo" className="bg-gray-900">
+                        Solo (Per Head)
+                      </option>
+                      <option value="group" className="bg-gray-900">
+                        Team
+                      </option>
+                    </select>
+                    <p className="text-xs text-gray-400 mt-1">
+                      Use <span className="text-white">Solo</span> if you are registering only yourself.
+                    </p>
+                  </div>
+                )}
+
+                {registrationMode === "group" ? (
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-gray-500 tracking-wider uppercase">
+                      YOUR ROLE (LEADERSHIP ONLY)
+                    </label>
+                    <select
+                      value={userRole}
+                      onChange={(e) => setUserRole(e.target.value)}
+                      className="w-full bg-black/50 border border-white/10 p-3 text-prakida-flame font-bold focus:outline-none focus:border-prakida-flame transition-colors"
+                    >
+                      <option value="Captain" className="bg-gray-900">
+                        Captain
+                      </option>
+                      <option value="Vice-Captain" className="bg-gray-900">
+                        Vice-Captain
+                      </option>
+                    </select>
+                  </div>
+                ) : null}
+
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-gray-500 tracking-wider uppercase">
-                    YOUR ROLE (LEADERSHIP ONLY)
+                    YOUR NAME (REQUIRED)
                   </label>
-                  <select
-                    value={userRole}
-                    onChange={(e) => setUserRole(e.target.value)}
-                    className="w-full bg-black/50 border border-white/10 p-3 text-prakida-flame font-bold focus:outline-none focus:border-prakida-flame transition-colors"
-                  >
-                    <option value="Captain" className="bg-gray-900">
-                      Captain
-                    </option>
-                    <option value="Vice-Captain" className="bg-gray-900">
-                      Vice-Captain
-                    </option>
-                  </select>
+                  <input
+                    type="text"
+                    value={registrantName}
+                    onChange={(e) => setRegistrantName(e.target.value)}
+                    className="w-full bg-black/50 border border-white/10 p-3 text-white focus:outline-none focus:border-prakida-flame"
+                    placeholder="ENTER YOUR FULL NAME"
+                    required
+                  />
                 </div>
 
-                {config.maxPlayers > 1 && (
+                {registrationMode === "group" && (
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-gray-500 tracking-wider uppercase">
                       TEAM NAME
@@ -502,7 +607,7 @@ const Registration = () => {
                 </p>
               </div>
 
-              {totalTeamSize < config.maxPlayers && (
+              {registrationMode === "group" && totalTeamSize < config.maxPlayers && (
                 <motion.button
                   type="button"
                   onClick={addMember}
@@ -524,12 +629,19 @@ const Registration = () => {
                 </span>
                 <div className="flex-1 w-full md:w-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="bg-black/30 border border-white/10 p-2 text-gray-400 text-sm flex items-center gap-2">
-                    <Crown size={14} className="text-yellow-500" />{" "}
-                    {user.user_metadata?.full_name || "You"}
+                    <Crown size={14} className="text-yellow-500" />
+                    <span className="sr-only">Primary participant</span>
+                    <span className="truncate">{registrantName || "You"}</span>
                   </div>
-                  <div className="bg-black/30 border border-white/10 p-2 text-prakida-flame font-bold text-sm">
-                    {userRole.toUpperCase()}
-                  </div>
+                  {registrationMode === "group" ? (
+                    <div className="bg-black/30 border border-white/10 p-2 text-prakida-flame font-bold text-sm">
+                      {userRole.toUpperCase()}
+                    </div>
+                  ) : (
+                    <div className="bg-black/30 border border-white/10 p-2 text-prakida-flame font-bold text-sm">
+                      PLAYER
+                    </div>
+                  )}
                   <div className="bg-black/30 border border-white/10 p-2 text-gray-400 text-sm overflow-hidden text-ellipsis">
                     {contactEmail || "No Email"}
                   </div>

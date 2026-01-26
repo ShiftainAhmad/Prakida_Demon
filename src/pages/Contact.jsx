@@ -178,9 +178,7 @@ const Contact = () => {
               <p className="text-gray-400">
                 BIT Patna,
                 <br />
-                Bihar,
-                <br />
-                India.
+                Bihar, India.
               </p>
             </div>
           </div>

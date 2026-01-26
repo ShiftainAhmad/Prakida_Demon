@@ -1,35 +1,58 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
+import { SPORTS_CONFIG } from "../lib/sportsConfig";
 
 import { sectionSlide, buttonHover, buttonTap } from "../utils/motion";
-import { User, Trophy, Calendar, Users, Shield } from "lucide-react";
+import { User, Trophy, RefreshCw } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 
 const Dashboard = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [registrations, setRegistrations] = useState([]);
   const [tickets, setTickets] = useState([]);
+  const [eventRegs, setEventRegs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [eventRegsRefreshing, setEventRegsRefreshing] = useState(false);
+  const [eventRegsRefreshedAt, setEventRegsRefreshedAt] = useState(null);
+
+  const resolveEventLabel = (eventId) => {
+    const id = Number(eventId);
+    if (!Number.isFinite(id)) return `Event #${eventId}`;
+
+    for (const [sportName, config] of Object.entries(SPORTS_CONFIG)) {
+      for (const cat of config.categories || []) {
+        if (cat?.eventID === id) {
+          return `${sportName} — ${cat.label} (Event #${id})`;
+        }
+      }
+    }
+    return `Event #${id}`;
+  };
+
+  const getStatusPillClass = (status) => {
+    const s = String(status || "").toLowerCase();
+    if (s === "confirmed") return "bg-green-900/30 text-green-400 border-green-500/30";
+    if (s.includes("pending")) return "bg-yellow-900/30 text-yellow-400 border-yellow-500/30";
+    if (s.includes("failed") || s.includes("cancel"))
+      return "bg-red-900/30 text-red-400 border-red-500/30";
+    if (s === "not_registered") return "bg-white/10 text-gray-400 border-white/20";
+    return "bg-white/10 text-gray-200 border-white/20";
+  };
 
   useEffect(() => {
-    const fetchRegistrations = async () => {
+    const fetchDashboardData = async () => {
       if (!user) return;
 
       try {
         console.log("Fetching dashboard data for:", user.email);
 
-        const { registrationService } =
-          await import("../services/api/registrations");
-        const finalData = await registrationService.getUserRegistrations(user);
-
-        console.log("Final Dashboard Data:", finalData);
-        setRegistrations(finalData);
-
         const { ticketService } = await import("../services/api/tickets");
-        const ticketData = await ticketService.getUserTickets(user.id);
+        const ticketData = await ticketService.getUserTickets(user.uid || user.id);
         setTickets(ticketData);
+
+        // Backend-powered event registrations
+        await refreshEventRegs();
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
       } finally {
@@ -37,7 +60,8 @@ const Dashboard = () => {
       }
     };
 
-    fetchRegistrations();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchDashboardData();
 
     const params = new URLSearchParams(window.location.search);
     const isMockMode = import.meta.env.VITE_TIQR_MOCK_MODE !== "false";
@@ -54,7 +78,7 @@ const Dashboard = () => {
 
         if (result.success) {
           console.log("Payment Confirmed! Refreshing...");
-          await fetchRegistrations();
+          await fetchDashboardData();
           window.history.replaceState(
             {},
             document.title,
@@ -69,6 +93,40 @@ const Dashboard = () => {
       confirmPayment();
     }
   }, [user]);
+
+  const refreshEventRegs = async () => {
+    if (!user) {
+      setEventRegs([]);
+      return;
+    }
+
+    setEventRegsRefreshing(true);
+    try {
+      const { eventsService } = await import("../services/api/events");
+      const regList = await eventsService.getRegisteredEvents();
+      const rawEvents = Array.isArray(regList?.events) ? regList.events : [];
+
+      const refreshed = await Promise.all(
+        rawEvents.map(async (e) => {
+          try {
+            const statusRes = await eventsService.getEventStatus(e.eventId);
+            return { ...e, ...statusRes };
+          } catch {
+            return e;
+          }
+        }),
+      );
+
+      setEventRegs(refreshed);
+      setEventRegsRefreshedAt(new Date());
+    } catch (err) {
+      console.error("Error refreshing event registrations:", err);
+      setEventRegs([]);
+      setEventRegsRefreshedAt(new Date());
+    } finally {
+      setEventRegsRefreshing(false);
+    }
+  };
 
   const showMockPay = import.meta.env.VITE_TIQR_MOCK_MODE !== "false";
 
@@ -114,7 +172,7 @@ const Dashboard = () => {
 
   return (
     <section className="min-h-screen bg-black pt-32 pb-20 px-4">
-      <div className="container mx-auto max-w-5xl">
+      <div className="container mx-auto max-w-6xl">
         <motion.div
           variants={sectionSlide}
           initial="hidden"
@@ -128,7 +186,8 @@ const Dashboard = () => {
             <div>
               <h1 className="text-3xl md:text-4xl font-display font-bold text-white uppercase">
                 Welcome,{" "}
-                {user.user_metadata?.full_name?.split(" ")[0] || "Slayer"}
+                {(user.displayName || user.user_metadata?.full_name || "Slayer")
+                  .split(" ")[0]}
               </h1>
               <p className="text-gray-400 mt-1 font-mono text-sm tracking-wide">
                 {user.email}
@@ -136,6 +195,109 @@ const Dashboard = () => {
             </div>
           </div>
         </motion.div>
+
+        <div className="mb-14">
+          <h2 className="text-2xl md:text-3xl font-display font-bold text-white mb-8 flex items-center justify-center gap-3 text-center">
+            <Trophy className="text-prakida-flame" /> YOUR BATTLES
+          </h2>
+
+          <div className="flex items-center justify-center gap-3 mb-8">
+            <button
+              type="button"
+              onClick={refreshEventRegs}
+              disabled={eventRegsRefreshing}
+              className="inline-flex items-center gap-2 px-6 py-3 border border-white/15 bg-white/5 text-white font-bold text-xs tracking-widest uppercase hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed"
+              title={eventRegsRefreshing ? "Refreshing..." : "Refresh registration status"}
+            >
+              <RefreshCw size={16} className={eventRegsRefreshing ? "animate-spin" : ""} />
+              {eventRegsRefreshing ? "Refreshing" : "Refresh Status"}
+            </button>
+
+            {eventRegsRefreshedAt ? (
+              <span className="text-[10px] font-mono tracking-widest uppercase text-gray-500">
+                Last refresh: {eventRegsRefreshedAt.toLocaleTimeString()}
+              </span>
+            ) : null}
+          </div>
+
+          {eventRegs.length === 0 ? (
+            <div className="bg-white/5 border border-white/10 p-10 text-center rounded-sm max-w-4xl mx-auto">
+              <p className="text-gray-400 mb-5">
+                You have not registered for any events yet.
+              </p>
+              <Link
+                to="/register"
+                className="inline-block px-8 py-3 bg-prakida-flame text-white font-bold skew-x-[-12deg]"
+              >
+                <span className="skew-x-[12deg] block">REGISTER NOW</span>
+              </Link>
+            </div>
+          ) : (
+            <div className="max-w-4xl mx-auto grid grid-cols-1 gap-8">
+              {eventRegs
+                .slice()
+                .sort((a, b) => Number(a?.eventId) - Number(b?.eventId))
+                .map((e) => (
+                  <motion.div
+                    key={String(e?.eventId)}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-white/5 border border-white/10 p-8 md:p-10 rounded-sm relative overflow-hidden"
+                  >
+                    <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                      <div className="text-center md:text-left">
+                        <h3 className="text-xl md:text-2xl font-display font-bold text-white mb-2">
+                          {resolveEventLabel(e?.eventId)}
+                        </h3>
+                        <p className="text-sm text-gray-400 font-mono tracking-widest uppercase">
+                          {String(e?.type || "").replace(/_/g, " ")}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-col items-center md:items-end gap-3">
+                        <span
+                          className={`px-4 py-2 rounded text-xs md:text-sm font-bold uppercase border ${getStatusPillClass(
+                            e?.status,
+                          )}`}
+                        >
+                          {String(e?.status || "registered").replace(/_/g, " ")}
+                        </span>
+
+                        {String(e?.status || "").toLowerCase().includes("pending") &&
+                        e?.paymentUrl ? (
+                          <a
+                            href={e.paymentUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-prakida-flame text-white px-8 py-3 font-bold text-sm hover:bg-red-600"
+                          >
+                            PAY NOW
+                          </a>
+                        ) : null}
+                      </div>
+                    </div>
+
+                    <div className="border-t border-white/10 mt-8 pt-6 text-center md:text-left">
+                      <div className="text-xs text-gray-500 font-mono">
+                        Updated:{" "}
+                        <span className="text-gray-300">
+                          {e?.updatedAt
+                            ? new Date(
+                                typeof e.updatedAt === "string"
+                                  ? e.updatedAt
+                                  : e.updatedAt?.seconds
+                                    ? e.updatedAt.seconds * 1000
+                                    : Date.now(),
+                              ).toLocaleString()
+                            : "—"}
+                        </span>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+            </div>
+          )}
+        </div>
 
         {}
         {tickets.length > 0 && (
@@ -209,134 +371,7 @@ const Dashboard = () => {
           </div>
         )}
 
-        <h2 className="text-xl font-display font-bold text-white mb-6 flex items-center gap-2">
-          <Trophy className="text-prakida-flame" /> YOUR BATTLES
-        </h2>
-
-        {registrations.length === 0 ? (
-          <div className="bg-white/5 border border-white/10 p-8 text-center rounded-sm">
-            <p className="text-gray-400 mb-4">
-              You have not registered for any events yet.
-            </p>
-            <Link
-              to="/register"
-              className="inline-block px-6 py-2 bg-prakida-flame text-white font-bold skew-x-[-12deg]"
-            >
-              <span className="skew-x-[12deg] block">REGISTER NOW</span>
-            </Link>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {registrations.map((reg) => (
-              <motion.div
-                key={reg.team_unique_id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-white/5 border border-white/10 p-6 rounded-sm relative group overflow-hidden hover:border-prakida-flame/50 transition-colors"
-              >
-                <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                  <Trophy size={80} />
-                </div>
-
-                <div className="relative z-10 space-y-4">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="text-2xl font-display font-bold text-white mb-1">
-                        {reg.sport?.toUpperCase()}
-                      </h3>
-                      <span className="inline-block px-2 py-0.5 bg-white/10 text-xs font-bold text-gray-300 rounded apple-system">
-                        {reg.category?.toUpperCase()}
-                      </span>
-                    </div>
-                    <div className="text-right">
-                      <span className="block text-xs text-gray-500 font-mono">
-                        TEAM ID
-                      </span>
-                      <span className="text-prakida-flame font-mono font-bold tracking-wider">
-                        {reg.team_unique_id || "PENDING"}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="border-t border-white/10 pt-4 space-y-2">
-                    <div className="flex items-center gap-3 text-sm text-gray-300">
-                      <Shield size={16} className="text-gray-500" />
-                      <span className="text-gray-500 w-24 uppercase text-xs font-bold">
-                        Team Name
-                      </span>
-                      <span className="font-bold">{reg.team_name}</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-sm text-gray-300">
-                      <Users size={16} className="text-gray-500" />
-                      <span className="text-gray-500 w-24 uppercase text-xs font-bold">
-                        Your Role
-                      </span>
-                      <span>{reg.role}</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-sm text-gray-300">
-                      <Calendar size={16} className="text-gray-500" />
-                      <span className="text-gray-500 w-24 uppercase text-xs font-bold">
-                        Registered
-                      </span>
-                      <span>
-                        {new Date(reg.created_at).toLocaleDateString()}
-                      </span>
-                    </div>
-
-                    {}
-                    <div className="flex items-center gap-3 mt-4 pt-2 border-t border-white/5">
-                      {reg.payment_status === "confirmed" ? (
-                        <a
-                          href={reg.ticket_pdf_url || "#"}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex-1 bg-green-900/40 text-green-400 border border-green-500/30 py-2 text-center text-xs font-bold hover:bg-green-800/50 transition-colors"
-                        >
-                          DOWNLOAD TICKET
-                        </a>
-                      ) : showMockPay ? (
-                        <button
-                          onClick={async () => {
-                            let uid = reg.tiqr_booking_uid;
-
-                            if (!uid) {
-                              console.log("Missing UID, generating new one...");
-                              uid = `mock_uid_healed_${Date.now()}`;
-
-                              const { paymentService } =
-                                await import("../services/paymentService");
-                              try {
-                                uid = await paymentService.healMissingUid(
-                                  "registrations",
-                                  reg.id || reg.registration_id,
-                                );
-                              } catch (err) {
-                                console.error("Failed to heal UID:", err);
-                                alert(
-                                  "Error initiating payment. Please contact support.",
-                                );
-                                return;
-                              }
-                            }
-
-                            window.location.href = `/dashboard?mock_payment_success=true&uid=${uid}`;
-                          }}
-                          className="flex-1 bg-prakida-flame/80 text-white border border-transparent py-2 text-center text-xs font-bold hover:bg-prakida-flame transition-colors"
-                        >
-                          COMPLETE PAYMENT (MOCK)
-                        </button>
-                      ) : (
-                        <span className="text-xs text-gray-500 font-mono w-full text-center block pt-2">
-                          Payment Pending via TiQR
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        )}
+        {/** legacy registrations section removed (duplicated UI) **/}
       </div>
     </section>
   );

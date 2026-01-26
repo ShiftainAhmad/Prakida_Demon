@@ -1,9 +1,13 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Trophy, Send, User, Briefcase, Mail, Linkedin } from "lucide-react";
 import SectionTitle from "../components/ui/SectionTitle";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "../lib/firebase";
+import { useAuth } from "../context/AuthContext";
 
 const Alumni = () => {
+  const { user } = useAuth();
   const sponsors = [
     {
       id: 1,
@@ -43,22 +47,70 @@ const Alumni = () => {
     message: "",
   });
 
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState(null);
+
+  useEffect(() => {
+    if (user?.email) {
+      setFormData((prev) => ({ ...prev, email: user.email }));
+    }
+  }, [user]);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Alumni Registration Data:", formData);
-    alert("Thank you for registering! We will get back to you soon.");
-    setFormData({
-      name: "",
-      batch: "",
-      role: "",
-      email: "",
-      linkedin: "",
-      message: "",
-    });
+
+    if (!user) {
+      setStatus({
+        type: "error",
+        message: "Please login to submit the alumni form.",
+      });
+      return;
+    }
+
+    setLoading(true);
+    setStatus(null);
+
+    try {
+      const payload = {
+        name: formData.name?.trim(),
+        batch: formData.batch ? Number(formData.batch) : null,
+        role: formData.role?.trim(),
+        email: formData.email?.trim().toLowerCase(),
+        linkedin: formData.linkedin?.trim() || "",
+        message: formData.message?.trim() || "",
+        user_id: user.uid,
+        created_at: new Date().toISOString(),
+        createdAt: serverTimestamp(),
+      };
+
+      await addDoc(collection(db, "alumni"), payload);
+
+      setStatus({
+        type: "success",
+        message: "Thanks! Your alumni registration has been submitted.",
+      });
+
+      setFormData({
+        name: "",
+        batch: "",
+        role: "",
+        email: user.email || "",
+        linkedin: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error("Error submitting alumni form:", error);
+      setStatus({
+        type: "error",
+        message: "Failed to submit. Please try again.",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -135,6 +187,17 @@ const Alumni = () => {
           <div className="absolute top-0 right-0 w-64 h-64 bg-prakida-flame/10 blur-[100px] pointer-events-none rounded-full -translate-y-1/2 translate-x-1/2"></div>
 
           <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+            {status && (
+              <div
+                className={`p-4 rounded border ${status.type === "success"
+                  ? "bg-green-900/20 border-green-500/50 text-green-400"
+                  : "bg-red-900/20 border-red-500/50 text-red-400"
+                  }`}
+              >
+                {status.message}
+              </div>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm text-gray-400 font-display tracking-wider ml-1">
@@ -253,9 +316,10 @@ const Alumni = () => {
 
             <button
               type="submit"
+              disabled={loading}
               className="w-full bg-prakida-flame text-white font-bold py-4 hover:bg-orange-600 transition-all flex items-center justify-center gap-2 group"
             >
-              <span>REGISTER AS ALUMNI</span>
+              <span>{loading ? "SUBMITTING..." : "REGISTER AS ALUMNI"}</span>
               <Send
                 size={18}
                 className="group-hover:translate-x-1 transition-transform"

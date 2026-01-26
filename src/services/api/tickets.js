@@ -7,9 +7,19 @@ import {
   query,
   where,
   getDocs,
-  orderBy,
   limit,
 } from "firebase/firestore";
+
+const parseCreatedAtMs = (value) => {
+  if (!value) return 0;
+  if (typeof value === "number") return value;
+  if (typeof value === "string") {
+    const ms = Date.parse(value);
+    return Number.isFinite(ms) ? ms : 0;
+  }
+  if (value?.seconds) return value.seconds * 1000;
+  return 0;
+};
 
 export const ticketService = {
   async createTicket(ticketData) {
@@ -37,38 +47,27 @@ export const ticketService = {
 
   async getUserTickets(userId) {
     try {
-      const q = query(
-        collection(db, "tickets"),
-        where("user_id", "==", userId),
-        orderBy("created_at", "desc")
-      );
+      const q = query(collection(db, "tickets"), where("user_id", "==", userId));
       const querySnapshot = await getDocs(q);
-      return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      const rows = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      return rows.sort(
+        (a, b) => parseCreatedAtMs(b.created_at) - parseCreatedAtMs(a.created_at),
+      );
     } catch (error) {
       console.error("Error fetching user tickets:", error);
-      // Fallback for indexes not ready yet
-      if (error.code === 'failed-precondition') {
-          console.warn("Firestore index missing. Returning unordered results.");
-           const q2 = query(collection(db, "tickets"), where("user_id", "==", userId));
-           const querySnapshot2 = await getDocs(q2);
-           return querySnapshot2.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      }
       throw error;
     }
   },
 
   async getAllTickets() {
     try {
-      const q = query(collection(db, "tickets"), orderBy("created_at", "desc"));
-      const querySnapshot = await getDocs(q);
-      return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      const querySnapshot = await getDocs(collection(db, "tickets"));
+      const rows = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      return rows.sort(
+        (a, b) => parseCreatedAtMs(b.created_at) - parseCreatedAtMs(a.created_at),
+      );
     } catch (error) {
       console.error("Error fetching all tickets:", error);
-        // Fallback
-       if (error.code === 'failed-precondition') {
-           const querySnapshot2 = await getDocs(collection(db, "tickets"));
-           return querySnapshot2.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-       }
       throw error;
     }
   },

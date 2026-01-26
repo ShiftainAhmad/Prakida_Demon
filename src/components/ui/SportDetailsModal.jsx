@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ArrowRight, Camera } from "lucide-react";
+import { X, ArrowRight, Camera, LogIn } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SPORTS_CONFIG } from "../../lib/sportsConfig";
+import { useAuth } from "../../context/AuthContext";
 
 const SportDetailsModal = ({ sport, onClose }) => {
+    const { user } = useAuth();
     const [currentThumb, setCurrentThumb] = useState(0);
 
     const sportConfig = sport?.configSport ? SPORTS_CONFIG[sport.configSport] : null;
@@ -25,6 +27,14 @@ const SportDetailsModal = ({ sport, onClose }) => {
     }, [sport]);
 
     if (!sport) return null;
+
+    const registerTo = (() => {
+        const params = new URLSearchParams();
+        if (sport?.configSport) params.set("sport", sport.configSport);
+        if (sport?.focusCategoryId) params.set("category", sport.focusCategoryId);
+        const qs = params.toString();
+        return qs ? `/register?${qs}` : "/register";
+    })();
 
     const modalContent = (
         <div className="fixed inset-0 z-[9999] flex justify-center items-center overflow-y-auto p-4 md:p-6 lg:p-8 pt-20 pb-20">
@@ -162,11 +172,16 @@ const SportDetailsModal = ({ sport, onClose }) => {
 
                         <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mt-auto md:mt-0 pb-4 md:pb-0">
                             <Link
-                                to="/register"
+                                to={user ? registerTo : "/login"}
                                 className="flex-1 px-6 py-4 bg-prakida-flame text-white font-black text-sm md:text-lg tracking-widest hover:bg-orange-600 transition-all duration-300 transform skew-x-[-12deg] flex items-center justify-center gap-2 group/btn"
                             >
                                 <span className="skew-x-[12deg] flex items-center gap-2">
-                                    JOIN THE CORPS <ArrowRight size={18} className="group-hover/btn:translate-x-2 transition-transform" />
+                                    {user ? "JOIN THE CORPS" : "LOGIN TO REGISTER"}{" "}
+                                    {user ? (
+                                        <ArrowRight size={18} className="group-hover/btn:translate-x-2 transition-transform" />
+                                    ) : (
+                                        <LogIn size={18} className="group-hover/btn:translate-x-2 transition-transform" />
+                                    )}
                                 </span>
                             </Link>
 
