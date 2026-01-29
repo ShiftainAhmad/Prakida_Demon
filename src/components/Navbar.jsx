@@ -33,7 +33,7 @@ const Navbar = () => {
         { name: 'Home', kanji: 'ホーム', path: '/' },
         { name: 'Pro-nite', kanji: 'プロナイト', path: '/tickets' },
         { name: 'Dashboard', kanji: 'ダッシュボード', path: '/dashboard' },
-        { name: 'Events', kanji: 'イベント', path: '/events' },
+        { name: 'Timeline', kanji: 'イベント', path: '/events' },
         { name: 'Merchandise', kanji: 'グッズ', path: '/merchandise' },
         { name: 'Sports', kanji: '競技', path: '/sports' },
         { name: 'Accommodation', kanji: '宿泊', path: '/accommodation' },
