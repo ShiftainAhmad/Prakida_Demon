@@ -18,7 +18,7 @@ import {
 import { Link } from "react-router-dom";
 import SportDetailsModal from "../components/ui/SportDetailsModal";
 import { SPORTS_CONFIG } from "../lib/sportsConfig";
-import { summarizeFee, summarizePrizePool } from "../lib/pricing";
+import { summarizeFee } from "../lib/pricing";
 import { useAuth } from "../context/AuthContext";
 
 // Import images
@@ -453,7 +453,6 @@ const Sports = () => {
             const reg = getRegistrationForCard(sport);
             const categories = getCategoriesForSportCard(sport);
             const feeSummary = summarizeFee(categories);
-            const prizeSummary = summarizePrizePool(categories);
             const playersLabel = getPlayersLabelForSportCard(sport);
             const categoryLabel = getCategoryLabelForSport(sport);
             const sportForModal = {
@@ -515,22 +514,14 @@ const Sports = () => {
                       <span>{playersLabel}</span>
                     </div>
 
-                    {(feeSummary || prizeSummary) && (
-                      <div className="grid grid-cols-2 gap-3">
+                    {feeSummary && (
+                      <div className="grid grid-cols-1 gap-3">
                         <div className="p-3 bg-white/5 border border-white/10 rounded-sm">
                           <span className="block text-[9px] text-gray-500 font-mono tracking-widest uppercase mb-1">
                             Fee
                           </span>
                           <span className="text-sm font-bold text-white">
-                            {feeSummary || "—"}
-                          </span>
-                        </div>
-                        <div className="p-3 bg-white/5 border border-white/10 rounded-sm">
-                          <span className="block text-[9px] text-gray-500 font-mono tracking-widest uppercase mb-1">
-                            Prize Pool
-                          </span>
-                          <span className="text-sm font-bold text-white">
-                            {prizeSummary || "—"}
+                            {feeSummary}
                           </span>
                         </div>
                       </div>
@@ -595,7 +586,6 @@ const Sports = () => {
                   {(() => {
                     const categories = getCategoriesForSportCard(game);
                     const feeSummary = summarizeFee(categories);
-                    const prizeSummary = summarizePrizePool(categories);
                     return (
                       <>
                   <div className="mb-8 flex justify-between items-start">
@@ -624,22 +614,14 @@ const Sports = () => {
                       <span>{game.players || "Team"}</span>
                     </div>
 
-                    {(feeSummary || prizeSummary) && (
-                      <div className="grid grid-cols-2 gap-3">
+                    {feeSummary && (
+                      <div className="grid grid-cols-1 gap-3">
                         <div className="p-3 bg-white/5 border border-white/10 rounded-sm">
                           <span className="block text-[9px] text-gray-500 font-mono tracking-widest uppercase mb-1">
                             Fee
                           </span>
                           <span className="text-sm font-bold text-white">
-                            {feeSummary || "—"}
-                          </span>
-                        </div>
-                        <div className="p-3 bg-white/5 border border-white/10 rounded-sm">
-                          <span className="block text-[9px] text-gray-500 font-mono tracking-widest uppercase mb-1">
-                            Prize Pool
-                          </span>
-                          <span className="text-sm font-bold text-white">
-                            {prizeSummary || "—"}
+                            {feeSummary}
                           </span>
                         </div>
                       </div>

@@ -16,6 +16,12 @@ const Dashboard = () => {
   const [eventRegsRefreshing, setEventRegsRefreshing] = useState(false);
   const [eventRegsRefreshedAt, setEventRegsRefreshedAt] = useState(null);
 
+  const [alumniStatus, setAlumniStatus] = useState(null); // null = not checked yet
+  const [alumniDetails, setAlumniDetails] = useState(null);
+  const [alumniRefreshing, setAlumniRefreshing] = useState(false);
+  const [alumniRefreshedAt, setAlumniRefreshedAt] = useState(null);
+  const [alumniError, setAlumniError] = useState("");
+
   const resolveEventLabel = (eventId) => {
     const id = Number(eventId);
     if (!Number.isFinite(id)) return `Event #${eventId}`;
@@ -84,6 +90,54 @@ const Dashboard = () => {
       setEventRegsRefreshedAt(new Date());
     } finally {
       setEventRegsRefreshing(false);
+    }
+  }, [user]);
+
+  const refreshAlumniStatus = useCallback(async () => {
+    if (!user) {
+      setAlumniStatus(null);
+      setAlumniDetails(null);
+      setAlumniError("");
+      setAlumniRefreshedAt(null);
+      return;
+    }
+
+    setAlumniRefreshing(true);
+    setAlumniError("");
+
+    try {
+      const { alumniService } = await import("../services/api/alumni");
+      const res = await alumniService.getStatus();
+
+      if (!res) {
+        setAlumniStatus("not_registered");
+        setAlumniDetails(null);
+        return;
+      }
+
+      const st = String(res?.status || "").toLowerCase();
+      if (!st) {
+        setAlumniStatus("unknown");
+      } else if (st === "success") {
+        setAlumniStatus("confirmed");
+      } else if (st === "pending") {
+        setAlumniStatus("pending_payment");
+      } else {
+        setAlumniStatus(st);
+      }
+
+      setAlumniDetails(res?.details || res);
+    } catch (err) {
+      if (err?.status === 404) {
+        setAlumniStatus("not_registered");
+        setAlumniDetails(null);
+      } else {
+        console.error("Error refreshing alumni status:", err);
+        setAlumniError(err?.message || "Failed to fetch alumni status.");
+      }
+    } finally {
+      setAlumniRefreshedAt(new Date());
+      setAlumniRefreshing(false);
     }
   }, [user]);
 
@@ -310,6 +364,91 @@ const Dashboard = () => {
                 ))}
             </div>
           )}
+        </div>
+
+        <div className="mb-14">
+          <h2 className="text-2xl md:text-3xl font-display font-bold text-white mb-8 flex items-center justify-center gap-3 text-center">
+            ALUMNI PASS STATUS
+          </h2>
+
+          <div className="flex items-center justify-center gap-3 mb-8">
+            <button
+              type="button"
+              onClick={refreshAlumniStatus}
+              disabled={alumniRefreshing}
+              className="inline-flex items-center gap-2 px-6 py-3 border border-white/15 bg-white/5 text-white font-bold text-xs tracking-widest uppercase hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed"
+              title={alumniRefreshing ? "Refreshing..." : "Refresh alumni registration status"}
+            >
+              <RefreshCw size={16} className={alumniRefreshing ? "animate-spin" : ""} />
+              {alumniRefreshing ? "Refreshing" : "Refresh Status"}
+            </button>
+
+            {alumniRefreshedAt ? (
+              <span className="text-[10px] font-mono tracking-widest uppercase text-gray-500">
+                Last refresh: {alumniRefreshedAt.toLocaleTimeString()}
+              </span>
+            ) : null}
+          </div>
+
+          <div className="max-w-4xl mx-auto bg-white/5 border border-white/10 p-8 md:p-10 rounded-sm">
+            {alumniError ? (
+              <p className="text-red-400 font-mono text-sm">{alumniError}</p>
+            ) : alumniStatus == null ? (
+              <div className="text-center">
+                <p className="text-gray-400 mb-4">
+                  Status not checked yet. Click refresh to fetch from backend.
+                </p>
+                <Link
+                  to="/alumni"
+                  className="inline-block px-8 py-3 border border-white/20 text-white font-bold skew-x-[-12deg] hover:border-prakida-flame/70"
+                >
+                  <span className="skew-x-[12deg] block">OPEN ALUMNI PAGE</span>
+                </Link>
+              </div>
+            ) : (
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                <div className="text-center md:text-left">
+                  <h3 className="text-xl md:text-2xl font-display font-bold text-white mb-2">
+                    Alumni Registration
+                  </h3>
+                  <p className="text-sm text-gray-400 font-mono tracking-widest uppercase">
+                    ₹1600 • free merch • pro-nite entry
+                  </p>
+                </div>
+
+                <div className="flex flex-col items-center md:items-end gap-3">
+                  <span
+                    className={`px-4 py-2 rounded text-xs md:text-sm font-bold uppercase border ${getStatusPillClass(
+                      alumniStatus,
+                    )}`}
+                  >
+                    {String(alumniStatus).replace(/_/g, " ")}
+                  </span>
+
+                  {String(alumniStatus || "")
+                    .toLowerCase()
+                    .includes("pending") &&
+                  alumniDetails?.paymentUrl ? (
+                    <a
+                      href={alumniDetails.paymentUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-prakida-flame text-white px-8 py-3 font-bold text-sm hover:bg-red-600"
+                    >
+                      PAY NOW
+                    </a>
+                  ) : (
+                    <Link
+                      to="/alumni"
+                      className="bg-white/10 border border-white/15 text-white px-8 py-3 font-bold text-sm hover:bg-white/15"
+                    >
+                      VIEW DETAILS
+                    </Link>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {}

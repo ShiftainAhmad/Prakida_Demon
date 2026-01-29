@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowRight, Camera, LogIn } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SPORTS_CONFIG } from "../../lib/sportsConfig";
-import { formatINRWithSymbol, formatRegistrationFee } from "../../lib/pricing";
+import { formatRegistrationFee } from "../../lib/pricing";
 import { useAuth } from "../../context/AuthContext";
 
 const SportDetailsModal = ({ sport, onClose }) => {
@@ -237,10 +237,6 @@ const SportDetailsModal = ({ sport, onClose }) => {
                                                 <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] md:text-[11px] font-mono text-gray-300">
                                                     <span className="whitespace-nowrap">
                                                         Fee: {formatRegistrationFee(c) || "—"}
-                                                    </span>
-                                                    <span className="text-gray-500">•</span>
-                                                    <span className="whitespace-nowrap">
-                                                        Prize: {formatINRWithSymbol(c.prizePool) || "—"}
                                                     </span>
                                                 </div>
                                             </div>

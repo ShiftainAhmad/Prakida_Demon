@@ -1,3 +1,22 @@
+const Events = () => {
+  return (
+    <div className="pt-24 min-h-screen flex items-center justify-center">
+      <div className="container mx-auto px-4 py-12 text-center">
+        <h1 className="text-4xl md:text-5xl font-russ mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-orange-600">
+          Timeline
+        </h1>
+        <div className="text-4xl md:text-6xl font-display font-bold text-white tracking-wider">
+          Coming Soon
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Events;
+
+/*
+// Previous implementation (commented out as requested)
 import Schedule from "../components/Schedule";
 
 const Events = () => {
@@ -18,3 +37,4 @@ const Events = () => {
 };
 
 export default Events;
+*/

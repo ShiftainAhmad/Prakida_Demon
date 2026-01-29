@@ -1,0 +1,27 @@
+Sport,Category ID,Category Label,EventID,Min Members,Max Members,Ticket Price (₹),Fee Unit,Prize Pool (₹),Notes,Team Name Required,Sport Prize Pool Total (₹)
+Football,men,Men's Team,3,11,15,4500,team,15000,,true,27000
+Football,women,Women's Team,4,8,12,2500,team,12000,,true,27000
+Cricket,men,Men's Team,1,11,15,4500,team,15000,,true,27000
+Cricket,women,Women's Team,2,8,12,2500,team,12000,,true,27000
+Basketball,men,Men's Team,9,5,9,3000,team,9000,,true,18000
+Basketball,women,Women's Team,10,5,9,2000,team,9000,,true,18000
+Volleyball,men,Men's Team,7,6,9,3000,team,9000,,true,18000
+Volleyball,women,Women's Team,8,6,9,2000,team,9000,,true,18000
+Lawn Tennis,men_singles,Men (Singles),16,1,1,399,per_head,2000,,false,14000
+Lawn Tennis,women_singles,Women (Singles),17,1,1,399,per_head,2000,,false,14000
+Lawn Tennis,group_men,Group (Men),118,4,4,1599,team,5000,"4 team members",true,14000
+Lawn Tennis,group_women,Group (Women),119,4,4,1599,team,5000,"4 team members",true,14000
+Badminton,men,Men's Team,11,3,6,2500,team,6000,,true,12000
+Badminton,women,Women's Team,12,3,6,1500,team,6000,,true,12000
+Table Tennis,men_team,Men (Team),18,3,5,1200,team,4000,Team,true,15000
+Table Tennis,women_team,Women (Team),19,3,5,1000,team,4000,Team,true,15000
+Table Tennis,men_single,Singles (Men),20,1,1,400,team,2000,,false,15000
+Table Tennis,women_single,Singles (Women),21,1,1,300,team,2000,,false,15000
+Table Tennis,mixed,Mixed,22,2,2,500,team,3000,,false,15000
+Carrom,men_team,Men,23,3,5,499,team,1500,,false,4000
+Carrom,women_team,Women,24,3,5,499,team,1500,,false,4000
+Carrom,mixed_double,Mixed Doubles,25,2,2,499,team,1000,Fixed team size,false,4000
+Chess,open,Open,5,5,6,1200,team,5000,"5 + 1 (optional) members",false,5000
+E-Sports,bgmi,BGMI Team,13,4,4,299,team,8000,Fixed squad,true,20000
+E-Sports,free_fire,Free Fire Team,15,4,4,199,team,6000,Fixed squad,true,20000
+E-Sports,valorant,Valorant Team,14,5,5,299,team,6000,Fixed squad,true,20000

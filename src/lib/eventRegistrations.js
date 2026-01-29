@@ -1,4 +1,4 @@
-// Mapping of sports event IDs (1..25) to ticket types.
+// Mapping of sports event IDs to ticket types.
 // Keep these strings in sync with whatever your payment provider expects.
 
 export const Tickets = Object.freeze({
@@ -11,8 +11,7 @@ export const Tickets = Object.freeze({
   FootballWomen: "FootballWomen",
 
   // --- Chess ---
-  ChessMen: "ChessMen",
-  ChessWomen: "ChessWomen",
+  Chess: "Chess",
 
   // --- Volleyball ---
   VolleyballMen: "VolleyballMen",
@@ -32,6 +31,7 @@ export const Tickets = Object.freeze({
 
   // --- Lawn-Tennis ---
   LawnTennis: "LawnTennis",
+  LawnTennisGroup: "LawnTennisGroup",
 
   // --- Table Tennis ---
   TableTennisTeamMen: "TableTennisTeamMen",
@@ -55,8 +55,7 @@ export const eventRegistrations = Object.freeze({
   4: Tickets.FootballWomen,
 
   // --- Chess ---
-  5: Tickets.ChessMen,
-  6: Tickets.ChessWomen,
+  5: Tickets.Chess, // Chess: Group
 
   // --- Volleyball ---
   7: Tickets.VolleyballMen,
@@ -76,8 +75,10 @@ export const eventRegistrations = Object.freeze({
   15: Tickets.FreeFire,
 
   // --- Lawn-Tennis ---
-  16: Tickets.LawnTennis,
-  17: Tickets.LawnTennis,
+  16: Tickets.LawnTennis, // Lawn-Tennis: Men's
+  17: Tickets.LawnTennis, // Lawn-Tennis: Women's
+  118: Tickets.LawnTennisGroup, // Lawn-Tennis: Group men
+  119: Tickets.LawnTennisGroup, // Lawn-Tennis: Group women
 
   // --- Table Tennis ---
   18: Tickets.TableTennisTeamMen,
