@@ -112,7 +112,7 @@ const Contact = () => {
           </h3>
           <p className="text-white font-bold text-lg mb-1">Anurag Anand</p>
           <a
-            href="tel:+91XXXXXXXXXX"
+            href="tel:+918409306029"
             className="text-gray-400 group-hover:text-white transition-colors block"
           >
             +91 84093 06029
@@ -131,7 +131,7 @@ const Contact = () => {
           </h3>
           <p className="text-white font-bold text-lg mb-1">Udit Ojha</p>
           <a
-            href="tel:+91XXXXXXXXXX"
+            href="tel:+917979865972"
             className="text-gray-400 group-hover:text-white transition-colors block"
           >
             +91 79 7986 5972
@@ -161,10 +161,10 @@ const Contact = () => {
             <div>
               <h3 className="text-xl font-semibold text-white">Call Us</h3>
               <a
-                href="tel:+917903555032"
+                href="tel:+917070747693"
                 className="text-gray-400 hover:text-prakida-flame transition-colors"
               >
-                +91 79035 55032
+                +91 70707 47693
               </a>
             </div>
           </div>

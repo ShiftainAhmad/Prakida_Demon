@@ -31,7 +31,12 @@ const Footer = () => {
 
           <div className="flex flex-col md:flex-row gap-8 md:gap-12 w-full md:w-auto items-center md:items-start">
             <div className="flex flex-col items-center md:items-start gap-3 text-base md:text-lg text-gray-400">
-              <div className="flex items-center gap-3 group cursor-default">
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=BIT%20Patna%2C%20Bihar%2C%20India"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-3 group cursor-pointer"
+              >
                 <SiGooglemaps
                   size={20}
                   className="group-hover:text-[#34A853] transition-colors duration-300"
@@ -39,14 +44,17 @@ const Footer = () => {
                 <span className="group-hover:text-white transition-colors duration-300">
                   BIT Patna, Bihar, India
                 </span>
-              </div>
+              </a>
               <div className="flex items-center gap-3 group cursor-pointer">
                 <FaPhone
                   size={20}
                   className="group-hover:text-[#25D366] transition-colors duration-300"
                 />
-                <a href="tel:+917903555032" className="group-hover:text-white transition-colors duration-300">
-                  Contact: 79035 55032
+                <a
+                  href="tel:+917070747693"
+                  className="group-hover:text-white transition-colors duration-300"
+                >
+                  Contact: 70707 47693
                 </a>
               </div>
               <div className="flex items-center gap-3 group">
