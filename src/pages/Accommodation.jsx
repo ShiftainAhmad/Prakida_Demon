@@ -35,25 +35,25 @@ const Accommodation = () => {
     },
   ];
 
-  return (
-    <div className="pt-24 min-h-screen container mx-auto px-4 pb-20">
-      {/* Hero Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-center mb-20 space-y-4"
-      >
-        <h2 className="text-prakida-flame font-mono tracking-widest text-sm uppercase">
-          Sector: Residence
-        </h2>
-        <h1 className="text-5xl md:text-7xl font-russ text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-500 mb-6">
-          ACCOMMODATION
-        </h1>
-        <p className="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">
-          Secure your base of operations. We provide comfortable stay options
-          within the campus perimeter for all outstation operatives.
-        </p>
-      </motion.div>
+    return (
+        <div className="pt-24 min-h-screen container mx-auto px-4 pb-20">
+            {/* Hero Section */}
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-center mb-20 space-y-4"
+            >
+                <h2 className="text-white font-mono tracking-widest text-sm uppercase">
+                    Sector: Residence
+                </h2>
+                <h1 className="text-5xl font-bold md:text-7xl font-russ text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-orange-500 to-gray-500 mb-6">
+                    ACCOMMODATION
+                </h1>
+                <p className="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">
+                    Secure your base of operations. We provide comfortable stay options
+                    within the campus perimeter for all outstation operatives.
+                </p>
+            </motion.div>
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
@@ -155,36 +155,34 @@ const Accommodation = () => {
             </p>
           </div>
 
-          {/* Contact for Accommodation */}
-          <div className="bg-prakida-flame/10 border border-prakida-flame/30 rounded-lg p-8">
-            <h3 className="text-2xl font-display font-bold text-white mb-4">
-              Need Assistance?
-            </h3>
-            <p className="text-gray-400 mb-6">
-              For booking inquiries and custom arrangements, contact our
-              hospitality corps.
-            </p>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between p-3 bg-black/20 rounded border border-white/5">
-                <span className="text-gray-400">Hospitality Head(Shruti)</span>
-                <span className="text-white font-mono">+91 96083 84049</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-black/20 rounded border border-white/5">
-                <span className="text-gray-400">
-                  Support Line 01(Vivek Modi)
-                </span>
-                <span className="text-white font-mono">+91 62037 99098</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-black/20 rounded border border-white/5">
-                <span className="text-gray-400">Support Line 02(Piyush)</span>
-                <span className="text-white font-mono">+91 85218 02612</span>
-              </div>
+                    {/* Contact for Accommodation */}
+                    <div className="bg-prakida-flame/10 border border-prakida-flame/30 rounded-lg p-8">
+                        <h3 className="text-2xl font-display font-bold text-white mb-4">
+                            Need Assistance?
+                        </h3>
+                        <p className="text-gray-400 mb-6">
+                            For booking inquiries and custom arrangements, contact our
+                            hospitality corps.
+                        </p>
+                        <div className="space-y-3">
+                            <div className="flex items-center justify-between p-3 bg-black/20 rounded border border-white/5">
+                                <span className="text-gray-400">Hospitality Head(Shruti)</span>
+                                <span className="text-white font-mono">+91 96083 84049</span>
+                            </div>
+                            <div className="flex items-center justify-between p-3 bg-black/20 rounded border border-white/5">
+                                <span className="text-gray-400">Support Line 01(Vivek Modi)</span>
+                                <span className="text-white font-mono">+91 62037 99098</span>
+                            </div>
+                            <div className="flex items-center justify-between p-3 bg-black/20 rounded border border-white/5">
+                                <span className="text-gray-400">Support Line 02(Piyush)</span>
+                                <span className="text-white font-mono">+91 85218 02612</span>
+                            </div>
+                        </div>
+                    </div>
+                </motion.div>
             </div>
-          </div>
-        </motion.div>
-      </div>
-    </div>
-  );
+        </div>
+    );
 };
 
 export default Accommodation;

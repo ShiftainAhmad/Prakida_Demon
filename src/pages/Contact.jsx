@@ -75,7 +75,7 @@ const Contact = () => {
 
   return (
     <div className="pt-32 min-h-screen container mx-auto px-4">
-      <h1 className="text-5xl font-russ text-center mb-16 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-orange-600">
+      <h1 className="text-5xl font-bold md:text-7xl font-russ text-center mb-16 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-orange-600">
         Send a Crow
       </h1>
 
