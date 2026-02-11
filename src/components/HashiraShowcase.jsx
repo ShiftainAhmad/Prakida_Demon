@@ -1,7 +1,11 @@
-import { useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
+import ParallaxElement from "./ui/ParallaxElement";
 import {
+  heroPunchIn,
+  buttonHover,
+  buttonTap,
   sectionSlide,
   gridStagger,
   cardSnap,
@@ -155,12 +159,12 @@ const TiltCard = ({ item }) => {
       }}
       className={`group relative h-[400px] border border-white/10 bg-white/5 rounded-sm overflow-hidden`}
     >
-      {}
+      { }
       <div
         className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500`}
       ></div>
 
-      {}
+      { }
       <motion.div
         style={{
           opacity: useTransform(x, [-0.5, 0, 0.5], [0, 0.3, 0]),
@@ -171,7 +175,7 @@ const TiltCard = ({ item }) => {
         className="absolute inset-0 w-full h-full z-20 pointer-events-none"
       />
 
-      {}
+      { }
       <div
         className="absolute -bottom-10 -right-10 text-9xl font-black text-white/5 group-hover:text-white/10 transition-colors duration-500 select-none font-display"
         style={{ transform: "translateZ(20px)" }}
@@ -183,7 +187,7 @@ const TiltCard = ({ item }) => {
         className="p-8 h-full flex flex-col relative z-10"
         style={{ transform: "translateZ(50px)" }}
       >
-        {}
+        { }
         <div className="flex justify-between items-start mb-6">
           <div>
             <h4 className="text-prakida-text/60 text-sm font-bold tracking-wider mb-1 uppercase">
@@ -198,7 +202,7 @@ const TiltCard = ({ item }) => {
           ></div>
         </div>
 
-        {}
+        { }
         <p className="text-gray-400 mb-8 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
           {item.desc}
         </p>
@@ -220,7 +224,7 @@ const TiltCard = ({ item }) => {
         </div>
       </div>
 
-      {}
+      { }
       <div
         className={`absolute inset-0 border-2 ${item.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}
       ></div>
@@ -264,18 +268,45 @@ const HashiraShowcase = ({ limit }) => {
           ))}
         </motion.div>
 
-        {limit && (
-          <div className="mt-16 text-center">
+        <div className="flex flex-col md:flex-row items-center justify-center mt-16 gap-6 md:gap-10">
+
+          <motion.div
+            whileHover={buttonHover}
+            whileTap={buttonTap}
+            className="relative w-full sm:w-[90%] md:w-auto"
+          >
+            <div className="absolute inset-0 bg-prakida-flame blur-2xl opacity-50 translate-y-4 -z-10" />
+
             <Link
               to="/sports"
-              className="inline-block px-6 py-2 md:px-8 md:py-3 border border-prakida-flame text-prakida-flame font-bold tracking-widest hover:bg-prakida-flame hover:text-white transition-all duration-300 skew-x-[-12deg]"
+              className="relative inline-block w-full md:w-[320px] px-6 py-3 md:px-10 md:py-5 bg-prakida-flame text-white font-bold text-base sm:text-lg md:text-xl tracking-widest clip-path-slant text-center overflow-hidden"
             >
-              <span className="block skew-x-[12deg] text-sm md:text-base">
+              <span className="relative z-10 group-hover:tracking-[0.2em] transition-all duration-300">
                 VIEW ALL SPORTS
               </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-orange-500 opacity-0 hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
             </Link>
-          </div>
-        )}
+          </motion.div>
+
+          <motion.div
+            whileHover={buttonHover}
+            whileTap={buttonTap}
+            className="relative w-full sm:w-[90%] md:w-auto"
+          >
+            <div className="absolute inset-0 bg-black/60 blur-2xl opacity-40 translate-y-4 -z-10" />
+
+            <a
+              href="/brochure.pdf"
+              download
+              className="inline-block w-full md:w-[320px] text-center px-6 py-3 md:px-8 md:py-5 border border-white/40 bg-black/30 text-white font-bold text-base sm:text-lg md:text-lg tracking-widest hover:border-white/80 backdrop-blur-sm transition-all">
+              BROCHURE
+            </a>
+          </motion.div>
+
+        </div>
+
+
       </div>
     </section>
   );

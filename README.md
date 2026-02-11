@@ -23,7 +23,7 @@ The project features a high-performance, visually striking interface with a focu
 -   **Frontend**: [React](https://react.dev/) + [Vite](https://vitejs.dev/)
 -   **Styling**: [Tailwind CSS](https://tailwindcss.com/) + [Framer Motion](https://www.framer.com/motion/) (Animations)
 -   **Backend / Database**: [Firebase](https://firebase.google.com/)
-    -   **Authentication**: Email/Password & Google Auth.
+    -   **Authentication**: /EmailPassword & Google Auth.
     -   **Firestore**: NoSQL database for users, tickets, registrations, and contact messages.
 -   **Icons**: [Lucide React](https://lucide.dev/)
 
