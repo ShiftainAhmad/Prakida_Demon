@@ -20,6 +20,7 @@ import {
   Brain,
   Table,
   Disc,
+  Download,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import SportDetailsModal from "../components/ui/SportDetailsModal";
@@ -50,7 +51,7 @@ const SPORTS_DATA = [
     desc: "The gentleman's game, played with warrior spirit. Determine supremacy on the 22 yards.",
     detailedDesc: "Cricket at Prakida is more than just a game; it's a battle of nerves and precision. Played on the iconic BIT Mesra grounds, teams from all over the region compete for the 'Crimson Willow' trophy. Expect high-voltage action, strategic depth, and the roar of the crowd as every boundary brings us closer to glory.",
     color: "from-blue-600 to-indigo-900",
-    rulebook: "#",
+    rulebook: "/rulebook.pdf",
     images: ["https://i.ibb.co/JFr3Qdh9/cricket1-1.jpg","https://i.ibb.co/jPwgb4mH/IMG-9696.jpg", "https://i.ibb.co/9mnvK5Q8/IMG-9695.jpg"],
   },
   {
@@ -63,7 +64,7 @@ const SPORTS_DATA = [
     desc: "Passion, precision, and power. 90 minutes of pure adrenaline on the field.",
     detailedDesc: "The beautiful game takes on a fierce intensity in the Arena. Football at Prakida demands stamina, teamwork, and tactical mastery. From lightning-fast wingers to rock-solid defenders, every player must surpass their limits to secure victory in the knockout stages.",
     color: "from-emerald-600 to-teal-900",
-    rulebook: "#",
+    rulebook: "/rulebook.pdf",
     images: ["https://i.ibb.co/Lhqkdj3B/IMG-0189.jpg", "https://i.ibb.co/KjwkbQPf/DSC-0352.jpg", "https://i.ibb.co/b8M3G8t/DSC-0110-1.jpg"],
   },
   {
@@ -76,7 +77,7 @@ const SPORTS_DATA = [
     desc: "Speed, skill, and gravity-defying action on the court. Dominate the paint.",
     detailedDesc: "The rhythm of the court, the squeak of sneakers, and the swish of the net. Basketball here is about explosive speed and clinical finishing. Whether it's a clutch three-pointer or a defensive block, the energy in the Arena is unmatched as teams compete for court supremacy.",
     color: "from-orange-600 to-red-900",
-    rulebook: "#",
+    rulebook: "/rulebook.pdf",
     images: ["https://i.ibb.co/rRwSSxgk/DSC-0148.jpg", "https://i.ibb.co/PZMR6CFk/DSC-0143.jpg", "https://i.ibb.co/nNxkNZgJ/ABH-0324.jpg"],
   },
   {
@@ -89,7 +90,7 @@ const SPORTS_DATA = [
     desc: "Agility and reflexes pushed to the limit. Smash your way to victory.",
     detailedDesc: "A test of lightning reflexes and iron endurance. The badminton courts witness high-octane smashes and delicate drops. In the singles and doubles categories, slayers must demonstrate exceptional control and speed to outplay their opponents under the bright lights.",
     color: "from-purple-600 to-fuchsia-900",
-    rulebook: "#",
+    rulebook: "/rulebook.pdf",
     images: ["https://i.ibb.co/4wRvTGvY/DSC-0166.jpg", "https://i.ibb.co/B2KtrG6t/DSCF1675.jpg",
        "https://i.ibb.co/tTJYb6mS/DSCF1768.jpg"],
   },
@@ -103,7 +104,7 @@ const SPORTS_DATA = [
     desc: "Teamwork makes the dream work. Spike, block, and defend your glory.",
     detailedDesc: "Coordination is the ultimate weapon on the volleyball court. Every set, every dig, and every spike is a testament to the team's synchronicity. Experience the power of the 'Thunder Spike' as teams battle it out in a series of intense sets to reach the finals.",
     color: "from-yellow-500 to-amber-800",
-    rulebook: "#",
+    rulebook: "/rulebook.pdf",
     images: ["https://i.ibb.co/nNjtGKxh/ABH-0254.jpg","https://i.ibb.co/krh0nq6/DSC-0028.jpg",
        "https://i.ibb.co/1fcbWMCW/DSC-0364.jpg"],
   },
@@ -117,7 +118,7 @@ const SPORTS_DATA = [
     desc: "The ultimate battle of minds. Checkmate your opponent in silence.",
     detailedDesc: "A war fought without a single sound. Chess at Prakida is the pinnacle of intellectual combat. In the quiet hall of the Arena, Grandmasters and novices alike engage in a strategic struggle where every move could be their last. Checkmate your way to the top.",
     color: "from-gray-600 to-gray-900",
-    rulebook: "#",
+    rulebook: "/rulebook.pdf",
     images: ["https://i.ibb.co/xSg1gNjt/DSC-0075.jpg","https://i.ibb.co/dsnLhgKJ/DSC-0120.jpg",
          "https://i.ibb.co/q8QYzF5/DSC-0121.jpg"],
   },
@@ -132,7 +133,7 @@ const SPORTS_DATA = [
     detailedDesc:
       "Lawn Tennis at Prakida is a test of composure under pressure. Lightning serves, ruthless volleys, and long rallies decide who earns the right to lift the trophy. Registration is per head.",
     color: "from-lime-600 to-green-900",
-    rulebook: "#",
+    rulebook: "/rulebook.pdf",
     images: ["https://i.ibb.co/ZRLHX12j/ABH-0296.jpg","https://i.ibb.co/WvM2FJS6/DSCF1715.jpg",
      "https://i.ibb.co/VWvw8byW/DSCF1716.jpg"],
   },
@@ -147,7 +148,7 @@ const SPORTS_DATA = [
     detailedDesc:
       "From team battles to singles duels and mixed doubles, Table Tennis is pure reflex warfare. Spin-heavy serves and razor-sharp counters decide every point.",
     color: "from-cyan-600 to-sky-900",
-    rulebook: "#",
+    rulebook: "/rulebook.pdf",
     images: ["https://i.ibb.co/hRz3C0Zp/DSCF1328.jpg","https://i.ibb.co/s91NxMRT/IMG-0151.jpg",
          "https://i.ibb.co/gZqqW2WZ/IMG-0158.jpg"],
   },
@@ -162,7 +163,7 @@ const SPORTS_DATA = [
     detailedDesc:
       "Carrom at Prakida blends finesse with clutch decision-making. A single mistake can flip the board—keep your aim steady and finish with style.",
     color: "from-rose-600 to-pink-900",
-    rulebook: "#",
+    rulebook: "/rulebook.pdf",
     images: ["https://i.ibb.co/cc6q49Qz/DSCF1727.jpg",
            "https://i.ibb.co/MxJFtrtt/DSCF1732.jpg","https://i.ibb.co/nsn6LSsL/DSCF1735.jpg"],
   },
@@ -677,4 +678,4 @@ const Sports = () => {
   );
 };
 
-export default Sports;
+export default Sports; 

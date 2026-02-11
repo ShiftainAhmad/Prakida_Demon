@@ -103,7 +103,7 @@ const Accommodation = () => {
             </div>
             <div className="flex justify-between items-center text-sm">
               <span className="text-gray-500">CHARGES</span>
-              <span className="text-white font-mono">₹ 920 / Person</span>
+              <span className="text-white font-mono">₹ 1349 / Person</span>
             </div>
           </div>
 
