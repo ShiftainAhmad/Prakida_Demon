@@ -74,6 +74,7 @@ const Hero = () => {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 perspective-1000">
       {}
       <div className="absolute inset-0 z-0 bg-black">
+        {/* Background images removed
         <AnimatePresence mode="popLayout">
           <motion.div
             key={currentImageIndex}
@@ -90,6 +91,7 @@ const Hero = () => {
             />
           </motion.div>
         </AnimatePresence>
+        */}
 
         {}
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-prakida-bg z-10" />
