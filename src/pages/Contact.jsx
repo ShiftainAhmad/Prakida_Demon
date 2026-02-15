@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Mail, MapPin, Phone } from "lucide-react";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDoc, doc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
@@ -72,6 +72,38 @@ const Contact = () => {
       setLoading(false);
     }
   };
+
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    college: "",
+    gender: "",
+  });
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (!user) return;
+
+      const snap = await getDoc(doc(db, "users", user.uid));
+      if (snap.exists()) {
+        setForm({
+          name: snap.data()?.full_name || "",
+          phone: snap.data()?.phone || "",
+          college: snap.data()?.college || "",
+          gender: snap.data()?.gender || "",
+        });
+
+        setFormData((prev) => ({
+          ...prev,
+          name: snap.data()?.full_name || "",
+          phone: snap.data()?.phone || "",
+          college: snap.data()?.college || "",
+        }));
+      }
+    };
+
+    fetchProfile();
+  }, [user]);
 
   return (
     <div className="pt-32 min-h-screen container mx-auto px-4 mb-10">

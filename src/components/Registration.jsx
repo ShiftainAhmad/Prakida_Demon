@@ -2,6 +2,8 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { getDoc, doc } from "firebase/firestore";
+import { db } from "../lib/firebase";
 
 import { SPORTS_CONFIG } from "../lib/sportsConfig";
 import { formatINRWithSymbol, formatRegistrationFee } from "../lib/pricing";
@@ -34,7 +36,9 @@ const Registration = () => {
   const submitLockRef = useRef(false);
   const [status, setStatus] = useState({ type: "", message: "" });
 
-  const { initialSport, initialCategory } = getSelectionFromQuery(location.search);
+  const { initialSport, initialCategory } = getSelectionFromQuery(
+    location.search,
+  );
 
   const [selectedSport, setSelectedSport] = useState(initialSport);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
@@ -72,7 +76,9 @@ const Registration = () => {
   }, [location.search]);
 
   useEffect(() => {
-    setRegistrantName(user?.user_metadata?.full_name || user?.displayName || "");
+    setRegistrantName(
+      user?.user_metadata?.full_name || user?.displayName || "",
+    );
     // Auto-fill email once the user is available; don't overwrite manual edits.
     if (!contactEmail) {
       setContactEmail(user?.email || "");
@@ -89,7 +95,8 @@ const Registration = () => {
     let nextMode = registrationMode;
     if (!allowGroup) nextMode = "solo";
     else if (!allowSolo) nextMode = "group";
-    else if (registrationMode !== "solo" && registrationMode !== "group") nextMode = "solo";
+    else if (registrationMode !== "solo" && registrationMode !== "group")
+      nextMode = "solo";
 
     if (nextMode !== registrationMode) {
       setRegistrationMode(nextMode);
@@ -107,7 +114,8 @@ const Registration = () => {
     const config = currentConfig;
     if (!config) return;
 
-    const maxAdditional = registrationMode === "group" ? config.maxPlayers - 1 : 0;
+    const maxAdditional =
+      registrationMode === "group" ? config.maxPlayers - 1 : 0;
 
     setMembers((prev) =>
       prev.length > maxAdditional ? prev.slice(0, maxAdditional) : prev,
@@ -142,7 +150,13 @@ const Registration = () => {
     if (members.length < maxAdditional) {
       setMembers([
         ...members,
-        { name: "", role: "Player", gender: gender || "", email: "", contact: "" },
+        {
+          name: "",
+          role: "Player",
+          gender: gender || "",
+          email: "",
+          contact: "",
+        },
       ]);
     }
   };
@@ -292,7 +306,11 @@ const Registration = () => {
         }
       }
 
-      if (leadershipEnabled && (m.role === "Captain" || m.role === "Vice-Captain") && !m.contact) {
+      if (
+        leadershipEnabled &&
+        (m.role === "Captain" || m.role === "Vice-Captain") &&
+        !m.contact
+      ) {
         setStatus({
           type: "error",
           message: `${m.role} (${m.name}) must have a phone number.`,
@@ -325,7 +343,7 @@ const Registration = () => {
                 name: m.name,
                 email: m.email,
                 phone: m.contact,
-                role: leadershipEnabled ? (m.role || "Player") : "Player",
+                role: leadershipEnabled ? m.role || "Player" : "Player",
                 gender: m.gender,
               })),
             ]
@@ -353,7 +371,8 @@ const Registration = () => {
       } else {
         setStatus({
           type: "error",
-          message: "Booking created but payment URL is missing. Please contact support.",
+          message:
+            "Booking created but payment URL is missing. Please contact support.",
         });
         submitLockRef.current = false;
         setIsSubmitting(false);
@@ -377,6 +396,38 @@ const Registration = () => {
       setIsSubmitting(false);
     }
   };
+
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    college: "",
+    gender: "",
+  });
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (!user) return;
+
+      const snap = await getDoc(doc(db, "users", user.uid));
+      if (snap.exists()) {
+        setForm({
+          name: snap.data()?.full_name || "",
+          phone: snap.data()?.phone || "",
+          college: snap.data()?.college || "",
+          gender: snap.data()?.gender || "",
+        });
+      }
+
+      if (snap.data()?.gender) {
+        setGender(
+          snap.data()?.gender?.charAt(0).toUpperCase() +
+            snap.data()?.gender?.slice(1),
+        );
+      }
+    };
+
+    fetchProfile();
+  }, [user]);
 
   if (!user) {
     return (
@@ -432,7 +483,9 @@ const Registration = () => {
             JOIN THE CORPS
           </h2>
           <h3 className="text-3xl md:text-4xl font-display font-bold text-white">
-            {registrationMode === "solo" ? "SOLO REGISTRATION" : "TEAM REGISTRATION"}
+            {registrationMode === "solo"
+              ? "SOLO REGISTRATION"
+              : "TEAM REGISTRATION"}
           </h3>
         </motion.div>
 
@@ -547,7 +600,8 @@ const Registration = () => {
                       </option>
                     </select>
                     <p className="text-xs text-gray-400 mt-1">
-                      Use <span className="text-white">Solo</span> if you are registering only yourself.
+                      Use <span className="text-white">Solo</span> if you are
+                      registering only yourself.
                     </p>
                   </div>
                 )}
@@ -640,7 +694,7 @@ const Registration = () => {
                   </label>
                   <input
                     type="text"
-                    value={college}
+                    value={form.college}
                     onChange={(e) => setCollege(e.target.value)}
                     className="w-full bg-black/50 border border-white/10 p-3 text-white focus:outline-none focus:border-prakida-flame"
                     placeholder="ENTER COLLEGE NAME"
@@ -655,7 +709,7 @@ const Registration = () => {
                     </label>
                     <input
                       type="email"
-                      value={contactEmail}
+                      value={form.email}
                       onChange={(e) => setContactEmail(e.target.value)}
                       className="w-full bg-black/50 border border-white/10 p-3 text-white focus:outline-none focus:border-prakida-flame"
                       placeholder={user?.email || "EMAIL"}
@@ -668,7 +722,7 @@ const Registration = () => {
                     </label>
                     <input
                       type="tel"
-                      value={contactPhone}
+                      value={form.phone}
                       onChange={(e) => setContactPhone(e.target.value)}
                       className="w-full bg-black/50 border border-white/10 p-3 text-white focus:outline-none focus:border-prakida-flame"
                       placeholder="+91..."
@@ -693,17 +747,18 @@ const Registration = () => {
                 </p>
               </div>
 
-              {registrationMode === "group" && totalTeamSize < config.maxPlayers && (
-                <motion.button
-                  type="button"
-                  onClick={addMember}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 text-sm font-bold border border-white/10 transition-colors"
-                >
-                  <Plus size={16} /> ADD MEMBER
-                </motion.button>
-              )}
+              {registrationMode === "group" &&
+                totalTeamSize < config.maxPlayers && (
+                  <motion.button
+                    type="button"
+                    onClick={addMember}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 text-sm font-bold border border-white/10 transition-colors"
+                  >
+                    <Plus size={16} /> ADD MEMBER
+                  </motion.button>
+                )}
             </div>
 
             <div className="space-y-4">
@@ -788,7 +843,7 @@ const Registration = () => {
                       )}
 
                       <select
-                        value={member.gender || ""}
+                        value={gender}
                         onChange={(e) =>
                           handleMemberChange(index, "gender", e.target.value)
                         }

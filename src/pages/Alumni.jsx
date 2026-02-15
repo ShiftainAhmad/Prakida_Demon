@@ -12,6 +12,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import SectionTitle from "../components/ui/SectionTitle";
 import { useAuth } from "../context/AuthContext";
+import { getDoc, doc } from "firebase/firestore";
+import { db } from "../lib/firebase";
 
 const PaymentStatus = {
   Confirmed: "confirmed",
@@ -63,7 +65,9 @@ const Alumni = () => {
   const simpleValidate = () => {
     const name = String(formData.name || "").trim();
     const year = String(formData.yearOfPassing || "").trim();
-    const phone = String(formData.phone || "").replace(/\s+/g, "").trim();
+    const phone = String(formData.phone || "")
+      .replace(/\s+/g, "")
+      .trim();
 
     if (name.length < 3) {
       setErrorMessage("Name must be at least 3 characters.");
@@ -176,7 +180,9 @@ const Alumni = () => {
       const resp = await alumniService.registerAlumni({
         name: String(formData.name || "").trim(),
         yearOfPassing: String(formData.yearOfPassing || "").trim(),
-        phone: String(formData.phone || "").replace(/\s+/g, "").trim(),
+        phone: String(formData.phone || "")
+          .replace(/\s+/g, "")
+          .trim(),
         email: String(formData.email || "").trim(),
         size: String(formData.size || "").trim(),
       });
@@ -221,6 +227,38 @@ const Alumni = () => {
     }
   };
 
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    college: "",
+    gender: "",
+  });
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (!user) return;
+
+      const snap = await getDoc(doc(db, "users", user.uid));
+      if (snap.exists()) {
+        setForm({
+          name: snap.data()?.full_name || "",
+          phone: snap.data()?.phone || "",
+          college: snap.data()?.college || "",
+          gender: snap.data()?.gender || "",
+        });
+
+        setFormData((prev) => ({
+          ...prev,
+          name: snap.data()?.full_name || "",
+          phone: snap.data()?.phone || "",
+          college: snap.data()?.college || "",
+        }));
+      }
+    };
+
+    fetchProfile();
+  }, [user]);
+
   return (
     <div className="pt-24 min-h-screen container mx-auto px-4 pb-20">
       <motion.div
@@ -261,7 +299,8 @@ const Alumni = () => {
 
           <div className="mt-8 p-4 border border-white/10 bg-white/5">
             <p className="text-sm text-gray-300">
-              Note: Payment status syncs from the backend. Use “Refresh Status” after paying.
+              Note: Payment status syncs from the backend. Use “Refresh Status”
+              after paying.
             </p>
           </div>
         </div>
@@ -291,11 +330,15 @@ const Alumni = () => {
             <div className="p-6 border border-green-500/40 bg-green-900/20 rounded">
               <div className="flex items-center gap-3 mb-3">
                 <CheckCircle className="text-green-400" />
-                <h3 className="text-xl font-bold text-white">Registration Complete</h3>
+                <h3 className="text-xl font-bold text-white">
+                  Registration Complete
+                </h3>
               </div>
               <p className="text-green-200">Status: PAID & VERIFIED</p>
               {registrationDetails?.name && (
-                <p className="text-gray-200 mt-3">Name: {registrationDetails.name}</p>
+                <p className="text-gray-200 mt-3">
+                  Name: {registrationDetails.name}
+                </p>
               )}
               <div className="mt-6">
                 <button
@@ -314,7 +357,8 @@ const Alumni = () => {
                 <div className="p-4 border border-yellow-500/40 bg-yellow-900/20 text-yellow-200 rounded flex gap-2">
                   <AlertCircle className="shrink-0" size={18} />
                   <div>
-                    Payment is pending. Please complete payment and then refresh status.
+                    Payment is pending. Please complete payment and then refresh
+                    status.
                   </div>
                 </div>
               )}
@@ -331,7 +375,10 @@ const Alumni = () => {
                   NAME
                 </label>
                 <div className="relative">
-                  <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                  <User
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"
+                    size={18}
+                  />
                   <input
                     type="text"
                     name="name"
@@ -375,13 +422,27 @@ const Alumni = () => {
                     onChange={handleChange}
                     className="w-full bg-white/5 border border-white/10 py-3 px-4 text-white focus:outline-none focus:border-prakida-flame focus:bg-white/10 transition-all font-sans"
                   >
-                    <option value="" className="bg-black">Select size</option>
-                    <option value="S" className="bg-black">S</option>
-                    <option value="M" className="bg-black">M</option>
-                    <option value="L" className="bg-black">L</option>
-                    <option value="XL" className="bg-black">XL</option>
-                    <option value="XXL" className="bg-black">XXL</option>
-                    <option value="XXXL" className="bg-black">XXXL</option>
+                    <option value="" className="bg-black">
+                      Select size
+                    </option>
+                    <option value="S" className="bg-black">
+                      S
+                    </option>
+                    <option value="M" className="bg-black">
+                      M
+                    </option>
+                    <option value="L" className="bg-black">
+                      L
+                    </option>
+                    <option value="XL" className="bg-black">
+                      XL
+                    </option>
+                    <option value="XXL" className="bg-black">
+                      XXL
+                    </option>
+                    <option value="XXXL" className="bg-black">
+                      XXXL
+                    </option>
                   </select>
                 </div>
               </div>
@@ -392,7 +453,10 @@ const Alumni = () => {
                     PHONE
                   </label>
                   <div className="relative">
-                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                    <Phone
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"
+                      size={18}
+                    />
                     <input
                       type="tel"
                       name="phone"
@@ -410,7 +474,10 @@ const Alumni = () => {
                     EMAIL
                   </label>
                   <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                    <Mail
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"
+                      size={18}
+                    />
                     <input
                       type="email"
                       name="email"
@@ -430,7 +497,9 @@ const Alumni = () => {
                 className="w-full bg-prakida-flame text-white font-bold py-4 hover:bg-orange-600 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 <CreditCard size={18} />
-                {status === "SUBMITTING" ? "PROCESSING…" : "PAY ₹1599 & REGISTER"}
+                {status === "SUBMITTING"
+                  ? "PROCESSING…"
+                  : "PAY ₹1599 & REGISTER"}
               </button>
 
               <button

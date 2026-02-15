@@ -39,7 +39,6 @@ const Dashboard = () => {
     gender: "",
   });
 
-  const [editLoading, setEditLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {

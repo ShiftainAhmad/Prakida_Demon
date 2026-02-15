@@ -434,7 +434,7 @@ const Sports = () => {
           </div>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-black text-white mb-4 tracking-tighter uppercase italic">
             THE{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
+            <span className="text-transparent pr-2 bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
               ARENA
             </span>
           </h1>
