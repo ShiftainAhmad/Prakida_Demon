@@ -6,7 +6,7 @@ export const SPORTS_CONFIG = {
         id: "men",
         label: "Men's Team",
         minPlayers: 11,
-        maxPlayers: 15,
+        maxPlayers: 16,
         eventID: 3,
         prizePool: 15000,
         registrationFee: 4500,
