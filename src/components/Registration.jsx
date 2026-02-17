@@ -419,6 +419,7 @@ const Registration = () => {
         setContactPhone(snap.data()?.phone || "");
         setCollege(snap.data()?.college || "");
         setGender(snap.data()?.gender || "");
+        setContactEmail(snap.data()?.email || user?.email || "");
       }
 
       if (snap.data()?.gender) {
