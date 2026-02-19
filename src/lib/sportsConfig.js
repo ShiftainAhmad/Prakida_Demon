@@ -187,7 +187,7 @@ export const SPORTS_CONFIG = {
         id: "women",
         label: "Women's Team",
         minPlayers: 3,
-        maxPlayers: 5,
+        maxPlayers: 4,
         eventID: 12,
         prizePool: 6000,
         registrationFee: 1500,

@@ -279,12 +279,12 @@ const HashiraShowcase = ({ limit }) => {
 
             <Link
               to="/sports"
-              className="relative inline-block w-full md:w-[320px] px-6 py-3 md:px-10 md:py-5 bg-prakida-flame text-white font-bold text-base sm:text-lg md:text-xl tracking-widest clip-path-slant text-center overflow-hidden"
+              className="position: relative inline-block w-full md:w-[320px] px-6 py-3 md:px-10 md:py-5 bg-prakida-flame text-white font-bold text-base sm:text-lg md:text-xl tracking-widest clip-path-slant text-center overflow-hidden"
             >
-              <span className="relative z-10 group-hover:tracking-[0.2em] transition-all duration-300">
+              <span className="glass-shine-effect relative z-10 group-hover:tracking-[0.2em] transition-all duration-300">
                 VIEW ALL SPORTS
               </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-orange-500 opacity-0 hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
             </Link>
           </motion.div>

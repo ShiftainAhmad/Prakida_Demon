@@ -8,8 +8,8 @@ const PRODUCTS = [
   {
     id: "2474", // jacket
     title: "Prakrida T-Shirt",
-    price: "XXXX",
-    originalPrice: "XXXX",
+    price: "549",
+    originalPrice: "799",
     thumb: "https://i.ibb.co/Z68sfVvc/t12.jpg",
     images: [
       "https://i.ibb.co/p6YNF42K/t11.jpg",
@@ -21,8 +21,8 @@ const PRODUCTS = [
   {
     id: "2475", // tshirt
     title: "Prakrida T-Shirt",
-    price: "XXXX",
-    originalPrice: "XXXX",
+    price: "549",
+    originalPrice: "799",
     thumb: "https://i.ibb.co/hRZLFdZS/t22.jpg",
     images: [
       "https://i.ibb.co/Psdzgwvk/t21.jpg",
@@ -34,8 +34,8 @@ const PRODUCTS = [
   {
     id: "2476", // combo
     title: "Prakrida T-Shirt",
-    price: "XXXX",
-    originalPrice: "XXXX",
+    price: "549",
+    originalPrice: "799",
     thumb: "https://i.ibb.co/8LY8DTzV/t32.jpg",
     images: [
       "https://i.ibb.co/YT1yS86V/t31.jpg",
