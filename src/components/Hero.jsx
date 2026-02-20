@@ -91,8 +91,8 @@ const Hero = () => {
           initial="hidden"
           animate="visible"
         >
-          <motion.div variants={itemVariants} className="mb-2">
-            <span className="px-4 py-1 border border-prakida-flame/50 text-prakida-flame text-[14px] md:text-lg font-bold tracking-widest md:tracking-[0.3em] uppercase backdrop-blur-sm inline-block">
+          <motion.div variants={itemVariants} className="mb-5">
+            <span className="px-4 py-1.5 border border-prakida-flame/50 text-prakida-flame text-[14px] md:text-lg font-bold tracking-widest md:tracking-[0.3em] uppercase backdrop-blur-sm inline-block">
               BIT PATNA PRESENTS
             </span>
           </motion.div>
@@ -105,7 +105,7 @@ const Hero = () => {
                 animate="visible"
               >
                 <h1
-                  className="hero-font text-[clamp(45px,12vw,1200px)] font-display font-black tracking-wide leading-[1]"
+                  className="hero-font text-[clamp(40px,9vw,900px)] font-display font-black tracking-wide leading-[1]"
                   style={{
                     textShadow: "0 0 40px rgba(255,255,255,0.1)",
                   }}
@@ -123,12 +123,12 @@ const Hero = () => {
             className="
   flex flex-col md:flex-row
   items-center md:items-end
-  justify-center md:justify-around
-  gap-6 md:gap-0
+  justify-center md:justify-center
+  gap-6 md:gap-3
   max-w-screen
   mx-auto
   relative z-30
-  transform -translate-y-20 md:-translate-y-28 h-[95%]
+  transform -translate-y-10 md:-translate-y-28 h-[85%]
 "
           >
             {/* IMAGE (TOP ON MOBILE, CENTER ON DESKTOP) */}
@@ -219,7 +219,7 @@ const Hero = () => {
             initial="hidden"
             animate="visible"
             transition={{ delay: 0.1 }}
-            className="text-gray-200 translate-y-3 text-md md:text-[23px] max-w-5xl mx-auto mb-12 font-light tracking-wide leading-relaxed drop-shadow-md"
+            className="text-gray-200 text-md md:text-[23px] max-w-5xl mx-auto mb-12 font-light tracking-wide leading-relaxed drop-shadow-md"
           >
             The arena awaits. Unleash your inner{" "}
             <span className="text-prakida-flame font-bold drop-shadow-glow">
@@ -231,6 +231,9 @@ const Hero = () => {
             </span>
           </motion.p>
         </motion.div>
+        <br />
+        <br />
+        <br />
       </div>
     </section>
   );
