@@ -125,7 +125,7 @@ export default function Merchandise() {
       showNotice("You can add up to 3 items per order. Please place another order for more.");
       return prev;
     }
-
+    showNotice("Added to cart!");
     return [
       ...prev,
       {
@@ -137,8 +137,7 @@ export default function Merchandise() {
       },
     ];
   });
-
-  showNotice("Added to cart!");
+  
   if (modalProduct) closeModal();
 };
 
