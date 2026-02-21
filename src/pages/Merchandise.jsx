@@ -185,6 +185,14 @@ export default function Merchandise() {
     };
   };
 
+    const getBundlePrice = (qty) => {
+  if (qty === 1) return 549;
+  if (qty === 2) return 1000;
+  if (qty === 3) return 1449;
+
+  return 549 * qty; // fallback
+   };
+
   const fetchOrders = async () => {
     if (!user) return;
     setLoadingOrders(true);
@@ -197,23 +205,36 @@ export default function Merchandise() {
 
       if (data && Array.isArray(data.orders)) {
         const mappedOrders = data.orders.map((o) => {
-          let title = "Technika Merch";
-          if (o.item?.type === "tee") title = "Prakrida T-Shirt";
-          else if (o.item?.type === "combo") title = "Combo (2 T-Shirts)";
-          else if (o.item?.type === "trio") title = "Trio (3 T-Shirts)";
-          const t = TYPE_MAP[o.item?.type] ?? {};
-          const price = PRODUCTS.find((p) => p.id === t.id)?.price ?? 0;
+          const qty = o.items?.length || 1;
+          let title = "Prakrida Merch";
+          if (qty === 2) title = "Combo (2 T-Shirts)";
+          if (qty >= 3) title = "Trio (3 T-Shirts)";
+
+          // if (o.item?.type === "tee") title = "Prakrida T-Shirt";
+          // else if (o.item?.type === "combo") title = "Combo (2 T-Shirts)";
+          // else if (o.item?.type === "trio") title = "Trio (3 T-Shirts)";
+          // const t = TYPE_MAP[o.item?.type] ?? {};
+          // const price = PRODUCTS.find((p) => p.id === t.id)?.price ?? 0;
+          // let qty = 1;
+          // if (o.item?.type === "combo") qty = 2;
+          // else if (o.item?.type === "trio") qty = 3;
+          
+           const updatedAtMs = o.updatedAt
+           ? (o.updatedAt._seconds || 0) * 1000 + (o.updatedAt._nanoseconds || 0) / 1000000: 0;
 
           return {
             id: o.id,
             title: title,
             status: o.paymentStatus,
             payment_url: o.paymentUrl,
-            size: o.item?.size,
-            amount: price * (o.item?.quantity ?? 1), // Backend doesn't send amount in list, handled by UI defaults or logic
-            quantity: o.item?.quantity ?? 1,
+            size: o.item?.[0]?.size,
+            quantity: qty,
+            // quantity: o.item?.quantity ?? 1,
+             amount: getBundlePrice(qty), // Backend doesn't send amount in list, handled by UI defaults or logic
+             updatedAt: updatedAtMs,
           };
-        });
+        })
+        .sort((a, b) => b.updatedAt - a.updatedAt);
         setOrders(mappedOrders);
       }
     } catch (err) {

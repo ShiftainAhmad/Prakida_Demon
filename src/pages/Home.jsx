@@ -103,7 +103,7 @@ const Home = () => {
       </section>
 
       {/** Sponsors scrolling disabled on Home page **/}
-      {/** <Sponsors /> **/}
+      {/**<Sponsors />**/}
     </>
   );
 };
