@@ -183,6 +183,7 @@ export const SPORTS_CONFIG = {
         notes: "",
         teamNameRequired: true,
       },
+
       {
         id: "women",
         label: "Women's Team",

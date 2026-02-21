@@ -113,22 +113,35 @@ export default function Merchandise() {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const addToCart = (product) => {
-    const size = selectedSizes[product.id] || "M";
-    const shirtCount = 1; // All products are now single t-shirts
-    
-    setCartItems((prev) => [
+  const size = selectedSizes[product.id] || "M";
+  const shirtCount = 1;
+
+  setCartItems((prev) => {
+    const totalItems =
+      prev.reduce((acc, item) => acc + (item.shirtCount || 1), 0) +
+      shirtCount;
+
+    if (totalItems > 3) {
+      showNotice("You can add up to 3 items per order. Please place another order for more.");
+      return prev;
+    }
+
+    return [
       ...prev,
       {
         ...product,
         cartId: Date.now() + Math.random(),
         selectedSize: size,
         origPrice: parseFloat(product.price),
-        shirtCount, 
+        shirtCount,
       },
-    ]);
-    showNotice("Added to cart!");
-    if (modalProduct) closeModal();
-  };
+    ];
+  });
+
+  showNotice("Added to cart!");
+  if (modalProduct) closeModal();
+};
+
 
   const removeFromCart = (cartId) => {
     setCartItems((prev) => prev.filter((item) => item.cartId !== cartId));
@@ -458,7 +471,7 @@ export default function Merchandise() {
     setIsCartOpen(false);
 
     if (chunks.length > 1) {
-      alert(`You have ${chunks.length} separate orders (due to 3-item limit per order). Please allow popups.`);
+      alert(`You can not add more than 3 items in a single batch. Remove an item first or get them in a different batch.`);
     }
 
     for (const chunk of chunks) {
@@ -770,7 +783,9 @@ export default function Merchandise() {
                   ✕
                 </button>
               </div>
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              <div 
+              data-lenis-prevent
+              className="flex-1 overflow-y-auto p-4 space-y-4">
                 {loadingOrders ? (
                   <div className="text-center text-white/50 py-8">
                     Loading orders...
@@ -856,7 +871,9 @@ export default function Merchandise() {
               onClick={() => setIsCartOpen(false)}
             />
 
-            <div className="w-full max-w-md bg-[#181818] h-full flex flex-col border-l border-white/10 shadow-2xl relative z-10">
+            <div
+            data-lenis-prevent
+            className="w-full max-w-md bg-[#181818] h-full flex flex-col border-l border-white/10 shadow-2xl relative z-10">
               <div className="p-4 border-b border-white/10 flex items-center justify-between bg-black/40 backdrop-blur-md">
                 <h2 className="text-xl font-bold">Your Cart</h2>
                 <button
@@ -951,7 +968,7 @@ export default function Merchandise() {
         )}
       {notice &&
         createPortal(
-          <div className="fixed left-1/2 -translate-x-1/2 bottom-28 z-[120] bg-white/5 border border-white/10 text-white px-4 py-2 rounded-md backdrop-blur-sm">
+          <div className="fixed left-1/2 -translate-x-1/2 bottom-28 z-[120] bg-black sm:bg-white/5 border border-white/10 text-white px-4 py-2 rounded-md sm:backdrop-blur-sm">
             {notice}
           </div>,
           document.body,
