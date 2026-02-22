@@ -196,7 +196,7 @@ const Contact = () => {
                 href="tel:+917070747693"
                 className="text-gray-400 hover:text-prakida-flame transition-colors"
               >
-                +91 70707 47693
+                +91 79035 55032
               </a>
             </div>
           </div>

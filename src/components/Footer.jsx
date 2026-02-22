@@ -71,7 +71,7 @@ const Footer = () => {
                   href="tel:+917070747693"
                   className="group-hover:text-white transition-colors duration-300"
                 >
-                  Contact: 70707 47693
+                  Contact: 79035 55032
                 </a>
               </div>
               <div className="flex items-center gap-3 group">
