@@ -11,16 +11,24 @@ const Sponsors = () => {
                   <p className="text-gray-500 text-[10px] tracking-[0.5em] font-bold uppercase mb-4">Collaborating with the best</p>
           <h1 className="text-5xl md:text-7xl font-black tracking-tighter italic uppercase">Prakrida <span className="text-orange-400">2K26</span></h1>
           <h3 className="text-white/40 text-[10px] font-bold tracking-[0.5em] uppercase mb-6">— Powered By —</h3>
-        <div className="flex justify-center items-center">
-          <img
-            src="BRPNNL.jpeg"
-            alt="Bihar Rajya Pul Nirman Nigam LTD."
-            className="object-contain py-5 w-48 h-48 rounded-r-lg"
-          />
-        </div>
-          <div>
-          <p className="text-white text-l font-black tracking-tight uppercase text-center mt-2">Bihar Rajya Pul Nirman Nigam LTD.</p>
+        <div className="flex flex-wrap justify-center items-center gap-12">
+          <div className="flex flex-col items-center">
+            <img
+              src="BRPNNL.jpeg"
+              alt="Bihar Rajya Pul Nirman Nigam LTD."
+              className="object-contain py-5 w-48 h-48 rounded-r-lg"
+            />
+            <p className="text-white text-l font-black tracking-tight uppercase text-center mt-2">Bihar Rajya Pul Nirman Nigam LTD.</p>
           </div>
+          <div className="flex flex-col items-center">
+            <img
+              src="Prohibition_department.jpeg"
+              alt="Prohibition and Excise Department"
+              className="object-contain py-5 w-48 h-48 rounded-r-lg"
+            />
+            <p className="text-white text-l font-black tracking-tight uppercase text-center mt-2">Prohibition and Excise Department</p>
+          </div>
+        </div>
       </div>
     </div>
   );
