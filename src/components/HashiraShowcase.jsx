@@ -165,12 +165,12 @@ const TiltCard = ({ item }) => {
       }}
       className={`group relative h-[400px] border border-white/10 bg-white/5 rounded-sm overflow-hidden`}
     >
-      {}
+      { }
       <div
         className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500`}
       ></div>
 
-      {}
+      { }
       <motion.div
         style={{
           opacity: useTransform(x, [-0.5, 0, 0.5], [0, 0.3, 0]),
@@ -181,7 +181,7 @@ const TiltCard = ({ item }) => {
         className="absolute inset-0 w-full h-full z-20 pointer-events-none"
       />
 
-      {}
+      { }
       <div
         className="absolute -bottom-10 -right-10 text-9xl font-black text-white/5 group-hover:text-white/10 transition-colors duration-500 select-none font-display"
         style={{ transform: "translateZ(20px)" }}
@@ -193,7 +193,7 @@ const TiltCard = ({ item }) => {
         className="p-8 h-full flex flex-col relative z-10"
         style={{ transform: "translateZ(50px)" }}
       >
-        {}
+        { }
         <div className="flex justify-between items-start mb-6">
           <div>
             <h4 className="text-prakida-text/60 text-sm font-bold tracking-wider mb-1 uppercase">
@@ -208,7 +208,7 @@ const TiltCard = ({ item }) => {
           ></div>
         </div>
 
-        {}
+        { }
         <p className="text-gray-400 mb-8 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
           {item.desc}
         </p>
@@ -230,7 +230,7 @@ const TiltCard = ({ item }) => {
         </div>
       </div>
 
-      {}
+      { }
       <div
         className={`absolute inset-0 border-2 ${item.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}
       ></div>
@@ -278,14 +278,14 @@ const HashiraShowcase = ({ limit }) => {
           <motion.div
             whileHover={buttonHover}
             whileTap={buttonTap}
-            className="relative w-[90%] md:w-auto"
+            className="relative w-full sm:w-[90%] md:w-auto"
           >
             <div className="absolute inset-0 bg-black/60 blur-2xl opacity-40 translate-y-4 -z-10" />
 
             <a
               href="/brochure.pdf"
               download
-              className="inline-block w-[70%] md:w-[320px] text-center px-1 py-3 md:px-8 md:py-5 border border-white/40 bg-black/30 text-white font-bold text-base sm:text-lg md:text-lg tracking-widest hover:border-white/80 backdrop-blur-sm transition-all"
+              className="inline-block w-full md:w-[320px] text-center px-6 py-3 md:px-8 md:py-5 border border-white/40 bg-black/30 text-white font-bold text-base sm:text-lg md:text-lg tracking-widest hover:border-white/80 backdrop-blur-sm transition-all"
             >
               BROCHURE
             </a>
@@ -294,26 +294,22 @@ const HashiraShowcase = ({ limit }) => {
           <motion.div
             whileHover={buttonHover}
             whileTap={buttonTap}
-            className="
-      order-2 md:order-1
-      flex justify-center
-      w-full md:w-auto
-    "
+            className="order-2 md:order-1 flex justify-center w-full md:w-auto"
           >
             <Link
               to="/sports"
               className="
-        group relative
-        w-full sm:w-[260px] md:w-auto
-        px-4 py-4 md:px-6 md:py-5
-        bg-prakida-flame text-white
-        font-bold text-base md:text-lg
-        tracking-widest
-        overflow-hidden
-        clip-path-slant
-        shadow-lg shadow-prakida-flame/50
-        text-center
-      "
+                       group relative
+                       w-full sm:w-[260px] md:w-auto
+                       px-4 py-4 md:px-6 md:py-5
+                     bg-prakida-flame text-white
+                       font-bold text-base md:text-lg
+                       tracking-widest
+                       overflow-hidden
+                       clip-path-slant
+                       shadow-lg shadow-prakida-flame/50
+                       text-center
+                     "
             >
               <span className="relative z-10 inline-block transition-transform duration-300 group-hover:scale-[1.05]">
                 VIEW ALL SPORTS
