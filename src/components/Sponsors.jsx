@@ -1,49 +1,29 @@
-const sponsors = [
-  "ASUS ROG",
-  "Red Bull",
-  "Logitech",
-  "Nike",
-  "Adidas",
-  "Puma",
-  "Razer",
-  "Sony",
-  "Eco-Water",
-];
+import React from "react";
 
 const Sponsors = () => {
   return (
-    <section className="py-16 bg-black border-y border-white/5 overflow-hidden">
-      <div className="container mx-auto px-6 mb-8 text-center text-sm font-bold text-gray-500 tracking-[0.3em] uppercase">
-        Forged In Alliance With
-      </div>
-
-      <div className="relative flex overflow-x-hidden group">
-        { }
-        <div className="absolute top-0 bottom-0 left-0 w-24 bg-gradient-to-r from-black to-transparent z-10"></div>
-        <div className="absolute top-0 bottom-0 right-0 w-24 bg-gradient-to-l from-black to-transparent z-10"></div>
-
-        <div className="animate-marquee whitespace-nowrap flex gap-16 py-4">
-          { }
-          {[...sponsors, ...sponsors].map((sponsor, idx) => (
-            <div
-              key={idx}
-              className="text-2xl md:text-4xl font-display font-bold text-white/20 hover:text-prakida-flame transition-colors duration-300 uppercase select-none"
-            >
-              {sponsor}
-            </div>
-          ))}
-          {[...sponsors, ...sponsors].map((sponsor, idx) => (
-            <div
-              key={`dup-${idx}`}
-              className="text-2xl md:text-4xl font-display font-bold text-white/20 hover:text-prakida-flame transition-colors duration-300 uppercase select-none"
-            >
-              {sponsor}
-            </div>
-          ))}
+    <div className="bg-[#050505] text-white py-16 font-sans relative overflow-hidden">
+      <div 
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] pointer-events-none opacity-40"
+        style={{ background: 'radial-gradient(circle at center top, #69371c 0%, transparent 30%)' }}
+      />
+      <div className="container mx-auto px-6 text-center">
+                  <p className="text-gray-500 text-[10px] tracking-[0.5em] font-bold uppercase mb-4">Collaborating with the best</p>
+          <h1 className="text-5xl md:text-7xl font-black tracking-tighter italic uppercase">Prakrida <span className="text-orange-400">2K26</span></h1>
+          <h3 className="text-white/40 text-[10px] font-bold tracking-[0.5em] uppercase mb-6">— Powered By —</h3>
+        <div className="flex justify-center items-center">
+          <img
+            src="BRPNNL.jpeg"
+            alt="Bihar Rajya Pul Nirman Nigam LTD."
+            className="object-contain py-5 w-48 h-48 rounded-r-lg"
+          />
         </div>
+          <div>
+          <p className="text-white text-l font-black tracking-tight uppercase text-center mt-2">Bihar Rajya Pul Nirman Nigam LTD.</p>
+          </div>
       </div>
-    </section>
+    </div>
   );
-};
+}
 
 export default Sponsors;
