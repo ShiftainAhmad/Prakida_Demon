@@ -571,7 +571,7 @@ const Registration = () => {
                       </div>
                       <div className="bg-black/30 border border-white/10 p-2">
                         <div className="text-[10px] text-gray-500 font-mono tracking-widest uppercase">
-                          Prize Pool
+                          Prize Pool Worth
                         </div>
                         <div className="text-sm text-white font-bold">
                           {formatINRWithSymbol(config?.prizePool) || "—"}
