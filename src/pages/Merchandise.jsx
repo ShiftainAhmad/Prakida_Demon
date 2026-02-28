@@ -100,99 +100,24 @@ const TYPE_MAP = {
 export default function Merchandise() {
   const [modalProduct, setModalProduct] = useState(null);
   const [modalIndex, setModalIndex] = useState(0);
-  const [selectedSizes, setSelectedSizes] = useState({}); // { jacket: 'M', tshirt: 'S', combo_jacket: 'M', combo_tshirt: 'M' }
 
-  const SIZES = ["S", "M", "L", "XL", "XXL", "XXXL"];
   const { user } = useAuth();
-  const [orders, setOrders] = useState([]);
-  const [ordersModalOpen, setOrdersModalOpen] = useState(false);
-  const [loadingOrders, setLoadingOrders] = useState(false);
+  // const [orders, setOrders] = useState([]);
+  // const [ordersModalOpen, setOrdersModalOpen] = useState(false);
+  // const [loadingOrders, setLoadingOrders] = useState(false);
   
-  // Cart State
-  const [cartItems, setCartItems] = useState([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  // Cart State (disabled - orders via Google Form)
+  // const [cartItems, setCartItems] = useState([]);
+  // const [isCartOpen, setIsCartOpen] = useState(false);
 
-  const addToCart = (product) => {
-  const size = selectedSizes[product.id] || "M";
-  const shirtCount = 1;
+  /* Cart & Add-to-cart disabled — orders now via Google Form
+  const addToCart = (product) => { ... };
+  const removeFromCart = (cartId) => { ... };
+  const getCartTotals = () => { ... };
+  const getBundlePrice = (qty) => { ... };
+  */
 
-  setCartItems((prev) => {
-    const totalItems =
-      prev.reduce((acc, item) => acc + (item.shirtCount || 1), 0) +
-      shirtCount;
-
-    if (totalItems > 3) {
-      showNotice("You can add up to 3 items per order. Please place another order for more.");
-      return prev;
-    }
-    showNotice("Added to cart!");
-    return [
-      ...prev,
-      {
-        ...product,
-        cartId: Date.now() + Math.random(),
-        selectedSize: size,
-        origPrice: parseFloat(product.price),
-        shirtCount,
-      },
-    ];
-  });
-  
-  if (modalProduct) closeModal();
-};
-
-
-  const removeFromCart = (cartId) => {
-    setCartItems((prev) => prev.filter((item) => item.cartId !== cartId));
-  };
-
-  const getCartTotals = () => {
-    const totalShirts = cartItems.reduce((acc, item) => acc + (item.shirtCount || 1), 0);
-    
-    // Pricing tiers per SHIRT count
-    // 1 shirt = 549
-    // 2 shirts = 1000 (Combo) -> 500/ea
-    // 3 shirts = 1449 (Trio) -> 483/ea
-    
-    const PRICE_1 = 549; 
-    const PRICE_2 = 1000; 
-    const PRICE_3 = 1449;
-    
-    let count = totalShirts;
-    let finalTotal = 0;
-    
-    // Greedy calculation: max out bundles of 3, then 2, then 1
-    const bundle3 = Math.floor(count / 3);
-    finalTotal += bundle3 * PRICE_3;
-    count %= 3;
-    
-    const bundle2 = Math.floor(count / 2);
-    finalTotal += bundle2 * PRICE_2;
-    count %= 2;
-    
-    finalTotal += count * PRICE_1;
-    
-    // "Original" price if bought individually
-    // This assumes specific "originalPrice" logic, but simplified:
-    // If we consider base price 549 * count
-    const baseTotal = totalShirts * 549;
-    
-    return { 
-      total: finalTotal, 
-      baseTotal: baseTotal, 
-      saved: baseTotal - finalTotal,
-      count: totalShirts
-    };
-  };
-
-    const getBundlePrice = (qty) => {
-  if (qty === 1) return 549;
-  if (qty === 2) return 1000;
-  if (qty === 3) return 1449;
-
-  return 549 * qty; // fallback
-   };
-
+  /* fetchOrders disabled — orders now via Google Form
   const fetchOrders = async () => {
     if (!user) return;
     setLoadingOrders(true);
@@ -244,12 +169,16 @@ export default function Merchandise() {
     }
   };
 
-  useEffect(() => {
+  };
+  */
+
+  /* useEffect(() => {
     if (ordersModalOpen) {
       fetchOrders();
     }
-  }, [ordersModalOpen, user]);
+  }, [ordersModalOpen, user]); */
 
+  /* handleCheckout disabled — orders now via Google Form
   const handleCheckout = async (items) => {
     if (!user) {
       showNotice("Please login to purchase");
@@ -348,33 +277,12 @@ export default function Merchandise() {
     }
   };
 
-  const checkOrderStatus = async (orderId) => {
-    try {
-      const headers = await getAuthHeaders();
-      // Backend uses GET /merch/order/:id for specific order details
-      const { data } = await fetchJson(
-        `${BASE_API_URL}/merch/order/${orderId}`,
-        { headers },
-      );
-
-      setOrders((prev) =>
-        prev.map((o) => {
-          if (o.id === orderId) {
-            return {
-              ...o,
-              status: data.status, // Backend returns 'status'
-              payment_url: data.paymentUrl, // Backend returns 'paymentUrl'
-            };
-          }
-          return o;
-        }),
-      );
-
-      if (data.status) showNotice(`Status: ${data.status}`);
-    } catch (e) {
-      showNotice("Failed to update status");
-    }
   };
+  */
+
+  /* checkOrderStatus disabled — orders now via Google Form
+  const checkOrderStatus = async (orderId) => { ... };
+  */
 
   // Removed standard cart functions and useEffects
 
@@ -383,7 +291,7 @@ export default function Merchandise() {
   }, [modalProduct]);
 
   const modalRef = useRef(null);
-  const ordersModalRef = useRef(null);
+  // const ordersModalRef = useRef(null); // removed — orders now via Google Form
   const [notice, setNotice] = useState(null);
   // const { isBitStudent } = useEntitlements();
 
@@ -422,7 +330,7 @@ export default function Merchandise() {
   // Prevent background scrolling while modal is open; allow scrolling inside modal.
   // Use fixed positioning to preserve scroll position and restore on close.
   useEffect(() => {
-    if (!modalProduct && !ordersModalOpen) return;
+    if (!modalProduct) return;
     const body = document.body;
     const docEl = document.documentElement;
     const scrollY = window.scrollY || window.pageYOffset;
@@ -451,14 +359,13 @@ export default function Merchandise() {
       body.style.width = prev.width || "";
       window.scrollTo(0, prev.scrollTop || 0);
     };
-  }, [modalProduct, ordersModalOpen]);
+  }, [modalProduct]);
 
   // Allow touch scrolling only inside modal on mobile: prevent touchmove outside modal
   useEffect(() => {
-    if (!modalProduct && !ordersModalOpen) return;
+    if (!modalProduct) return;
 
-    // Determine which modal is active
-    const activeRef = ordersModalOpen ? ordersModalRef : modalRef;
+    const activeRef = modalRef;
 
     const onTouchMove = (e) => {
       if (!activeRef.current) return;
@@ -472,45 +379,11 @@ export default function Merchandise() {
     return () => {
       document.removeEventListener("touchmove", onTouchMove);
     };
-  }, [modalProduct, ordersModalOpen]);
+  }, [modalProduct]);
 
-  const checkoutCart = async () => {
-    if (!user) {
-      showNotice("Please login to purchase");
-      return;
-    }
-    
-    if (cartItems.length === 0) return;
-
-    // chunk items into groups of 3 (backend limit)
-    const chunks = [];
-    for (let i = 0; i < cartItems.length; i += 3) {
-      chunks.push(cartItems.slice(i, i + 3));
-    }
-
-    setIsCartOpen(false);
-
-    if (chunks.length > 1) {
-      alert(`You can not add more than 3 items in a single batch. Remove an item first or get them in a different batch.`);
-    }
-
-    for (const chunk of chunks) {
-      // transform chunk items to format handleCheckout expects
-      const payloadItems = chunk.map(item => ({
-        color: item.color,
-        size: item.selectedSize
-      }));
-
-      await handleCheckout(payloadItems);
-      
-      // small delay to prevent race conditions
-      if (chunks.length > 1) {
-        await new Promise(r => setTimeout(r, 1500));
-      }
-    }
-    
-    setCartItems([]);
-  };
+  /* checkoutCart disabled — orders now via Google Form
+  const checkoutCart = async () => { ... };
+  */
 
   return (
     <>
@@ -523,32 +396,7 @@ export default function Merchandise() {
         <div className="relative z-10 max-w-6xl w-full">
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-4xl font-bold">Merchandise</h1>
-            <div className="flex items-center gap-3">
-              {cartItems.length > 0 && (
-                <button
-                  onClick={() => setIsCartOpen(true)}
-                  className="relative px-4 py-2 rounded-full bg-[#ff4f81] text-white text-sm font-semibold hover:bg-[#d43f68] transition-colors"
-                >
-                  Cart ({cartItems.reduce((acc, i) => acc + (i.shirtCount || 1), 0)})
-                </button>
-              )}
-              {user && (
-                <div className="flex flex-col items-end">
-                  <button
-                    onClick={() => setOrdersModalOpen(true)}
-                    className="px-4 py-2 rounded-full bg-white/10 border border-white/10 text-sm hover:bg-white/20 transition-colors cursor-pointer"
-                  >
-                    My Orders
-                  </button>
-                  {/* Order Summary / Hint */}
-                  {orders.length > 0 && (
-                    <div className="mt-2 text-xs text-white/60">
-                      {orders.length} active order{orders.length !== 1 ? "s" : ""}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
+            {/* Cart and My Orders buttons disabled — orders now via Google Form */}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -593,33 +441,7 @@ export default function Merchandise() {
                         <div className="text-lg font-semibold">₹{p.price}</div>
                       )}
 
-                      <div className="mt-3 space-y-2">
-                        {
-                          <div className="flex items-center gap-2">
-                            <div className="flex flex-col w-full">
-                              <label className="text-xs text-white/50 mb-1">
-                                Size
-                              </label>
-                              <select
-                                value={selectedSizes[p.id] || "M"}
-                                onChange={(e) =>
-                                  setSelectedSizes((s) => ({
-                                    ...s,
-                                    [p.id]: e.target.value,
-                                  }))
-                                }
-                                className="bg-black/25 border border-white/10 rounded px-2 py-1 text-white text-sm w-full"
-                              >
-                                {SIZES.map((sz) => (
-                                  <option key={sz} value={sz}>
-                                    {sz}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-                          </div>
-                        }
-                      </div>
+
                     </div>
 
                     <div className="flex items-center gap-2 mt-auto">
@@ -647,12 +469,14 @@ export default function Merchandise() {
                         </button>
                       }
 
-                      <button
-                        onClick={() => addToCart(p)}
-                        className="flex-1 px-3 py-2 text-sm rounded-full bg-gradient-to-r from-[#f95263] via-[#c55438] to-[#e4790d] text-white shadow-sm font-semibold cursor-pointer hover:opacity-90 transition-opacity"
+                      <a
+                        href="https://forms.gle/Br9XiUMFt9nCDsf59"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 px-3 py-2 text-sm rounded-full bg-gradient-to-r from-[#f95263] via-[#c55438] to-[#e4790d] text-white shadow-sm font-semibold hover:opacity-90 transition-opacity text-center"
                       >
-                        Add to Cart
-                      </button>
+                        Order Now
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -744,39 +568,15 @@ export default function Merchandise() {
                       add or buy.
                     </div>
 
-                    <div className="mt-4 mb-4">
-                      <div className="flex items-center gap-4">
-                        <div className="flex flex-col w-full">
-                          <label className="text-xs text-white/50 mb-1">
-                            Size
-                          </label>
-                          <select
-                            value={selectedSizes[modalProduct.id] || "M"}
-                            onChange={(e) =>
-                              setSelectedSizes((s) => ({
-                                ...s,
-                                [modalProduct.id]: e.target.value,
-                              }))
-                            }
-                            className="bg-black/25 border border-white/10 rounded px-3 py-2 text-white text-sm w-full"
-                          >
-                            {SIZES.map((sz) => (
-                              <option key={sz} value={sz}>
-                                {sz}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
                     <div className="mt-auto">
-                      <button
-                        onClick={() => addToCart(modalProduct)}
-                        className="flex-1 px-4 py-2 rounded-full bg-gradient-to-r from-[#f95263] via-[#c55438] to-[#e4790d] text-white font-semibold cursor-pointer hover:opacity-90 transition-opacity"
+                      <a
+                        href="https://forms.gle/Br9XiUMFt9nCDsf59"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block px-4 py-2 rounded-full bg-gradient-to-r from-[#f95263] via-[#c55438] to-[#e4790d] text-white font-semibold hover:opacity-90 transition-opacity text-center"
                       >
-                        Add to Cart
-                      </button>
+                        Order Now
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -786,206 +586,7 @@ export default function Merchandise() {
           document.body,
         )}
 
-      {/* Orders Modal */}
-      {ordersModalOpen &&
-        createPortal(
-          <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[100] p-4">
-            <div
-              ref={ordersModalRef}
-              className="bg-[#111] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[80vh] flex flex-col shadow-2xl"
-            >
-              <div className="flex items-center justify-between p-4 border-b border-white/10">
-                <h3 className="text-xl font-bold text-white">My Orders</h3>
-                <button
-                  onClick={() => setOrdersModalOpen(false)}
-                  className="text-white/50 hover:text-white cursor-pointer"
-                >
-                  ✕
-                </button>
-              </div>
-              <div 
-              data-lenis-prevent
-              className="flex-1 overflow-y-auto p-4 space-y-4">
-                {loadingOrders ? (
-                  <div className="text-center text-white/50 py-8">
-                    Loading orders...
-                  </div>
-                ) : orders.length === 0 ? (
-                  <div className="text-center text-white/50 py-8">
-                    No orders found.
-                  </div>
-                ) : (
-                  orders.map((order) => (
-                    <div
-                      key={order.id}
-                      className="bg-white/5 border border-white/10 rounded-xl p-4"
-                    >
-                      <div className="flex justify-between items-start mb-3">
-                        <div>
-                          <div className="text-xs text-white/50 mb-1">
-                            Order ID: {order.id}
-                          </div>
-                          <div
-                            className={`inline-block px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider ${
-                              order.status === "PAID" || order.status === "captured"
-                                ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
-                                : ["PENDING", "pending_payment", "created"].includes(order.status)
-                                  ? "bg-orange-500/20 text-orange-400 border border-orange-500/30"
-                                  : "bg-white/10 text-white/60 border border-white/10"
-                            }`}
-                          >
-                            {(order.status || "UNKNOWN").replace("_", " ")}
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <div className="font-bold text-lg text-white">
-                            ₹{order.amount || order.totalAmount || 0}
-                          </div>
-                          <button
-                            onClick={() => checkOrderStatus(order.id)}
-                            className="text-xs text-[#ffa74f] hover:text-[#ff4f81] hover:underline mt-1 transition-colors"
-                          >
-                            Check Status
-                          </button>
-                        </div>
-                      </div>
-                      <div className="text-white/80 border-t border-white/5 pt-2 text-sm">
-                        {order.title}
-                      </div>
-                      {order.size && (
-                        <div className="text-sm text-white/50">
-                          Size: {order.size}
-                        </div>
-                      )}
-                      <div className="text-sm text-white/50">
-                        Quantity: {order.quantity}
-                      </div>
-
-                      {order.payment_url && order.status !== "PAID" && (
-                        <div className="mt-3 pt-2 border-t border-white/10">
-                          <a
-                            href={order.payment_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block text-center w-full py-2 bg-gradient-to-r from-[#ff4f81] to-[#c55438] hover:shadow-lg hover:shadow-[#ff4f81]/20 rounded-lg text-white font-medium text-sm transition-all"
-                          >
-                            Complete Payment
-                          </a>
-                        </div>
-                      )}
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
-          </div>,
-          document.body,
-        )}
-      {/* Cart Drawer/Modal */}
-      {isCartOpen &&
-        createPortal(
-          <div className="fixed inset-0 bg-black/80 flex justify-end z-[100]">
-            {/* Close Cart Area (click outside to close) */}
-            <div
-              className="absolute inset-0"
-              onClick={() => setIsCartOpen(false)}
-            />
-
-            <div
-            data-lenis-prevent
-            className="w-full max-w-md bg-[#181818] h-full flex flex-col border-l border-white/10 shadow-2xl relative z-10">
-              <div className="p-4 border-b border-white/10 flex items-center justify-between bg-black/40 backdrop-blur-md">
-                <h2 className="text-xl font-bold">Your Cart</h2>
-                <button
-                  onClick={() => setIsCartOpen(false)}
-                  className="text-white/60 hover:text-white"
-                >
-                  <X size={24} />
-                </button>
-              </div>
-
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                {cartItems.length === 0 ? (
-                  <div className="text-center text-white/40 py-10">
-                    Cart is empty
-                  </div>
-                ) : (
-                  cartItems.map((item) => (
-                    <div
-                      key={item.cartId}
-                      className="flex gap-3 bg-white/5 p-3 rounded-xl border border-white/5 items-center"
-                    >
-                      <img
-                        src={item.thumb}
-                        alt={item.title}
-                        className="w-16 h-16 rounded object-cover bg-black/50"
-                      />
-                      <div className="flex-1">
-                        <div className="font-medium text-sm text-white/90">
-                          {item.title}
-                        </div>
-                        <div className="text-xs text-white/50 mt-1">
-                          Size: {item.selectedSize}
-                        </div>
-                        {item.shirtCount > 1 && (
-                          <div className="text-[10px] text-[#ffa74f] font-mono mt-1">
-                            Counts as {item.shirtCount} items
-                          </div>
-                        )}
-                      </div>
-                      <button
-                        onClick={() => removeFromCart(item.cartId)}
-                        className="p-2 text-white/30 hover:text-red-400 transition-colors"
-                        title="Remove"
-                      >
-                        <X size={18} />
-                      </button>
-                    </div>
-                  ))
-                )}
-              </div>
-
-              {cartItems.length > 0 && (
-                <div className="p-6 bg-black/40 border-t border-white/10 space-y-3 backdrop-blur-md">
-                  {/* Totals Calculation */}
-                  {(() => {
-                    const { total, baseTotal, saved, count } = getCartTotals();
-                    return (
-                      <>
-                        <div className="space-y-1 text-sm">
-                          <div className="flex justify-between text-white/60">
-                            <span>Subtotal ({count} items)</span>
-                            <span>₹{baseTotal}</span>
-                          </div>
-                          {saved > 0 && (
-                            <div className="flex justify-between text-emerald-400">
-                              <span>Bundle Savings</span>
-                              <span>- ₹{saved}</span>
-                            </div>
-                          )}
-                        </div>
-                        <div className="pt-3 border-t border-white/10 flex justify-between items-end">
-                          <div className="text-sm text-white/60">Total Amount</div>
-                          <div className="text-2xl font-bold bg-gradient-to-r from-[#ffa74f] to-[#ff4f81] bg-clip-text text-transparent">
-                            ₹{total}
-                          </div>
-                        </div>
-                      </>
-                    );
-                  })()}
-
-                  <button
-                    onClick={checkoutCart}
-                    className="w-full py-3.5 mt-4 rounded-xl bg-gradient-to-r from-[#ff4f81] to-[#c55438] font-bold text-white shadow-lg hover:shadow-[#ff4f81]/30 transition-all active:scale-[0.98]"
-                  >
-                    Proceed to Pay
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>,
-          document.body,
-        )}
+      {/* Orders Modal and Cart Drawer removed — orders now via Google Form */}
       {notice &&
         createPortal(
           <div className="fixed left-1/2 -translate-x-1/2 bottom-28 z-[120] bg-black sm:bg-white/5 border border-white/10 text-white px-4 py-2 rounded-md sm:backdrop-blur-sm">
