@@ -161,7 +161,7 @@ export const SPORTS_CONFIG = {
         maxPlayers: 4,
         eventID: 119,
         prizePool: 5000,
-        registrationFee: 1199,
+        registrationFee: 1299,
         feeUnit: "team",
         notes: "4 team members",
         teamNameRequired: true,
