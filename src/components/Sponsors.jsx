@@ -28,6 +28,15 @@ const Sponsors = () => {
             />
             <p className="text-white text-l font-black tracking-tight uppercase text-center mt-2">Prohibition and Excise Department</p>
           </div>
+          <div className="flex flex-col items-center">
+            <img
+              src="BSRDC_logo.jpeg"
+              alt="BSRDC"
+              className="object-contain py-5 w-48 h-48 rounded-r-lg"
+            />
+            {/* <p className="text-white text-l font-black tracking-tight uppercase text-center mt-2">BSRDC</p> */}
+            <p className="text-white text-2xl tracking-tight normal-case text-center mt-1 mistral-font">"Connecting places... connecting lives"</p>
+          </div>
         </div>
       </div>
     </div>
