@@ -145,6 +145,17 @@
 }
 /*for icons color and hover color*/
 
+@font-face {
+  font-family: "Mistral";
+  src: url("./fonts/MISTRAL.TTF") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.mistral-font {
+  font-family: "Mistral", cursive;
+}
+
 .sport-icon {
   width: 32px;
   height: 32px;
