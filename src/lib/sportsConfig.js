@@ -372,6 +372,7 @@ export const SPORTS_CONFIG = {
         notes: "Fixed squad",
         teamNameRequired: true,
       },
+      /* Valorant entry commented out — disabled temporarily
       {
         id: "valorant",
         label: "Valorant Team",
@@ -384,6 +385,7 @@ export const SPORTS_CONFIG = {
         notes: "Fixed squad",
         teamNameRequired: true,
       },
+      */
     ],
   },
 };
