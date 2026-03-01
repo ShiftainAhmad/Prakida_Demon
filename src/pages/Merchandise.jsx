@@ -33,9 +33,9 @@ const fetchJson = async (url, options = {}) => {
       const text = await resp.text();
       data = { message: text || resp.statusText };
     }
-    
+
     if (!resp.ok) {
-        throw new Error(data.message || `Request failed with status ${resp.status}`);
+      throw new Error(data.message || `Request failed with status ${resp.status}`);
     }
     return { resp, data };
   } catch (error) {
@@ -47,7 +47,7 @@ const PRODUCTS = [
   {
     id: "2474", // Design 1
     title: "Prakrida T-Shirt (Design 1)",
-    price: "549",
+    price: "499",
     color: "black",
     originalPrice: null,
     thumb: "https://i.ibb.co/Z68sfVvc/t12.jpg",
@@ -61,7 +61,7 @@ const PRODUCTS = [
   {
     id: "2476", // Design 2
     title: "Prakrida T-Shirt (Design 2)",
-    price: "549",
+    price: "499",
     color: "black",
     originalPrice: null,
     thumb: "https://i.ibb.co/8LY8DTzV/t32.jpg",
@@ -75,7 +75,7 @@ const PRODUCTS = [
   {
     id: "2475", // Design 3
     title: "Prakrida T-Shirt (Design 3)",
-    price: "549",
+    price: "499",
     color: "beige",
     originalPrice: null,
     thumb: "https://i.ibb.co/hRZLFdZS/t22.jpg",
@@ -105,7 +105,7 @@ export default function Merchandise() {
   // const [orders, setOrders] = useState([]);
   // const [ordersModalOpen, setOrdersModalOpen] = useState(false);
   // const [loadingOrders, setLoadingOrders] = useState(false);
-  
+
   // Cart State (disabled - orders via Google Form)
   // const [cartItems, setCartItems] = useState([]);
   // const [isCartOpen, setIsCartOpen] = useState(false);
@@ -483,10 +483,20 @@ export default function Merchandise() {
               </div>
             ))}
           </div>
-
-          {/* Cart removed as requested */}
+          <div className="mt-6 border border-white/15 bg-white/5 backdrop-blur-sm text-white/80 px-4 py-3 rounded-lg shadow-md">
+            <div className="text-sm leading-relaxed">
+              <span className="font-semibold text-white">Note:</span>
+              <ul className="list-disc pl-5 text-sm text-white/80">
+                <li>Buy 1 for ₹499</li>
+                <li>Buy 2 (combo) for ₹949</li>
+                <li>Buy all 3 for ₹1399</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* Cart removed as requested */}
 
       {/* Modal */}
       {modalProduct &&
@@ -585,6 +595,7 @@ export default function Merchandise() {
           </div>,
           document.body,
         )}
+
 
       {/* Orders Modal and Cart Drawer removed — orders now via Google Form */}
       {notice &&
