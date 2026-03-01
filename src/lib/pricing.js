@@ -46,5 +46,5 @@ export const summarizePrizePool = (categories) => {
     if (!rows.length) return "";
     const prizes = rows.map((c) => Number(c.prizePool)).filter((n) => Number.isFinite(n));
     const maxPrize = Math.max(...prizes);
-    return formatINRWithSymbol(maxPrize);
+    return formatINR(maxPrize);
 };
