@@ -169,6 +169,20 @@ const eventTeam = [
     ],
   },
   {
+    name: "Aditya Raj Chandel",
+    role: "Head",
+    batch: "2023",
+    photo:
+      "https://i.ibb.co/h1Rr1tFS/chandel.jpg",
+    socials: [
+      {
+        label: "@chaotic_adi_",
+        url: "https://www.instagram.com/chaotic_adi_?igsh=MTFpdHZqaDhkczdwOQ==",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
     name: "Aman Kumar",
     role: "Co-Head",
     batch: "2024",
@@ -302,7 +316,7 @@ const hospitalityTeam = [
     role: "Head",
     batch: "2023",
     photo:
-      "https://i.ibb.co/XfTCtHgk/Whats-App-Image-2023-01-29-at-16-51-46-piyush-priyadarshi.jpg",
+      "https://i.ibb.co/VYXZtNhp/Piyush-Priyadarshi.jpg",
     socials: [
       {
         label: "@",
@@ -330,11 +344,11 @@ const hospitalityTeam = [
     role: "Head",
     batch: "2023",
     photo:
-      "https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png",
+      "https://i.ibb.co/Jjm0Znrh/shurti.jpg",
     socials: [
       {
-        label: "@",
-        url: "",
+        label: "@parasar_shruti",
+        url: "https://www.instagram.com/parasar_shruti",
         color: "#E4405F",
       },
     ],
@@ -439,40 +453,9 @@ const designDecorTeam = [
   },
 ];
 
-const designDraftTeam = [
-  {
-    name: "Rishika Singh",
-    role: "Head",
-    batch: "2023",
-    photo:
-      "https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png",
-    socials: [
-      {
-        label: "@",
-        url: "",
-        color: "#E4405F",
-      },
-    ],
-  },
-  {
-    name: "Prisha Raj",
-    role: "Co-Head",
-    batch: "2024",
-    photo:
-      "https://i.ibb.co/Q70phWgm/Whats-App-Image-2026-02-22-at-1-19-12-AM-2-Prisha-Raj.jpg",
-    socials: [
-      {
-        label: "@pri.sha_1505",
-        url: "https://www.instagram.com/pri.sha_1505",
-        color: "#E4405F",
-      },
-    ],
-  },
-];
-
 const designAndDraftingTeam = [
   {
-    name: "Shivani Ma'am",
+    name: "Shivani",
     role: "Head",
     batch: "2023",
     photo:
@@ -493,8 +476,8 @@ const designAndDraftingTeam = [
       "https://i.ibb.co/1f0hsjP4/ashutosh-sharma.jpg",
     socials: [
       {
-        label: "@",
-        url: "",
+        label: "@sharmashutosh01",
+        url: "https://www.instagram.com/sharmashutosh01",
         color: "#E4405F",
       },
     ],
@@ -659,8 +642,8 @@ const disciplineTeam = [
       "https://i.ibb.co/gZ9fVQnQ/gensec.jpg",
     socials: [
       {
-        label: "@ sharmashutosh01",
-        url: "https://www.instagram.com/sharmashutosh01",
+        label: "@ohnoitsahu",
+        url: "https://www.instagram.com/ohnoitsahu",
         color: "#E4405F",
       },
     ],
@@ -977,7 +960,7 @@ const Core = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 lg:px-[117px] mx-auto mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 md:gap-6 mx-auto mb-10">
           <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
             Event Management Team
           </p>
@@ -1018,15 +1001,6 @@ const Core = () => {
             Design & Decor Team
           </p>
           {designDecorTeam.map((member, i) => (
-            <CoreTeamCard key={member.name} member={member} index={i} />
-          ))}
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 md:px-[70px] lg:px-[270px] gap-4 md:gap-6 mx-auto mb-10">
-          <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
-            Design & Draft Team
-          </p>
-          {designDraftTeam.map((member, i) => (
             <CoreTeamCard key={member.name} member={member} index={i} />
           ))}
         </div>
