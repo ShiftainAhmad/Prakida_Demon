@@ -36,6 +36,7 @@ const Navbar = () => {
     { name: "Sports", kanji: "競技", path: "/sports" },
     { name: "Accommodation", kanji: "宿泊", path: "/accommodation" },
     { name: "Alumni", kanji: "卒業生", path: "/alumni" },
+    { name: "Core Team", kanji: "コアチーム", path: "/core" },
     { name: "Contact", kanji: "連絡", path: "/contact" },
   ];
   return (
@@ -53,7 +54,7 @@ const Navbar = () => {
           </Link>
 
           {}
-          <div className="hidden md:flex items-center gap-3 lg:gap-6">
+          <div className="hidden md:flex items-center gap-2 lg:gap-4">
             {navLinks.map((link) => (
               <GlitchLink
                 key={link.name}
@@ -191,7 +192,7 @@ const Navbar = () => {
                   <Link
                     to={link.path}
                     onClick={() => setIsOpen(false)}
-                    className={`block text-[3.5rem] leading-[1.1] font-display font-black uppercase tracking-tighter border-b border-white/10 py-2 transition-all duration-300 ${location.pathname === link.path ? "text-prakida-flame pl-4 border-prakida-flame" : "text-gray-400 hover:text-white hover:pl-4 hover:border-white"}`}
+                    className={`block text-[3rem] leading-[1.1] font-display font-black uppercase tracking-tighter border-b border-white/10 py-2 transition-all duration-300 ${location.pathname === link.path ? "text-prakida-flame pl-4 border-prakida-flame" : "text-gray-400 hover:text-white hover:pl-4 hover:border-white"}`}
                   >
                     <span className="flex items-end justify-between w-full">
                       {link.name}

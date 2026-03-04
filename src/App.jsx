@@ -33,6 +33,7 @@ const Accommodation = lazy(() => import("./pages/Accommodation"));
 const AccommodationRegistration = lazy(
   () => import("./pages/AccommodationRegistration"),
 );
+const Core = lazy(() => import("./pages/Core"));
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -61,6 +62,14 @@ const AnimatedRoutes = () => {
               element={
                 <PageTransition>
                   <Events />
+                </PageTransition>
+              }
+            />
+            <Route
+              path="/core"
+              element={
+                <PageTransition>
+                  <Core />
                 </PageTransition>
               }
             />

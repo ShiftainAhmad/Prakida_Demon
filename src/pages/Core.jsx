@@ -1,0 +1,902 @@
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import CoreTeamCard from "../components/CoreTeamCard";
+
+const webTeam = [
+  {
+    name: "Shiftain Ahmad",
+    role: "Head",
+    photo:
+      "https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png",
+    socials: [{ label: "@", url: "", color: "#E4405F" }],
+  },
+  {
+    name: "Krish Agarwal",
+    role: "Co-Head",
+    photo: "https://i.ibb.co/Z6Kntp6M/IMG-20251025-WA0010-Krish-Agarwal.jpg",
+    socials: [
+      {
+        label: "@coffee.to.code.machine",
+        url: "https://www.instagram.com/coffee.to.code.machine",
+        color: "#E4405F",
+      },
+    ],
+  },
+];
+
+const technicalTeam = [
+  {
+    name: "Gaurav Kumar Singh",
+    role: "Head",
+    photo:
+      "https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png",
+    socials: [{ label: "@", url: "#", color: "#E4405F" }],
+  },
+  {
+    name: "Spandan Roy",
+    role: "Head",
+    photo: "https://i.ibb.co/GQn2fWsW/1758950358096-Spandan-Roy.png",
+    socials: [
+      {
+        label: "@spandan.roy64",
+        url: "http://instagram.com/spandan.roy64",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Shivam Singh",
+    role: "Co-Head",
+    photo: "https://i.ibb.co/chYC6TyM/1000114980-1672-1604-Shivam-Singh.jpg",
+    socials: [
+      {
+        label: "@maverickkk18_",
+        url: "https://www.instagram.com/shiv_am_183?igsh=NnJ3emV2NnBzMnk5",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Aayush Babu",
+    role: "Co-Head",
+    photo: "https://i.ibb.co/Kc08z7Yj/IMG-20250916-WA0018-Aayush-Babu.jpg",
+    socials: [
+      {
+        label: "@freshlycuttomato",
+        url: "http://www.instagram.com/freshlycuttomato",
+        color: "#E4405F",
+      },
+    ],
+  },
+];
+
+const logisticsTeam = [
+  {
+    name: "Priyambad Kr Dubey",
+    role: "Head",
+    photo:
+      "https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png",
+    socials: [
+      {
+        label: "@",
+        url: "",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Adarsh Raj",
+    role: "Head",
+    photo: "https://i.ibb.co/k6G8vjSw/IMG-20260118-WA0048-ADARSH-RAJ.jpg",
+    socials: [
+      {
+        label: "@raj_adarsh18",
+        url: "",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Shubhankar Kumar Jha",
+    role: "Co-Head",
+    photo: "https://i.ibb.co/w9JF5Zx/IMG-20260116-WA0001-Shubhankar-Jha.jpg",
+    socials: [
+      {
+        label: "@shubhankar_jha_18",
+        url: "https://www.instagram.com/shubhankar_jha_18",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Saurabh Suman",
+    role: "Co-Head",
+    photo:
+      "https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png",
+    socials: [
+      {
+        label: "@",
+        url: "",
+        color: "#E4405F",
+      },
+    ],
+  },
+];
+
+const eventTeam = [
+  {
+    name: "Anurag Anand",
+    role: "Head",
+    photo: "/Anurag.jpeg",
+    socials: [
+      {
+        label: "@anurag_anand10",
+        url: "https://www.instagram.com/anurag_anand10",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Aman Kumar",
+    role: "Co-Head",
+    photo:
+      "https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png",
+    socials: [
+      {
+        label: "@amanx_.exe",
+        url: "https://www.instagram.com/amanx_.exe?igsh=aXI0OTE3NGc0NG1s",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Gargi Kumari",
+    role: "Co-Head",
+    photo: "https://i.ibb.co/Df8PhT5p/IMG-20250208-WA0007-Shruti-Kumari.jpg",
+    socials: [
+      {
+        label: "@gargi_913",
+        url: "https://www.instagram.com/gargi_913?igsh=YWZ6bnNmNXZ0azM0",
+        color: "#E4405F",
+      },
+    ],
+  },
+];
+
+const publicityTeam = [
+  {
+    name: "Udit Ojha",
+    role: "Head",
+    photo: "/Udit.jpeg",
+    socials: [
+      {
+        label: "@__udit.ojha__",
+        url: "https://www.instagram.com/__udit.ojha__",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Avi Singh",
+    role: "Co-Head",
+    photo: "https://i.ibb.co/v6wgCQV8/IMG-20251109-WA0016-Avi-Singh.jpg",
+    socials: [
+      {
+        label: "@avi.singh6451",
+        url: "https://www.instagram.com/avi.singh6451?utm_source=qr&igsh=dXNkd2d5bzZ6cnRu",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Anshu Priya",
+    role: "Co-Head",
+    photo:
+      "https://i.ibb.co/5WQFRD1L/97e0f9e1-bd7b-484e-ab91-dff915daa857-Anshu-Priya.jpg",
+    socials: [
+      {
+        label: "@_.official.honey",
+        url: "https://www.instagram.com/_.official.honey?igsh=MW96ajE5amp3dGo2Ng==",
+        color: "#E4405F",
+      },
+    ],
+  },
+];
+
+const sponsorshipTeam = [
+  {
+    name: "Pratik Raj",
+    role: "Head",
+    photo: "https://i.ibb.co/39m5fsrS/IMG-20260124-133027-271-Pratik-Raj.webp",
+    socials: [
+      {
+        label: "@_itzz_pratikk",
+        url: "https://www.instagram.com/_itzz_pratikk?igsh=MXI5a2QyYnMzZHAwaA==",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Tanmay Sinha",
+    role: "Head",
+    photo:
+      "https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png",
+    socials: [
+      {
+        label: "@",
+        url: "",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Parv Ninama",
+    role: "Co-Head",
+    photo: "https://i.ibb.co/GQTqLQ0r/IMG-20260222-223518-Parv-Ninama.png",
+    socials: [
+      {
+        label: "@p.arv_v",
+        url: "https://www.instagram.com/p.arv_v",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Aditya Narayan",
+    role: "Co-Head",
+    photo: "https://i.ibb.co/NgF5VCMM/Snapchat-236085978-Aditya-Narayan.jpg",
+    socials: [
+      {
+        label: "@aditya_singh945",
+        url: "https://www.instagram.com/aditya_singh945?igsh=cjc5ZzlpemR0OHph",
+        color: "#E4405F",
+      },
+    ],
+  },
+];
+
+const hospitalityTeam = [
+  {
+    name: "Piyush Priyadarshi",
+    role: "Head",
+    photo:
+      "https://i.ibb.co/XfTCtHgk/Whats-App-Image-2023-01-29-at-16-51-46-piyush-priyadarshi.jpg",
+    socials: [
+      {
+        label: "@",
+        url: "",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Vivek Kumar Modi",
+    role: "Head",
+    photo:
+      "https://i.ibb.co/rWdxk6T/IMG-20260130-23055212-1-Vivek-Kumar-Modi.jpg",
+    socials: [
+      {
+        label: "@vivek_kr_modi._",
+        url: "https://www.instagram.com/vivek_kr_modi._",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Shruti",
+    role: "Head",
+    photo:
+      "https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png",
+    socials: [
+      {
+        label: "@",
+        url: "",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Aaryan Tiwari",
+    role: "Co-Head",
+    photo: "https://i.ibb.co/1tJ20xPy/IMG-20260222-WA0012-Aryan-Tiwari.jpg",
+    socials: [
+      {
+        label: "@devilish906",
+        url: "https://www.instagram.com/devilish906",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Astha Kiran",
+    role: "Co-Head",
+    photo: "https://i.ibb.co/84Q6kc3M/My-Image-1769102179-05-Astha-Kiran.jpg",
+    socials: [
+      {
+        label: "@_itsastha._",
+        url: "https://www.instagram.com/_itsastha._?igsh=MXFnOWxpbGlwamljMg==",
+        color: "#E4405F",
+      },
+    ],
+  },
+];
+
+const designDecorTeam = [
+  {
+    name: "Niharika Soni",
+    role: "Head",
+    photo:
+      "https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png",
+    socials: [
+      {
+        label: "@",
+        url: "",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Priyanka Agarwal",
+    role: "Head",
+    photo:
+      "https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png",
+    socials: [
+      {
+        label: "@",
+        url: "",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Rama Pandey",
+    role: "Co-Head",
+    photo: "https://i.ibb.co/3557nHJ0/IMG-20260123-WA0037-Rama-Pandey.jpg",
+    socials: [
+      {
+        label: "@rama__pandey06",
+        url: "https://www.instagram.com/rama__pandey06?igsh=MWpnMHJjOG9zeWFhOQ==",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Priti Kumari",
+    role: "Co-Head",
+    photo:
+      "https://i.ibb.co/TxSxLnD8/IMG-20240613-WA0009-copy-1280x11-Priti-Kumari.jpg",
+    socials: [
+      {
+        label: "@berry_blusie11",
+        url: "https://www.instagram.com/berry_blusie11",
+        color: "#E4405F",
+      },
+    ],
+  },
+];
+
+const designDraftTeam = [
+  {
+    name: "Rishika Singh",
+    role: "Head",
+    photo:
+      "https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png",
+    socials: [
+      {
+        label: "@",
+        url: "",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Prisha Raj",
+    role: "Co-Head",
+    photo:
+      "https://i.ibb.co/Q70phWgm/Whats-App-Image-2026-02-22-at-1-19-12-AM-2-Prisha-Raj.jpg",
+    socials: [
+      {
+        label: "@pri.sha_1505",
+        url: "https://www.instagram.com/pri.sha_1505",
+        color: "#E4405F",
+      },
+    ],
+  },
+];
+
+const pressMediaTeam = [
+  {
+    name: "Anubhav Singh",
+    role: "Head",
+    photo: "https://i.ibb.co/nsyBRpHw/IMG-20260125-WA0060-Anubhav-Kumar.jpg",
+    socials: [
+      {
+        label: "@anu3havv",
+        url: "https://www.instagram.com/anu3havv",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Om Raj",
+    role: "Co-Head",
+    photo: "https://i.ibb.co/hnSWzp3/IMG-20251130-123252-383-omraj-thakur.webp",
+    socials: [
+      {
+        label: "@om_raj007",
+        url: "https://www.instagram.com/om_raj007",
+        color: "#E4405F",
+      },
+    ],
+  },
+];
+
+const convener = [
+  {
+    name: "Rohit Kumar",
+    role: "Head",
+    photo: "/Rohit.jpeg",
+    socials: [
+      {
+        label: "@",
+        url: "",
+        color: "#E4405F",
+      },
+    ],
+  },
+];
+
+const sportsSecretary = [
+  {
+    name: "Suyash Ranjan Sinha",
+    role: "Head",
+    photo:
+      "https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png",
+    socials: [
+      {
+        label: "@",
+        url: "",
+        color: "#E4405F",
+      },
+    ],
+  },
+];
+
+const treasuryTeam = [
+  {
+    name: "Rohit Yadav",
+    role: "Head",
+    photo: "https://i.ibb.co/RrZ79PR/IMG-20260220-183622-261-Rohit-yadav.webp",
+    socials: [
+      {
+        label: "@rohit_rao.079",
+        url: "https://www.instagram.com/rohit_rao.079?igsh=ajB0djB0aXV4dG8y",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Parbhakar Kumar",
+    role: "Head",
+    photo: "https://i.ibb.co/bRz2s9S9/IMG-20260222-225808-Parbhakar-Mehta.jpg",
+    socials: [
+      {
+        label: "@prbhkr_00",
+        url: "https://www.instagram.com/prbhkr_00?igsh=azBrM3Vhcjc3eGt6",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Nipun Sinha",
+    role: "Co-Head",
+    photo: "https://i.ibb.co/bj1pth0N/IMG-4191-Nipun-Sinha.jpg",
+    socials: [
+      {
+        label: "@Uff_nipun",
+        url: "https://www.instagram.com/uffx_nipun?igsh=eWV4Mmk5eXd5YWgy",
+        color: "#E4405F",
+      },
+    ],
+  },
+];
+
+const disciplineTeam = [
+  {
+    name: "Ashutosh Kumar",
+    role: "Head",
+    photo:
+      "https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png",
+    socials: [
+      {
+        label: "@",
+        url: "",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Shreedhar Narayan",
+    role: "Head",
+    photo:
+      "https://i.ibb.co/7J65L3TP/874b183a-b945-4abf-883e-25a5b8163ea5-MR-SHREEDHAR.jpg",
+    socials: [
+      {
+        label: "@_mr_shreedhar_",
+        url: "https://www.instagram.com/_mr_shreedhar_?igsh=NXA1dHNvbGs2b3ln",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Chalvi Raj",
+    role: "Head",
+    photo:
+      "https://i.ibb.co/1G96vkTf/a2b0d895-b522-4eb6-a13b-e528f953598d-Chalvi-Raj.jpg",
+    socials: [
+      {
+        label: "@chalvi__raj",
+        url: "https://www.instagram.com/chalvi__raj?igsh=MW44MmJxYm40czQxZg%3D%3D&utm_source=qr",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Shristi Kumari",
+    role: "Co-Head",
+    photo: "https://i.ibb.co/8DMdXZNP/IMG-20260123-WA0052-Shristi-Kumari.jpg",
+    socials: [
+      {
+        label: "@shristi.011",
+        url: "https://www.instagram.com/shristi.011?igsh=N3EwanJ4MGs0YWY0",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Shristi Raj",
+    role: "Co-Head",
+    photo: "https://i.ibb.co/Mk5CpBqg/IMG-20260222-230554-Shristi-Raj.jpg",
+    socials: [
+      {
+        label: "@shristiraj_31",
+        url: "https://www.instagram.com/shristiraj_31?igsh=b3U0Zzk2bWdjcXo2",
+        color: "#E4405F",
+      },
+    ],
+  },
+];
+
+const venueManagementTeam = [
+  {
+    name: "Ritik Raushan",
+    role: "Head",
+    photo:
+      "https://i.ibb.co/ym4m1P0M/Screenshot-2026-01-26-11-16-53-25-99c04817c0de5652397fc8b56c3b3817-Ritik-Raushan.jpg",
+    socials: [
+      {
+        label: "@ritikraushan3707",
+        url: "https://www.instagram.com/ritikraushan3707",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Hardik Kumar Singh",
+    role: "Head",
+    photo:
+      "https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png",
+    socials: [
+      {
+        label: "@",
+        url: "https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Sanjam Raj",
+    role: "Co-Head",
+    photo: "https://i.ibb.co/VpqVVjbf/IMG-20260223-WA0002-Sanjam-Raj.jpg",
+    socials: [
+      {
+        label: "@snjmrj06",
+        url: "https://www.instagram.com/snjmrj06?igsh=MjFodGlna2k5bWhp",
+        color: "#E4405F",
+      },
+    ],
+  },
+];
+
+const foodCateringTeam = [
+  {
+    name: "Aniket Raj",
+    role: "Head",
+    photo:
+      "https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png",
+    socials: [
+      {
+        label: "@",
+        url: "",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Nitin Choudhary",
+    role: "Co-Head",
+    photo: "https://i.ibb.co/qLs9CyRR/IMG-20260123-WA0057-nitin.jpg",
+    socials: [
+      {
+        label: "@",
+        url: "",
+        color: "#E4405F",
+      },
+    ],
+  },
+];
+
+const outreachAlumniTeam = [
+  {
+    name: "Prachi Singh",
+    role: "Head",
+    photo: "https://i.ibb.co/JF51F52Q/Photo-prachi-singh.jpg",
+    socials: [
+      {
+        label: "@fr__prachiiiii",
+        url: "https://www.instagram.com/fr__prachiiiii?igsh=a2VjN3c2dGV2N3ps",
+        color: "#E4405F",
+      },
+    ],
+  },
+  {
+    name: "Aditi Maharor",
+    role: "Co-Head",
+    photo:
+      "https://i.ibb.co/C5ZvZPhC/Screenshot-2026-02-22-23-11-05-37-99c04817c0de5652397fc8b56c3b3817-Aditi-M.jpg",
+    socials: [
+      {
+        label: "@",
+        url: "",
+        color: "#E4405F",
+      },
+    ],
+  },
+];
+
+const Core = () => {
+  const headingRef = useRef(null);
+  const subtitleRef = useRef(null);
+  const lineRef = useRef(null);
+
+  useEffect(() => {
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+    tl.fromTo(
+      headingRef.current,
+      { y: 60, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.5 },
+    )
+      .fromTo(
+        lineRef.current,
+        { scaleX: 0 },
+        { scaleX: 1, duration: 0.3 },
+        "-=0.5",
+      )
+      .fromTo(
+        subtitleRef.current,
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.3 },
+        "-=0.4",
+      );
+  }, []);
+
+  return (
+    <main className="min-h-screen bg-page-gradient">
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div
+          className="absolute w-96 h-96 rounded-full opacity-[0.03]"
+          style={{
+            background: "radial-gradient(circle, hsl(38 90% 55%), transparent)",
+            top: "10%",
+            right: "10%",
+            filter: "blur(80px)",
+          }}
+        />
+        <div
+          className="absolute w-72 h-72 rounded-full opacity-[0.02]"
+          style={{
+            background:
+              "radial-gradient(circle, hsl(250 60% 50%), transparent)",
+            bottom: "20%",
+            left: "5%",
+            filter: "blur(60px)",
+          }}
+        />
+      </div>
+
+      <section className="relative z-10 px-6 py-24 md:py-32 max-w-7xl mx-auto">
+        <div className="text-center mb-20">
+          <h1
+            ref={headingRef}
+            className="font-display text-5xl md:text-7xl font-bold tracking-wide mb-6 opacity-0"
+          >
+            Meet Our{" "}
+            <span className="bg-[linear-gradient(135deg,#F48C06,#FF4100)] bg-clip-text text-transparent">
+              Core Team
+            </span>
+          </h1>
+
+          <div
+            ref={lineRef}
+            className="glow-line h-px w-48 mx-auto mb-2 origin-center"
+            style={{ transform: "scaleX(0)" }}
+          />
+
+          <p
+            ref={subtitleRef}
+            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed opacity-0"
+          >
+            The brilliant minds shaping our vision and driving innovation
+            forward every single day.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1  gap-4 md:gap-6 mx-auto sm:px-[clamp(200px,37%,450px)] mb-10">
+          <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
+            Convener
+          </p>
+          {convener.map((member, i) => (
+            <CoreTeamCard key={member.name} member={member} index={i} />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1  gap-4 md:gap-6 mx-auto sm:px-[clamp(200px,37%,450px)] mb-10">
+          <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
+            Sports Secretary
+          </p>
+          {sportsSecretary.map((member, i) => (
+            <CoreTeamCard key={member.name} member={member} index={i} />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mx-auto mb-10">
+          <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
+            Technical Team
+          </p>
+          {technicalTeam.map((member, i) => (
+            <CoreTeamCard key={member.name} member={member} index={i} />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mx-auto mb-10">
+          <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
+            Logistics Team
+          </p>
+          {logisticsTeam.map((member, i) => (
+            <CoreTeamCard key={member.name} member={member} index={i} />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 lg:px-[117px] mx-auto mb-10">
+          <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
+            Event Management Team
+          </p>
+          {eventTeam.map((member, i) => (
+            <CoreTeamCard key={member.name} member={member} index={i} />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 lg:px-[117px] mx-auto mb-10">
+          <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
+            Publicity & Social Media Team
+          </p>
+          {publicityTeam.map((member, i) => (
+            <CoreTeamCard key={member.name} member={member} index={i} />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mx-auto mb-10">
+          <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
+            Sponsorship Team
+          </p>
+          {sponsorshipTeam.map((member, i) => (
+            <CoreTeamCard key={member.name} member={member} index={i} />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mx-auto mb-10">
+          <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
+            Hospitality Team
+          </p>
+          {hospitalityTeam.map((member, i) => (
+            <CoreTeamCard key={member.name} member={member} index={i} />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mx-auto mb-10">
+          <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
+            Design & Decor Team
+          </p>
+          {designDecorTeam.map((member, i) => (
+            <CoreTeamCard key={member.name} member={member} index={i} />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 md:px-[70px] lg:px-[270px] gap-4 md:gap-6 mx-auto mb-10">
+          <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
+            Design & Draft Team
+          </p>
+          {designDraftTeam.map((member, i) => (
+            <CoreTeamCard key={member.name} member={member} index={i} />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 lg:px-[117px] gap-4 md:gap-6 mx-auto mb-10">
+          <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
+            Treasury Team
+          </p>
+          {treasuryTeam.map((member, i) => (
+            <CoreTeamCard key={member.name} member={member} index={i} />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 md:px-[70px] lg:px-[270px] gap-4 md:gap-6 mx-auto mb-10">
+          <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
+            Food & Catering Team
+          </p>
+          {foodCateringTeam.map((member, i) => (
+            <CoreTeamCard key={member.name} member={member} index={i} />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 lg:px-[117px] gap-4 md:gap-6 mx-auto mb-10">
+          <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
+            Venue Management Team
+          </p>
+          {venueManagementTeam.map((member, i) => (
+            <CoreTeamCard key={member.name} member={member} index={i} />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mx-auto mb-10">
+          <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
+            Discipline Team
+          </p>
+          {disciplineTeam.map((member, i) => (
+            <CoreTeamCard key={member.name} member={member} index={i} />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 md:px-[70px] lg:px-[270px] gap-4 md:gap-6 mx-auto mb-10">
+          <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
+            Website Team
+          </p>
+          {webTeam.map((member, i) => (
+            <CoreTeamCard key={member.name} member={member} index={i} />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 md:px-[70px] lg:px-[270px] gap-4 md:gap-6 mx-auto mb-10">
+          <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
+            Press & Media Team
+          </p>
+          {pressMediaTeam.map((member, i) => (
+            <CoreTeamCard key={member.name} member={member} index={i} />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 md:px-[70px] lg:px-[270px] gap-4 md:gap-6 mx-auto mb-10">
+          <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
+            Outreach & Alumni Affair Team
+          </p>
+          {outreachAlumniTeam.map((member, i) => (
+            <CoreTeamCard key={member.name} member={member} index={i} />
+          ))}
+        </div>
+      </section>
+    </main>
+  );
+};
+
+export default Core;
