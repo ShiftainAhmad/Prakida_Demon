@@ -71,12 +71,18 @@ const CoreTeamCard = ({ member, index }) => {
     }
   }, []);
 
+  const handleClick = useCallback(() => {
+    const url = member.socials?.[0]?.url;
+    if (url) window.open(url, "_blank", "noopener,noreferrer");
+  }, [member.socials]);
+
   return (
     <div
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
       className="group relative overflow-hidden rounded-2xl cursor-pointer w-25"
       style={{
         transformStyle: "preserve-3d",
@@ -128,6 +134,11 @@ const CoreTeamCard = ({ member, index }) => {
         <span className="inline-block mb-2 text-[13px] font-bold tracking-[0.17em] uppercase text-[#f19317]">
           {member.role}
         </span>
+        {member.batch && (
+          <span className="inline-block ml-2 text-[11px] font-semibold tracking-[0.12em] uppercase text-[rgb(173,177,190)]">
+            ({member.batch})
+          </span>
+        )}
         <h3 className="font-display text-xl font-semibold text-[rgb(239,236,231)] mb-1">
           {member.name}
         </h3>
@@ -144,6 +155,8 @@ const CoreTeamCard = ({ member, index }) => {
                 color: s.color,
               }}
               target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
             >
               {s.label}
             </a>

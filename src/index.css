@@ -167,3 +167,34 @@
   filter: brightness(0) saturate(100%) invert(68%) sepia(45%) saturate(1200%)
     hue-rotate(5deg) brightness(108%) contrast(95%);
 }
+
+/* ── Animated moving gradient background ── */
+@keyframes core-gradient-shift {
+  0%   { background-position: 0% 50%; }
+  25%  { background-position: 100% 0%; }
+  50%  { background-position: 100% 100%; }
+  75%  { background-position: 0% 100%; }
+  100% { background-position: 0% 50%; }
+}
+
+.core-moving-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    #0a0a0a        0%,
+    #2a0800        12%,
+    #0a0a0a        22%,
+    #180030        35%,
+    #0a0a0a        45%,
+    #001a2a        58%,
+    #0a0a0a        68%,
+    #1a1200        80%,
+    #2a0800        92%,
+    #0a0a0a        100%
+  );
+  background-size: 500% 500%;
+  animation: core-gradient-shift 15s ease infinite;
+}
