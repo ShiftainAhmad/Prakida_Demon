@@ -659,8 +659,8 @@ const disciplineTeam = [
       "https://i.ibb.co/gZ9fVQnQ/gensec.jpg",
     socials: [
       {
-        label: "@",
-        url: "",
+        label: "@ sharmashutosh01",
+        url: "https://www.instagram.com/sharmashutosh01",
         color: "#E4405F",
       },
     ],
