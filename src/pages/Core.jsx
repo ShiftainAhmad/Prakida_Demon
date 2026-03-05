@@ -252,6 +252,19 @@ const publicityTeam = [
       },
     ],
   },
+  {
+    name: "Kaushiki",
+    role: "Co-Head",
+    batch: "2024",
+    photo: "https://i.ibb.co/prww7FGg/Kaushiki.jpg",
+    socials: [
+      {
+        label: "@thats_kaushiki",
+        url: "https://www.instagram.com/thats_kaushiki?igsh=MXVlMDgzcGoxb2k2Ng%3D%3D&utm_source=qr",
+        color: "#E4405F",
+      },
+    ],
+  },
 ];
 
 const sponsorshipTeam = [
@@ -442,7 +455,7 @@ const designDecorTeam = [
     role: "Co-Head",
     batch: "2024",
     photo:
-      "https://i.ibb.co/TxSxLnD8/IMG-20240613-WA0009-copy-1280x11-Priti-Kumari.jpg",
+      "https://i.ibb.co/6JrMGLpH/Priti-singh.jpg",
     socials: [
       {
         label: "@berry_blusie11",
@@ -759,6 +772,19 @@ const venueManagementTeam = [
       },
     ],
   },
+  {
+    name: "Pradumn Yadav",
+    role: "Co-Head",
+    batch: "2024",
+    photo: "https://i.ibb.co/67XnQSzF/Pradumn-Yadav.jpg",
+    socials: [
+      {
+        label: "@",
+        url: "",
+        color: "#E4405F",
+      },
+    ],
+  },
 ];
 
 const foodCateringTeam = [
@@ -969,7 +995,7 @@ const Core = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 lg:px-[117px] mx-auto mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mx-auto mb-10">
           <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
             Publicity & Social Media Team
           </p>
@@ -1032,7 +1058,7 @@ const Core = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 lg:px-[117px] gap-4 md:gap-6 mx-auto mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mx-auto mb-10">
           <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
             Venue Management Team
           </p>
