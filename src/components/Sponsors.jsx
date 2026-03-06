@@ -49,7 +49,7 @@ const Sponsors = () => {
             <img
               src="Live Dainik logo.png"
               alt="Live Dainik"
-              className="object-contain py-5 w-48 h-48 rounded-r-lg"
+              className="object-contain py-5 w-48 h-48 rounded-lg "
             />
             <p className="text-white text-l font-black tracking-tight uppercase text-center mt-2">Live Dainik</p>
           </div>
@@ -57,9 +57,17 @@ const Sponsors = () => {
             <img
               src="Dainik_Jagran_logo.png"
               alt="Dainik Jagran"
-              className="object-contain py-5 w-48 h-48 rounded-r-lg bg-white"
+              className="object-contain py-5 w-48 h-48 rounded-lg bg-white p-4"
             />
             <p className="text-white text-l font-black tracking-tight uppercase text-center mt-2">Dainik Jagran</p>
+          </div>
+           <div className="flex flex-col items-center">
+            <img
+              src="Patna press logo.jpeg"
+              alt="Patna Press"
+              className="object-contain py-5 w-48 h-48 rounded-lg bg-white p-4"
+            />
+            <p className="text-white text-l font-black tracking-tight uppercase text-center mt-2">Patna Press</p>
           </div>
         </div>
       </div>
