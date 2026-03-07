@@ -7,14 +7,13 @@ const webTeam = [
     name: "Shiftain Ahmad",
     role: "Head",
     batch: "2023",
-    photo:
-      "https://i.ibb.co/nswqzDxt/shiftain.jpg",
+    photo: "https://i.ibb.co/nswqzDxt/shiftain.jpg",
     socials: [
-      { 
-        label: "@shiftain_04", 
-        url: "https://www.instagram.com/shiftain_04/", 
-        color: "#E4405F" 
-      }
+      {
+        label: "@shiftain_04",
+        url: "https://www.instagram.com/shiftain_04/",
+        color: "#E4405F",
+      },
     ],
   },
   {
@@ -151,7 +150,20 @@ const logisticsTeam = [
       },
     ],
   },
-
+  {
+    name: "Saurabh Suman",
+    role: "Co-Head",
+    batch: "2024",
+    photo:
+      "https://i.ibb.co/qXtPMv9/Whats-App-Image-2026-03-07-at-1-56-33-AM.jpg",
+    socials: [
+      {
+        label: "@saurabhh__jha",
+        url: "https://www.instagram.com/saurabhh__jha?igsh=MWlhM2JwM291a3I1aw==",
+        color: "#E4405F",
+      },
+    ],
+  },
 ];
 
 const eventTeam = [
@@ -172,8 +184,7 @@ const eventTeam = [
     name: "Aditya Raj Chandel",
     role: "Head",
     batch: "2023",
-    photo:
-      "https://i.ibb.co/h1Rr1tFS/chandel.jpg",
+    photo: "https://i.ibb.co/h1Rr1tFS/chandel.jpg",
     socials: [
       {
         label: "@chaotic_adi_",
@@ -285,8 +296,7 @@ const sponsorshipTeam = [
     name: "Tanmay Sinha",
     role: "Head",
     batch: "2023",
-    photo:
-      "https://i.ibb.co/zWHmvPSM/tamnay.jpg",
+    photo: "https://i.ibb.co/zWHmvPSM/tamnay.jpg",
     socials: [
       {
         label: "@",
@@ -328,8 +338,7 @@ const hospitalityTeam = [
     name: "Piyush Priyadarshi",
     role: "Head",
     batch: "2023",
-    photo:
-      "https://i.ibb.co/VYXZtNhp/Piyush-Priyadarshi.jpg",
+    photo: "https://i.ibb.co/VYXZtNhp/Piyush-Priyadarshi.jpg",
     socials: [
       {
         label: "@",
@@ -356,8 +365,7 @@ const hospitalityTeam = [
     name: "Shruti",
     role: "Head",
     batch: "2023",
-    photo:
-      "https://i.ibb.co/Jjm0Znrh/shurti.jpg",
+    photo: "https://i.ibb.co/Jjm0Znrh/shurti.jpg",
     socials: [
       {
         label: "@parasar_shruti",
@@ -396,8 +404,7 @@ const hospitalityTeam = [
     name: "Anshu Singh",
     role: "Co-Head",
     batch: "2024",
-    photo:
-      "https://i.ibb.co/JR1h197z/anshu-singh.jpg",
+    photo: "https://i.ibb.co/JR1h197z/anshu-singh.jpg",
     socials: [
       {
         label: "@anshu_s1ngh",
@@ -485,8 +492,7 @@ const designAndDraftingTeam = [
     name: "Ashutosh Sharma",
     role: "Co-Head",
     batch: "2024",
-    photo:
-      "https://i.ibb.co/1f0hsjP4/ashutosh-sharma.jpg",
+    photo: "https://i.ibb.co/1f0hsjP4/ashutosh-sharma.jpg",
     socials: [
       {
         label: "@sharmashutosh01",
@@ -499,8 +505,7 @@ const designAndDraftingTeam = [
     name: "Kanan Kotwani",
     role: "Co-Head",
     batch: "2024",
-    photo:
-      "https://i.ibb.co/Fq0yM0vj/kanan.jpg",
+    photo: "https://i.ibb.co/Fq0yM0vj/kanan.jpg",
     socials: [
       {
         label: "@kaananfr",
@@ -575,8 +580,7 @@ const coConvener = [
     name: "Aditya Raj",
     role: "Co-Convener",
     batch: "2023",
-    photo:
-      "https://i.ibb.co/1YfzY1mY/aditya-raj.jpg",
+    photo: "https://i.ibb.co/1YfzY1mY/aditya-raj.jpg",
     socials: [
       {
         label: "@aditya22_raj",
@@ -592,8 +596,7 @@ const sportsSecretary = [
     name: "Suyash Ranjan Sinha",
     role: "Head",
     batch: "2023",
-    photo:
-      "https://i.ibb.co/Lzr0n9Tx/suyash-sinha.jpg",
+    photo: "https://i.ibb.co/Lzr0n9Tx/suyash-sinha.jpg",
     socials: [
       {
         label: "@suyash_1876",
@@ -651,8 +654,7 @@ const disciplineTeam = [
     name: "Ashutosh Kumar",
     role: "Head",
     batch: "2023",
-    photo:
-      "https://i.ibb.co/gZ9fVQnQ/gensec.jpg",
+    photo: "https://i.ibb.co/gZ9fVQnQ/gensec.jpg",
     socials: [
       {
         label: "@ohnoitsahu",
@@ -749,8 +751,7 @@ const venueManagementTeam = [
     name: "Hardik Kumar Singh",
     role: "Head",
     batch: "2023",
-    photo:
-      "https://i.ibb.co/j9c2P9QT/IMG-20250630-WA0041-Hardik-Singh.jpg",
+    photo: "https://i.ibb.co/j9c2P9QT/IMG-20250630-WA0041-Hardik-Singh.jpg",
     socials: [
       {
         label: "@",
@@ -862,8 +863,7 @@ const outreachAlumniTeam = [
     name: "Maadhavi",
     role: "Co-Head",
     batch: "2024",
-    photo:
-      "https://i.ibb.co/5WM5fTVY/maadhavi.jpg",
+    photo: "https://i.ibb.co/5WM5fTVY/maadhavi.jpg",
     socials: [
       {
         label: "@madvi_12",
@@ -1013,7 +1013,7 @@ const Core = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 mx-auto mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mx-auto mb-10">
           <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
             Hospitality Team
           </p>
@@ -1067,7 +1067,7 @@ const Core = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 mx-auto mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mx-auto mb-10">
           <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
             Discipline Team
           </p>

@@ -7,7 +7,7 @@ const logos = [
   "/Dainik_Jagran_logo.png",
   "/Prohibition_department.jpeg",
   "/Live Dainik logo.png",
-  "/Patna press logo.jpeg"
+  "/Patna press logo.jpeg",
 ];
 const Sponsors_names = [
   '"Connecting places... connecting lives"',
@@ -16,7 +16,7 @@ const Sponsors_names = [
   "DAINIK JAGRAN",
   "PROHIBITION AND EXCISE DEPARTMENT",
   "LIVE DAINIK",
-  "PATNA PRESS"
+  "PATNA PRESS",
 ];
 
 const Clients = () => {
@@ -47,7 +47,7 @@ const Clients = () => {
                   <div
                     key={index}
                     className="flex flex-col items-center justify-center
-                                min-w-[240px] h-[150px]
+                                min-w-[290px] h-[200px] max-md:min-w-[240px] max-md:h-[150px]
                                 bg-white/5 border border-white/10
                                 rounded-xl p-5
                                 transition-all duration-300
@@ -57,18 +57,22 @@ const Clients = () => {
                     <img
                       src={logo}
                       alt="client"
-                      className="max-h-[80px] object-contain bg-white/10 rounded-md p-1"
+                      className="max-h-[100px] object-contain max-md:h-[80px] bg-white/10 rounded-md p-1"
                     />
 
-                    <div className={`mt-2 text-center ${
-    index % Sponsors_names.length === 0
-      ? "text-lg font-normal"
-      : "text-sm font-bold"
-  }`}
-  style={{
-    fontFamily:
-      index % Sponsors_names.length === 0 ? "Mistral" : "inherit",
-  }}>
+                    <div
+                      className={`mt-2 text-center ${
+                        index % Sponsors_names.length === 0
+                          ? "text-lg font-normal"
+                          : "text-sm font-bold"
+                      }`}
+                      style={{
+                        fontFamily:
+                          index % Sponsors_names.length === 0
+                            ? "Mistral"
+                            : "inherit",
+                      }}
+                    >
                       {Sponsors_names[index % Sponsors_names.length]}
                     </div>
                   </div>
