@@ -450,20 +450,20 @@ const designDecorTeam = [
       },
     ],
   },
-  {
-    name: "Priti Kumari",
-    role: "Co-Head",
-    batch: "2024",
-    photo:
-      "https://i.ibb.co/6JrMGLpH/Priti-singh.jpg",
-    socials: [
-      {
-        label: "@berry_blusie11",
-        url: "https://www.instagram.com/berry_blusie11",
-        color: "#E4405F",
-      },
-    ],
-  },
+  // {
+  //   name: "Priti Kumari",
+  //   role: "Co-Head",
+  //   batch: "2024",
+  //   photo:
+  //     "https://i.ibb.co/6JrMGLpH/Priti-singh.jpg",
+  //   socials: [
+  //     {
+  //       label: "@berry_blusie11",
+  //       url: "https://www.instagram.com/berry_blusie11",
+  //       color: "#E4405F",
+  //     },
+  //   ],
+  // },
 ];
 
 const designAndDraftingTeam = [
