@@ -77,6 +77,9 @@ const SportDetailsModal = ({ sport, onClose }) => {
         return qs ? `/register?${qs}` : "/register";
     })();
 
+    // Check if registration is closed for the focused categories
+    const isRegistrationClosed = focusedCategories.some((c) => c.registrationClosed);
+
     const modalContent = (
         <div className="fixed inset-0 z-[9999] flex justify-center items-center overflow-hidden p-4 md:p-6 lg:p-8">
             {/* Backdrop */}
@@ -170,25 +173,36 @@ const SportDetailsModal = ({ sport, onClose }) => {
                         </h2>
 
                         <div className="shrink-0 flex flex-col sm:flex-row gap-2 md:gap-3 mb-4 md:mb-6">
-                            <Link
-                                to={user ? registerTo : "/login"}
-                                className="flex-1 px-5 md:px-6 py-3 md:py-4 bg-prakida-flame text-white font-black text-xs md:text-lg tracking-[0.22em] md:tracking-widest hover:bg-orange-600 transition-all duration-300 transform skew-x-[-12deg] flex items-center justify-center gap-2 group/btn"
-                            >
-                                <span className="skew-x-[12deg] flex items-center gap-2">
-                                    {user ? "JOIN THE CORPS" : "LOGIN TO REGISTER"}{" "}
-                                    {user ? (
-                                        <ArrowRight
-                                            size={18}
-                                            className="group-hover/btn:translate-x-2 transition-transform"
-                                        />
-                                    ) : (
-                                        <LogIn
-                                            size={18}
-                                            className="group-hover/btn:translate-x-2 transition-transform"
-                                        />
-                                    )}
-                                </span>
-                            </Link>
+                            {isRegistrationClosed ? (
+                                <button
+                                    onClick={() => alert("Slot Full - Registration for this event is closed.")}
+                                    className="flex-1 px-5 md:px-6 py-3 md:py-4 bg-prakida-flame text-white font-black text-xs md:text-lg tracking-[0.22em] md:tracking-widest transition-all duration-300 transform skew-x-[-12deg] flex items-center justify-center gap-2 opacity-50 cursor-not-allowed"
+                                >
+                                    <span className="skew-x-[12deg] flex items-center gap-2">
+                                        REGISTRATION CLOSED
+                                    </span>
+                                </button>
+                            ) : (
+                                <Link
+                                    to={user ? registerTo : "/login"}
+                                    className="flex-1 px-5 md:px-6 py-3 md:py-4 bg-prakida-flame text-white font-black text-xs md:text-lg tracking-[0.22em] md:tracking-widest hover:bg-orange-600 transition-all duration-300 transform skew-x-[-12deg] flex items-center justify-center gap-2 group/btn"
+                                >
+                                    <span className="skew-x-[12deg] flex items-center gap-2">
+                                        {user ? "JOIN THE CORPS" : "LOGIN TO REGISTER"}{" "}
+                                        {user ? (
+                                            <ArrowRight
+                                                size={18}
+                                                className="group-hover/btn:translate-x-2 transition-transform"
+                                            />
+                                        ) : (
+                                            <LogIn
+                                                size={18}
+                                                className="group-hover/btn:translate-x-2 transition-transform"
+                                            />
+                                        )}
+                                    </span>
+                                </Link>
+                            )}
 
                             <a
                                 href={sport.rulebook}
