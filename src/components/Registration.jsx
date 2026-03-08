@@ -167,6 +167,11 @@ const Registration = () => {
     Other: "O",
   };
 
+  // Check if a category requires mixed gender (one male, one female)
+  const isMixedGenderCategory = (categoryId) => {
+    return categoryId === "mixed" || categoryId === "mixed_double";
+  };
+
   const removeMember = (index) => {
     const newMembers = members.filter((_, i) => i !== index);
     setMembers(newMembers);
@@ -320,6 +325,22 @@ const Registration = () => {
         setStatus({
           type: "error",
           message: `${m.role} (${m.name}) must have a phone number.`,
+        });
+        return;
+      }
+    }
+
+    // Validate mixed gender category requirement (one male and one female)
+    if (isMixedGenderCategory(selectedCategory)) {
+      const allGenders = [gender, ...members.map(m => m.gender)];
+      const hasMale = allGenders.includes("Male");
+      const hasFemale = allGenders.includes("Female");
+
+      if (!hasMale || !hasFemale) {
+        const categoryLabel = selectedCategory === "mixed" ? "Mixed Doubles" : "Mixed";
+        setStatus({
+          type: "error",
+          message: `${categoryLabel} requires one Male and one Female player. Please select players of different genders.`,
         });
         return;
       }
@@ -849,7 +870,7 @@ const Registration = () => {
                       )}
 
                       <select
-                        value={gender}
+                        value={member.gender || ""}
                         onChange={(e) =>
                           handleMemberChange(index, "gender", e.target.value)
                         }

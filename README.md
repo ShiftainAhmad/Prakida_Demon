@@ -79,6 +79,26 @@ The project features a high-performance, visually striking interface with a focu
     ```
     Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
 
+## Sports Categories & Gender Handling
+
+### Gender Requirements
+Gender is **required** for ALL sports and categories during registration:
+
+- **Chess** (Open) - 5-6 players, players of all genders welcome but must specify gender
+- **E-Sports** (BGMI, Valorant, Free Fire) - 4-5 players, all genders, but must specify gender
+- **Football, Cricket, Basketball, Volleyball** - Separate Men's and Women's teams, gender selection required
+- **Badminton, Lawn Tennis** - Men's, Women's, and group categories, gender required
+- **Table Tennis** - Men's Team, Women's Team, Singles (Men/Women), and Mixed Doubles
+- **Carrom** - Men, Women, and Mixed Doubles
+
+### Mixed Gender Categories (Requires One Male + One Female)
+Some categories enforce gender diversity requirements:
+
+- **Table Tennis - Mixed Doubles**: Requires exactly one Male and one Female player per team (2 players)
+- **Carrom - Mixed Doubles**: Requires exactly one Male and one Female player per team (2 players)
+
+**Validation**: The application will validate that each mixed category team has players of different genders. An error will be shown if you attempt to register a mixed category team without an even gender split (one male, one female).
+
 ## Database Rules (Firestore)
 
 Ensure your Firestore Security Rules allow the application to function:
