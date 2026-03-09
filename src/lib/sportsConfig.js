@@ -13,7 +13,6 @@ export const SPORTS_CONFIG = {
         feeUnit: "team",
         notes: "",
         teamNameRequired: true,
-        registrationClosed: true,
       },
       {
         id: "women",
@@ -43,7 +42,6 @@ export const SPORTS_CONFIG = {
         feeUnit: "team",
         notes: "",
         teamNameRequired: true,
-        registrationClosed: true,
       },
       {
         id: "women",
