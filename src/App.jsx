@@ -28,7 +28,7 @@ const Login = lazy(() => import("./pages/Login"));
 const Signup = lazy(() => import("./pages/Signup"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
-const Tickets = lazy(() => import("./pages/Tickets"));
+// const Tickets = lazy(() => import("./pages/Tickets"));
 const Accommodation = lazy(() => import("./pages/Accommodation"));
 const AccommodationRegistration = lazy(
   () => import("./pages/AccommodationRegistration"),
@@ -137,6 +137,7 @@ const AnimatedRoutes = () => {
                 </PageTransition>
               }
             />
+            {/*
             <Route
               path="/tickets"
               element={
@@ -145,6 +146,7 @@ const AnimatedRoutes = () => {
                 </PageTransition>
               }
             />
+            */}
             <Route
               path="/accommodation"
               element={
