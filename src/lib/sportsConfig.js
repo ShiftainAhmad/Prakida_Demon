@@ -204,6 +204,8 @@ export const SPORTS_CONFIG = {
   },
   Badminton: {
     type: "Team Entry",
+    registrationClosed: true,
+    registrationClosedReason: "Registration for Badminton is currently paused.",
     categories: [
       {
         id: "men",
@@ -361,6 +363,8 @@ export const SPORTS_CONFIG = {
       {
         id: "bgmi",
         label: "BGMI Team",
+        registrationClosed: true,
+        registrationClosedReason: "Registration for BGMI is currently paused.",
         minPlayers: 4,
         maxPlayers: 4,
         eventID: 13,
