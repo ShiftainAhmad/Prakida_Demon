@@ -32,8 +32,8 @@ export const SPORTS_CONFIG = {
   },
   Cricket: {
     type: "Team Sport",
-    //registrationClosed: true,
-    //registrationClosedReason: "Registration for Cricket is currently paused.",
+    registrationClosed: true,
+    registrationClosedReason: "Registration for Cricket is currently paused.",
     categories: [
       {
         id: "men",
@@ -95,8 +95,8 @@ export const SPORTS_CONFIG = {
   },
   Volleyball: {
     type: "Team Sport",
-    //registrationClosed: true,
-    //registrationClosedReason: "Registration for Volleyball is currently paused.",
+    registrationClosed: true,
+    registrationClosedReason: "Registration for Volleyball is currently paused.",
     categories: [
       {
         id: "men",
