@@ -8,6 +8,8 @@ const logos = [
   "/Prohibition_department.jpeg",
   "/Live Dainik logo.png",
   "/Patna press logo.jpeg",
+  "/IDBI logo.jpg",
+  "/max protein.jpg",
 ];
 const Sponsors_names = [
   '"Connecting places... connecting lives"',
@@ -17,6 +19,8 @@ const Sponsors_names = [
   "PROHIBITION AND EXCISE DEPARTMENT",
   "LIVE DAINIK",
   "PATNA PRESS",
+  "IDBI BANK",
+  "RiteBite Max Protein",
 ];
 
 const Clients = () => {
