@@ -10,6 +10,13 @@ const logos = [
   "/Patna press logo.jpeg",
   "/IDBI logo.jpg",
   "/max protein.jpg",
+  "/sudha logo.png",
+  "/pepsi logo.png",
+  "/tiqr logo.png",
+  "/beltron logo.png",
+  "/comfed logo.jpg",
+  "/icici bank logo.png",
+  "/bank of india logo.png",
 ];
 const Sponsors_names = [
   '"Connecting places... connecting lives"',
@@ -21,6 +28,13 @@ const Sponsors_names = [
   "PATNA PRESS",
   "IDBI BANK",
   "RiteBite Max Protein",
+  "Sudha",
+  "Pepsi",
+  "TiQr",
+  "Bihar State Electronics Development Corporation Limited",
+  "Comfed",
+  "ICICI Bank",
+  "Bank of India",
 ];
 
 const Clients = () => {
