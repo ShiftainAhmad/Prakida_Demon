@@ -431,15 +431,14 @@ const designDecorTeam = [
     ],
   },
   {
-    name: "Priyanka Agarwal",
+    name: "Priyanka Agrawal",
     role: "Head",
     batch: "2023",
-    photo:
-      "https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png",
+    photo: "https://i.ibb.co/W4SSFQSB/Priyanka-Agrawal.jpg",
     socials: [
       {
-        label: "@",
-        url: "",
+        label: "@priyanka._2005",
+        url: "https://www.instagram.com/priyanka._2005?igsh=MXRiOHBtZWxwNWJ6cg==",
         color: "#E4405F",
       },
     ],
@@ -478,12 +477,11 @@ const designAndDraftingTeam = [
     name: "Shivani",
     role: "Head",
     batch: "2023",
-    photo:
-      "https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png",
+    photo: "https://i.ibb.co/8g3b5RnL/shivani.jpg",
     socials: [
       {
-        label: "@",
-        url: "",
+        label: "@shivani.designstudio",
+        url: "https://www.instagram.com/shivani.designstudio?igsh=NzNiZHN4Z3hyOHNk",
         color: "#E4405F",
       },
     ],
@@ -518,12 +516,11 @@ const designAndDraftingTeam = [
     name: "Aditi Shrivastava",
     role: "Co-Head",
     batch: "2024",
-    photo:
-      "https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png",
+    photo: "https://i.ibb.co/HfVkHW46/Aditi-Shrivastava.jpg",
     socials: [
       {
-        label: "@",
-        url: "",
+        label: "@aditi_shrivastava2728",
+        url: "https://www.instagram.com/aditi_shrivastava2728?igsh=Ymw1Zjczc25pY3lj",
         color: "#E4405F",
       },
     ],
@@ -846,15 +843,14 @@ const outreachAlumniTeam = [
     ],
   },
   {
-    name: "Aditi Maharor",
+    name: "Prisha Raj",
     role: "Co-Head",
     batch: "2024",
-    photo:
-      "https://i.ibb.co/C5ZvZPhC/Screenshot-2026-02-22-23-11-05-37-99c04817c0de5652397fc8b56c3b3817-Aditi-M.jpg",
+    photo: "https://i.ibb.co/d0GTycGV/Prisha-Raj.jpg",
     socials: [
       {
-        label: "@",
-        url: "",
+        label: "@pri.sha_1505",
+        url: "https://www.instagram.com/pri.sha_1505?igsh=MWF5MjRzY3VpdnNxaA%3D%3D&utm_source=qr",
         color: "#E4405F",
       },
     ],

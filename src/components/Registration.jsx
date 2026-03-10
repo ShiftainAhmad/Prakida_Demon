@@ -923,13 +923,23 @@ const Registration = () => {
 
             <div className="mt-8">
               <motion.button
-                whileHover={buttonHover}
-                whileTap={buttonTap}
-                type="submit"
-                disabled={isSubmitting}
+                whileHover={config?.registrationClosed ? {} : buttonHover}
+                whileTap={config?.registrationClosed ? {} : buttonTap}
+                type={config?.registrationClosed ? "button" : "submit"}
+                disabled={isSubmitting || config?.registrationClosed}
+                onClick={(e) => {
+                  if (config?.registrationClosed) {
+                    e.preventDefault();
+                    alert("Slot Full - Registration for this event is closed.");
+                  }
+                }}
                 className="w-full bg-prakida-flame hover:bg-prakida-flameDark text-white font-bold py-4 tracking-[0.25em] disabled:opacity-50 transition-colors"
               >
-                {isSubmitting ? "TRANSMITTING DATA..." : "CONFIRM REGISTRATION"}
+                {config?.registrationClosed
+                  ? "REGISTRATION CLOSED"
+                  : isSubmitting
+                    ? "TRANSMITTING DATA..."
+                    : "CONFIRM REGISTRATION"}
               </motion.button>
             </div>
           </div>
