@@ -5,7 +5,12 @@ import { useAuth } from "../context/AuthContext";
 import { getDoc, doc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
-import { SPORTS_CONFIG } from "../lib/sportsConfig";
+import {
+  SPORTS_CONFIG,
+  getRegistrationClosedMessage,
+  getSportCategories,
+  isRegistrationClosedForSelection,
+} from "../lib/sportsConfig";
 import { formatINRWithSymbol, formatRegistrationFee } from "../lib/pricing";
 import { buttonHover, buttonTap, sectionSlide } from "../utils/motion";
 import { Plus, Trash2, Trophy, Users, Shield, Crown } from "lucide-react";
@@ -15,15 +20,21 @@ const getSelectionFromQuery = (search) => {
   const sportParam = params.get("sport");
   const categoryParam = params.get("category");
 
-  const fallbackSport = Object.keys(SPORTS_CONFIG)[0];
+  const sportKeys = Object.keys(SPORTS_CONFIG);
+  const fallbackSport =
+    sportKeys.find((sportKey) => !isRegistrationClosedForSelection(sportKey)) ||
+    sportKeys[0];
   const initialSport =
     sportParam && SPORTS_CONFIG[sportParam] ? sportParam : fallbackSport;
 
-  const categories = SPORTS_CONFIG[initialSport]?.categories || [];
+  const categories = getSportCategories(initialSport);
+  const fallbackCategory =
+    categories.find((category) => !category?.registrationClosed)?.id ||
+    categories[0]?.id;
   const initialCategory =
     categoryParam && categories.some((c) => c.id === categoryParam)
       ? categoryParam
-      : categories[0]?.id;
+      : fallbackCategory;
 
   return { initialSport, initialCategory };
 };
@@ -64,6 +75,10 @@ const Registration = () => {
     const sport = SPORTS_CONFIG[selectedSport];
     return sport?.categories?.find((c) => c.id === selectedCategory);
   }, [selectedSport, selectedCategory]);
+
+  const registrationBlockedMessage = useMemo(() => {
+    return getRegistrationClosedMessage(selectedSport, selectedCategory);
+  }, [selectedCategory, selectedSport]);
 
   useEffect(() => {
     const { initialSport: sportFromQuery, initialCategory: categoryFromQuery } =
@@ -126,7 +141,13 @@ const Registration = () => {
     const newSport = e.target.value;
     setSelectedSport(newSport);
 
-    setSelectedCategory(SPORTS_CONFIG[newSport].categories[0].id);
+    const nextCategories = getSportCategories(newSport);
+    const nextCategory =
+      nextCategories.find((category) => !category?.registrationClosed)?.id ||
+      nextCategories[0]?.id ||
+      "";
+
+    setSelectedCategory(nextCategory);
     setMembers([]);
   };
 
@@ -194,6 +215,16 @@ const Registration = () => {
     const registrationType = registrationMode;
     const leadershipEnabled =
       registrationType === "group" && Boolean(config?.teamNameRequired);
+
+    if (config?.registrationClosed) {
+      setStatus({
+        type: "error",
+        message:
+          registrationBlockedMessage ||
+          "Registration for this event is currently unavailable.",
+      });
+      return;
+    }
 
     if (!eventID) {
       setStatus({
@@ -552,7 +583,9 @@ const Registration = () => {
                   >
                     {Object.keys(SPORTS_CONFIG).map((sport) => (
                       <option key={sport} value={sport} className="bg-gray-900">
-                        {sport}
+                        {isRegistrationClosedForSelection(sport)
+                          ? `${sport} (Paused)`
+                          : sport}
                       </option>
                     ))}
                   </select>
@@ -573,10 +606,17 @@ const Registration = () => {
                         value={cat.id}
                         className="bg-gray-900"
                       >
-                        {cat.label}
+                        {cat.registrationClosed
+                          ? `${cat.label} (Paused)`
+                          : cat.label}
                       </option>
                     ))}
                   </select>
+                  {config?.registrationClosed && registrationBlockedMessage && (
+                    <div className="mt-2 rounded border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs font-bold text-amber-300">
+                      {registrationBlockedMessage}
+                    </div>
+                  )}
                   <p className="text-xs text-prakida-water mt-1">
                     Members Required: {config.minPlayers} - {config.maxPlayers}
                   </p>
@@ -930,7 +970,12 @@ const Registration = () => {
                 onClick={(e) => {
                   if (config?.registrationClosed) {
                     e.preventDefault();
-                    alert("Slot Full - Registration for this event is closed.");
+                    setStatus({
+                      type: "error",
+                      message:
+                        registrationBlockedMessage ||
+                        "Registration for this event is currently unavailable.",
+                    });
                   }
                 }}
                 className="w-full bg-prakida-flame hover:bg-prakida-flameDark text-white font-bold py-4 tracking-[0.25em] disabled:opacity-50 transition-colors"

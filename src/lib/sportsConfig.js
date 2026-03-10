@@ -1,6 +1,8 @@
 export const SPORTS_CONFIG = {
   Football: {
     type: "Team Sport",
+    registrationClosed: true,
+    registrationClosedReason: "Registration for Football is currently paused.",
     categories: [
       {
         id: "men",
@@ -30,6 +32,8 @@ export const SPORTS_CONFIG = {
   },
   Cricket: {
     type: "Team Sport",
+    registrationClosed: true,
+    registrationClosedReason: "Registration for Cricket is currently paused.",
     categories: [
       {
         id: "men",
@@ -59,6 +63,9 @@ export const SPORTS_CONFIG = {
   },
   Basketball: {
     type: "Team Sport",
+    registrationClosed: true,
+    registrationClosedReason:
+      "Registration for Basketball is currently paused.",
     categories: [
       {
         id: "men",
@@ -386,4 +393,52 @@ export const SPORTS_CONFIG = {
       },
     ],
   },
+};
+
+export const getSportCategories = (sportKey) => {
+  return SPORTS_CONFIG[sportKey]?.categories || [];
+};
+
+export const isSportRegistrationClosed = (sportKey) => {
+  return Boolean(SPORTS_CONFIG[sportKey]?.registrationClosed);
+};
+
+export const getSportRegistrationClosedMessage = (sportKey) => {
+  return (
+    SPORTS_CONFIG[sportKey]?.registrationClosedReason ||
+    "Registration for this sport is currently unavailable."
+  );
+};
+
+export const getScopedCategories = (sportKey, categoryId) => {
+  const categories = getSportCategories(sportKey);
+  if (!categoryId) return categories;
+  return categories.filter((category) => category.id === categoryId);
+};
+
+export const isRegistrationClosedForSelection = (sportKey, categoryId) => {
+  if (isSportRegistrationClosed(sportKey)) return true;
+
+  const categories = getScopedCategories(sportKey, categoryId);
+  if (!categories.length) return false;
+  return categories.every((category) => Boolean(category?.registrationClosed));
+};
+
+export const getRegistrationClosedMessage = (sportKey, categoryId) => {
+  if (isSportRegistrationClosed(sportKey)) {
+    return getSportRegistrationClosedMessage(sportKey);
+  }
+
+  const categories = getScopedCategories(sportKey, categoryId);
+  const closedCategories = categories.filter(
+    (category) => category?.registrationClosed,
+  );
+
+  if (!closedCategories.length) return "";
+
+  return (
+    closedCategories.find((category) => category?.registrationClosedReason)
+      ?.registrationClosedReason ||
+    "Registration for this event is currently unavailable."
+  );
 };

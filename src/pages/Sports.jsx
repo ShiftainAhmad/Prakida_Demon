@@ -4,7 +4,11 @@ import { sectionSlide, gridStagger, cardSnap } from "../utils/motion";
 import { Users, ArrowRight, Maximize2, RefreshCw, LogIn } from "lucide-react";
 import { Link } from "react-router-dom";
 import SportDetailsModal from "../components/ui/SportDetailsModal";
-import { SPORTS_CONFIG } from "../lib/sportsConfig";
+import {
+  SPORTS_CONFIG,
+  getRegistrationClosedMessage,
+  isRegistrationClosedForSelection,
+} from "../lib/sportsConfig";
 import { summarizeFee } from "../lib/pricing";
 import { useAuth } from "../context/AuthContext";
 
@@ -401,6 +405,13 @@ const Sports = () => {
     return null;
   };
 
+  const isRegistrationClosedForCard = (sport) => {
+    return isRegistrationClosedForSelection(
+      sport?.configSport,
+      sport?.focusCategoryId,
+    );
+  };
+
   const getStatusPillClass = (status) => {
     const s = String(status || "").toLowerCase();
     if (s === "confirmed")
@@ -493,6 +504,11 @@ const Sports = () => {
             const feeSummary = summarizeFee(categories);
             const playersLabel = getPlayersLabelForSportCard(sport);
             const categoryLabel = getCategoryLabelForSport(sport);
+            const registrationClosed = isRegistrationClosedForCard(sport);
+            const registrationClosedMessage = getRegistrationClosedMessage(
+              sport?.configSport,
+              sport?.focusCategoryId,
+            );
             const sportForModal = {
               ...sport,
               players: playersLabel,
@@ -514,6 +530,14 @@ const Sports = () => {
                       title={registeredLoading ? "Updating..." : "Registered"}
                     >
                       {String(reg.status || "registered").replace(/_/g, " ")}
+                    </span>
+                  </div>
+                )}
+
+                {!reg && registrationClosed && (
+                  <div className="absolute left-4 top-4 z-20">
+                    <span className="px-2 py-1 rounded text-[10px] font-bold uppercase border bg-amber-900/30 text-amber-300 border-amber-500/30">
+                      Paused
                     </span>
                   </div>
                 )}
@@ -576,14 +600,28 @@ const Sports = () => {
                       <button className="flex-1 bg-white text-black py-4 text-xs font-black uppercase hover:bg-prakida-flame hover:text-white transition-all duration-300 transform group-hover:translate-y-[-2px]">
                         View Intel
                       </button>
-                      <Link
-                        to={user ? getRegisterTo(sport) : "/login"}
-                        onClick={(e) => e.stopPropagation()}
-                        className="px-6 py-4 border border-white/10 text-white hover:bg-white/10 transition-colors"
-                        title={user ? "Register" : "Login required to register"}
-                      >
-                        <ArrowRight size={16} />
-                      </Link>
+                      {registrationClosed ? (
+                        <button
+                          type="button"
+                          onClick={(e) => e.stopPropagation()}
+                          className="px-6 py-4 border border-white/10 text-gray-500 transition-colors cursor-not-allowed"
+                          title={
+                            registrationClosedMessage ||
+                            "Registration unavailable"
+                          }
+                        >
+                          <ArrowRight size={16} />
+                        </button>
+                      ) : (
+                        <Link
+                          to={user ? getRegisterTo(sport) : "/login"}
+                          onClick={(e) => e.stopPropagation()}
+                          className="px-6 py-4 border border-white/10 text-white hover:bg-white/10 transition-colors"
+                          title={user ? "Register" : "Login required to register"}
+                        >
+                          <ArrowRight size={16} />
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </div>

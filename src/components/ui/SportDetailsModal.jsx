@@ -3,7 +3,11 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowRight, Camera, LogIn } from "lucide-react";
 import { Link } from "react-router-dom";
-import { SPORTS_CONFIG } from "../../lib/sportsConfig";
+import {
+    SPORTS_CONFIG,
+    getRegistrationClosedMessage,
+    isRegistrationClosedForSelection,
+} from "../../lib/sportsConfig";
 import { formatRegistrationFee } from "../../lib/pricing";
 import { useAuth } from "../../context/AuthContext";
 
@@ -78,7 +82,14 @@ const SportDetailsModal = ({ sport, onClose }) => {
     })();
 
     // Check if registration is closed for the focused categories
-    const isRegistrationClosed = focusedCategories.some((c) => c.registrationClosed);
+    const isRegistrationClosed = isRegistrationClosedForSelection(
+        sport?.configSport,
+        sport?.focusCategoryId,
+    );
+    const registrationClosedMessage = getRegistrationClosedMessage(
+        sport?.configSport,
+        sport?.focusCategoryId,
+    );
 
     const modalContent = (
         <div className="fixed inset-0 z-[9999] flex justify-center items-center overflow-hidden p-4 md:p-6 lg:p-8">
@@ -175,7 +186,7 @@ const SportDetailsModal = ({ sport, onClose }) => {
                         <div className="shrink-0 flex flex-col sm:flex-row gap-2 md:gap-3 mb-4 md:mb-6">
                             {isRegistrationClosed ? (
                                 <button
-                                    onClick={() => alert("Slot Full - Registration for this event is closed.")}
+                                    onClick={() => alert(registrationClosedMessage || "Registration for this event is currently unavailable.")}
                                     className="flex-1 px-5 md:px-6 py-3 md:py-4 bg-prakida-flame text-white font-black text-xs md:text-lg tracking-[0.22em] md:tracking-widest transition-all duration-300 transform skew-x-[-12deg] flex items-center justify-center gap-2 opacity-50 cursor-not-allowed"
                                 >
                                     <span className="skew-x-[12deg] flex items-center gap-2">
@@ -239,6 +250,11 @@ const SportDetailsModal = ({ sport, onClose }) => {
                                     <span className="block text-[8px] md:text-[10px] text-gray-500 font-mono tracking-widest uppercase mb-3">
                                         Pricing
                                     </span>
+                                    {isRegistrationClosed && registrationClosedMessage && (
+                                        <div className="mb-3 rounded border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-[11px] font-bold text-amber-300">
+                                            {registrationClosedMessage}
+                                        </div>
+                                    )}
                                     <div className="space-y-2">
                                         {focusedCategories.map((c) => (
                                             <div
