@@ -96,8 +96,7 @@ export const SPORTS_CONFIG = {
   Volleyball: {
     type: "Team Sport",
     //registrationClosed: true,
-    //registrationClosedReason:
-      "Registration for Volleyball is currently paused.",
+    //registrationClosedReason: "Registration for Volleyball is currently paused.",
     categories: [
       {
         id: "men",
