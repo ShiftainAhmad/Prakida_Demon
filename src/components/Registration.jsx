@@ -80,6 +80,10 @@ const Registration = () => {
     return getRegistrationClosedMessage(selectedSport, selectedCategory);
   }, [selectedCategory, selectedSport]);
 
+  const isRegistrationBlocked = useMemo(() => {
+    return isRegistrationClosedForSelection(selectedSport, selectedCategory);
+  }, [selectedCategory, selectedSport]);
+
   useEffect(() => {
     const { initialSport: sportFromQuery, initialCategory: categoryFromQuery } =
       getSelectionFromQuery(location.search);
@@ -216,7 +220,7 @@ const Registration = () => {
     const leadershipEnabled =
       registrationType === "group" && Boolean(config?.teamNameRequired);
 
-    if (config?.registrationClosed) {
+    if (isRegistrationBlocked) {
       setStatus({
         type: "error",
         message:
@@ -612,7 +616,7 @@ const Registration = () => {
                       </option>
                     ))}
                   </select>
-                  {config?.registrationClosed && registrationBlockedMessage && (
+                  {isRegistrationBlocked && registrationBlockedMessage && (
                     <div className="mt-2 rounded border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs font-bold text-amber-300">
                       {registrationBlockedMessage}
                     </div>
@@ -963,12 +967,12 @@ const Registration = () => {
 
             <div className="mt-8">
               <motion.button
-                whileHover={config?.registrationClosed ? {} : buttonHover}
-                whileTap={config?.registrationClosed ? {} : buttonTap}
-                type={config?.registrationClosed ? "button" : "submit"}
-                disabled={isSubmitting || config?.registrationClosed}
+                whileHover={isRegistrationBlocked ? {} : buttonHover}
+                whileTap={isRegistrationBlocked ? {} : buttonTap}
+                type={isRegistrationBlocked ? "button" : "submit"}
+                disabled={isSubmitting || isRegistrationBlocked}
                 onClick={(e) => {
-                  if (config?.registrationClosed) {
+                  if (isRegistrationBlocked) {
                     e.preventDefault();
                     setStatus({
                       type: "error",
@@ -980,7 +984,7 @@ const Registration = () => {
                 }}
                 className="w-full bg-prakida-flame hover:bg-prakida-flameDark text-white font-bold py-4 tracking-[0.25em] disabled:opacity-50 transition-colors"
               >
-                {config?.registrationClosed
+                {isRegistrationBlocked
                   ? "REGISTRATION CLOSED"
                   : isSubmitting
                     ? "TRANSMITTING DATA..."
