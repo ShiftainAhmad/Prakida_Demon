@@ -63,6 +63,8 @@ export const SPORTS_CONFIG = {
   },
   Basketball: {
     type: "Team Sport",
+    registrationClosed: true,
+    registrationClosedReason: "Registration for Basketball is currently paused.",
     categories: [
       {
         id: "men",
@@ -123,6 +125,8 @@ export const SPORTS_CONFIG = {
   },
   "Lawn Tennis": {
     type: "Team Entry",
+    registrationClosed: true,
+    registrationClosedReason: "Registration for Lawn Tennis is currently paused.",
     categories: [
       {
         id: "men_singles",
