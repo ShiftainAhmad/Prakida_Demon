@@ -1,8 +1,6 @@
 export const SPORTS_CONFIG = {
   Football: {
     type: "Team Sport",
-    registrationClosed: true,
-    registrationClosedReason: "Registration for Football is currently paused.",
     categories: [
       {
         id: "men",
@@ -63,8 +61,6 @@ export const SPORTS_CONFIG = {
   },
   Basketball: {
     type: "Team Sport",
-    registrationClosed: true,
-    registrationClosedReason: "Registration for Basketball is currently paused.",
     categories: [
       {
         id: "men",
