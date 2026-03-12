@@ -236,8 +236,8 @@ export const SPORTS_CONFIG = {
   },
   "Table Tennis": {
     type: "Mixed",
-    //registrationClosed: true,
-    //registrationClosedReason: "Registration for Table Tennis is currently paused.",
+    registrationClosed: true,
+    registrationClosedReason: "Registration for Table Tennis is currently paused.",
     categories: [
       {
         id: "men_team",
@@ -346,8 +346,8 @@ export const SPORTS_CONFIG = {
   },
   Chess: {
     type: "Team Entry",
-    registrationClosed: true,
-    registrationClosedReason: "Registration for Chess is currently paused.",
+    //registrationClosed: true,
+    //registrationClosedReason: "Registration for Chess is currently paused.",
     categories: [
       {
         id: "open",
