@@ -236,7 +236,7 @@ export const SPORTS_CONFIG = {
   },
   "Table Tennis": {
     type: "Mixed",
-    registrationClosed: true,
+    registrationClosed: false,
     registrationClosedReason: "Registration for Table Tennis is currently paused.",
     categories: [
       {
@@ -365,13 +365,13 @@ export const SPORTS_CONFIG = {
   },
   "E-Sports": {
     type: "E-Sports",
-    registrationClosed: true,
+    registrationClosed: false,
     registrationClosedReason: "Registration for E-Sports is currently paused.",
     categories: [
       {
         id: "bgmi",
         label: "BGMI Team",
-        registrationClosed: true,
+        registrationClosed: false,
         registrationClosedReason: "Registration for BGMI is currently paused.",
         minPlayers: 4,
         maxPlayers: 4,
@@ -385,6 +385,8 @@ export const SPORTS_CONFIG = {
       {
         id: "free_fire",
         label: "Free Fire Team",
+        registrationClosed: true,
+        registrationClosedReason: "Registration for Free Fire is currently paused.",
         minPlayers: 4,
         maxPlayers: 4,
         eventID: 15,
@@ -397,6 +399,8 @@ export const SPORTS_CONFIG = {
       {
         id: "valorant",
         label: "Valorant Team",
+        registrationClosed: true,
+        registrationClosedReason: "Registration for Valorant is currently paused.",
         minPlayers: 5,
         maxPlayers: 5,
         eventID: 14,
