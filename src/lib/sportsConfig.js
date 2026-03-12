@@ -236,7 +236,7 @@ export const SPORTS_CONFIG = {
   },
   "Table Tennis": {
     type: "Mixed",
-    registrationClosed: false,
+    registrationClosed: true,
     registrationClosedReason: "Registration for Table Tennis is currently paused.",
     categories: [
       {
