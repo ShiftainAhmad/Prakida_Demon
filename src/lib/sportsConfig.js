@@ -131,6 +131,8 @@ export const SPORTS_CONFIG = {
       {
         id: "men_singles",
         label: "Men (Singles)",
+        registrationClosed: true,
+        registrationClosedReason: "Registration for Lawn Tennis Men (Singles) is currently paused.",
         minPlayers: 1,
         maxPlayers: 1,
         eventID: 16,
@@ -143,6 +145,8 @@ export const SPORTS_CONFIG = {
       {
         id: "women_singles",
         label: "Women (Singles)",
+        registrationClosed: true,
+        registrationClosedReason: "Registration for Lawn Tennis Women (Singles) is currently paused.",
         minPlayers: 1,
         maxPlayers: 1,
         eventID: 17,
@@ -365,13 +369,13 @@ export const SPORTS_CONFIG = {
   },
   "E-Sports": {
     type: "E-Sports",
-    registrationClosed: false,
+    registrationClosed: true,
     registrationClosedReason: "Registration for E-Sports is currently paused.",
     categories: [
       {
         id: "bgmi",
         label: "BGMI Team",
-        registrationClosed: false,
+        registrationClosed: true,
         registrationClosedReason: "Registration for BGMI is currently paused.",
         minPlayers: 4,
         maxPlayers: 4,
