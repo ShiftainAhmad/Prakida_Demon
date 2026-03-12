@@ -125,8 +125,8 @@ export const SPORTS_CONFIG = {
   },
   "Lawn Tennis": {
     type: "Team Entry",
-    registrationClosed: true,
-    registrationClosedReason: "Registration for Lawn Tennis is currently paused.",
+    //registrationClosed: true,
+    //registrationClosedReason: "Registration for Lawn Tennis is currently paused.",
     categories: [
       {
         id: "men_singles",
@@ -236,8 +236,8 @@ export const SPORTS_CONFIG = {
   },
   "Table Tennis": {
     type: "Mixed",
-    registrationClosed: true,
-    registrationClosedReason: "Registration for Table Tennis is currently paused.",
+    //registrationClosed: true,
+    //registrationClosedReason: "Registration for Table Tennis is currently paused.",
     categories: [
       {
         id: "men_team",
