@@ -346,8 +346,8 @@ export const SPORTS_CONFIG = {
   },
   Chess: {
     type: "Team Entry",
-    //registrationClosed: true,
-    //registrationClosedReason: "Registration for Chess is currently paused.",
+    registrationClosed: true,
+    registrationClosedReason: "Registration for Chess is currently paused.",
     categories: [
       {
         id: "open",
