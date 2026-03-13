@@ -30,7 +30,7 @@ const Sponsors_names = [
   "IDBI BANK",
   "RiteBite Max Protein",
   "Sudha",
-  "Axis Bank",
+  "AXIS BANK",
   // "Pepsi",
   "TiQr",
   "Bihar State Electronics Development Corporation Limited",
