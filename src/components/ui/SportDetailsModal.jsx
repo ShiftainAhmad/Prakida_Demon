@@ -12,6 +12,7 @@ import { formatRegistrationFee } from "../../lib/pricing";
 import { useAuth } from "../../context/AuthContext";
 
 const SportDetailsModal = ({ sport, onClose }) => {
+    const [showTerms, setShowTerms] = useState(false);
     const { user } = useAuth();
     const [currentThumb, setCurrentThumb] = useState(0);
     const detailsScrollRef = useRef(null);
@@ -274,8 +275,55 @@ const SportDetailsModal = ({ sport, onClose }) => {
                                     </div>
                                 </div>
                             )}
+                            <p className="text-[10px] md:text-xs text-gray-500 mt-2">
+    By registering, you agree to the{" "}
+    <span
+        onClick={() => setShowTerms(true)}
+        className="underline cursor-pointer hover:text-prakida-flame transition-colors"
+    >
+        Terms & Conditions
+    </span>.
+</p>
                         </div>
                     </motion.div>
+                    <AnimatePresence>
+    {showTerms && (
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/80 backdrop-blur-sm"
+        >
+            <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="relative max-w-lg w-[90%] bg-prakida-bg border border-white/10 p-6 md:p-8"
+            >
+                <button
+                    onClick={() => setShowTerms(false)}
+                    className="absolute top-3 right-3 text-gray-400 hover:text-white"
+                >
+                    <X size={20} />
+                </button>
+
+                <h3 className="text-xl font-bold text-prakida-flame mb-4">
+                    Terms & Conditions
+                </h3>
+
+                <p className="text-gray-300 text-sm leading-relaxed">
+                    Participants acknowledge that sports events may involve
+                    physical activity and risk of injury. By participating in
+                    this event, you agree that <b>BIT Mesra Patna Off Campus</b>
+                    and the organizing committee shall not be held responsible
+                    for any injury, accident, loss, or damage that may occur
+                    during the event. Participation is entirely voluntary and
+                    at your own risk.
+                </p>
+            </motion.div>
+        </motion.div>
+    )}
+</AnimatePresence>
                 </div>
             </motion.div>
         </div>
