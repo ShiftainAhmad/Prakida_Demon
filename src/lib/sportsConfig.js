@@ -125,14 +125,12 @@ export const SPORTS_CONFIG = {
   },
   "Lawn Tennis": {
     type: "Team Entry",
-    //registrationClosed: true,
-    //registrationClosedReason: "Registration for Lawn Tennis is currently paused.",
+    registrationClosed: false,
+    registrationClosedReason: "Registration for Lawn Tennis is currently paused.",
     categories: [
       {
         id: "men_singles",
         label: "Men (Singles)",
-        registrationClosed: true,
-        registrationClosedReason: "Registration for Lawn Tennis Men (Singles) is currently paused.",
         minPlayers: 1,
         maxPlayers: 1,
         eventID: 16,
@@ -145,8 +143,6 @@ export const SPORTS_CONFIG = {
       {
         id: "women_singles",
         label: "Women (Singles)",
-        registrationClosed: true,
-        registrationClosedReason: "Registration for Lawn Tennis Women (Singles) is currently paused.",
         minPlayers: 1,
         maxPlayers: 1,
         eventID: 17,
@@ -350,7 +346,7 @@ export const SPORTS_CONFIG = {
   },
   Chess: {
     type: "Team Entry",
-    registrationClosed: true,
+    registrationClosed: false,
     registrationClosedReason: "Registration for Chess is currently paused.",
     categories: [
       {
@@ -375,8 +371,6 @@ export const SPORTS_CONFIG = {
       {
         id: "bgmi",
         label: "BGMI Team",
-        registrationClosed: true,
-        registrationClosedReason: "Registration for BGMI is currently paused.",
         minPlayers: 4,
         maxPlayers: 4,
         eventID: 13,
@@ -389,8 +383,6 @@ export const SPORTS_CONFIG = {
       {
         id: "free_fire",
         label: "Free Fire Team",
-        registrationClosed: true,
-        registrationClosedReason: "Registration for Free Fire is currently paused.",
         minPlayers: 4,
         maxPlayers: 4,
         eventID: 15,
@@ -403,8 +395,6 @@ export const SPORTS_CONFIG = {
       {
         id: "valorant",
         label: "Valorant Team",
-        registrationClosed: true,
-        registrationClosedReason: "Registration for Valorant is currently paused.",
         minPlayers: 5,
         maxPlayers: 5,
         eventID: 14,
@@ -440,28 +430,13 @@ export const getScopedCategories = (sportKey, categoryId) => {
 };
 
 export const isRegistrationClosedForSelection = (sportKey, categoryId) => {
-  if (isSportRegistrationClosed(sportKey)) return true;
-
-  const categories = getScopedCategories(sportKey, categoryId);
-  if (!categories.length) return false;
-  return categories.every((category) => Boolean(category?.registrationClosed));
+  void categoryId;
+  return isSportRegistrationClosed(sportKey);
 };
 
 export const getRegistrationClosedMessage = (sportKey, categoryId) => {
-  if (isSportRegistrationClosed(sportKey)) {
-    return getSportRegistrationClosedMessage(sportKey);
-  }
-
-  const categories = getScopedCategories(sportKey, categoryId);
-  const closedCategories = categories.filter(
-    (category) => category?.registrationClosed,
-  );
-
-  if (!closedCategories.length) return "";
-
-  return (
-    closedCategories.find((category) => category?.registrationClosedReason)
-      ?.registrationClosedReason ||
-    "Registration for this event is currently unavailable."
-  );
+  void categoryId;
+  return isSportRegistrationClosed(sportKey)
+    ? getSportRegistrationClosedMessage(sportKey)
+    : "";
 };
