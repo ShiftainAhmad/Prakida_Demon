@@ -47,7 +47,7 @@ const PRODUCTS = [
   {
     id: "2474", // Design 1
     title: "Prakrida T-Shirt (Design 1)",
-    price: "499",
+    price: "319",
     color: "black",
     originalPrice: null,
     thumb: "https://i.ibb.co/Z68sfVvc/t12.jpg",
@@ -61,7 +61,7 @@ const PRODUCTS = [
   {
     id: "2476", // Design 2
     title: "Prakrida T-Shirt (Design 2)",
-    price: "499",
+    price: "319",
     color: "black",
     originalPrice: null,
     thumb: "https://i.ibb.co/8LY8DTzV/t32.jpg",
@@ -75,7 +75,7 @@ const PRODUCTS = [
   {
     id: "2475", // Design 3
     title: "Prakrida T-Shirt (Design 3)",
-    price: "499",
+    price: "319",
     color: "beige",
     originalPrice: null,
     thumb: "https://i.ibb.co/hRZLFdZS/t22.jpg",
@@ -487,9 +487,9 @@ export default function Merchandise() {
             <div className="text-sm leading-relaxed">
               <span className="font-semibold text-white">Note:</span>
               <ul className="list-disc pl-5 text-sm text-white/80">
-                <li>Buy 1 for ₹499</li>
-                <li>Buy 2 (combo) for ₹949</li>
-                <li>Buy all 3 for ₹1399</li>
+                <li>Buy 1 for ₹319</li>
+                <li>Buy 2 (combo) for ₹599</li>
+                <li>Buy all 3 for ₹859</li>
               </ul>
             </div>
           </div>
