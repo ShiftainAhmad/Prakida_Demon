@@ -312,13 +312,9 @@ const SportDetailsModal = ({ sport, onClose }) => {
                 </h3>
 
                 <p className="text-gray-300 text-sm leading-relaxed">
-                    Participants acknowledge that sports events may involve
-                    physical activity and risk of injury. By participating in
-                    this event, you agree that <b>BIT Mesra Patna Off Campus</b>
-                    and the organizing committee shall not be held responsible
-                    for any injury, accident, loss, or damage that may occur
-                    during the event. Participation is entirely voluntary and
-                    at your own risk.
+                    Participants acknowledge that sports events may involve physical activity and risk of injury. By participating in this event, you agree that <b>BIT Mesra Patna Off Campus</b> and the organizing committee shall not be held responsible for any injury, accident, loss, or damage that may occur during the event. Participation is entirely voluntary and at your own risk.
+
+Food will be provided to participants only from 12th dinner to 15th lunch. The organizing committee will not be responsible for providing meals outside this specified duration.
                 </p>
             </motion.div>
         </motion.div>
