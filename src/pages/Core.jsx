@@ -868,6 +868,20 @@ const outreachAlumniTeam = [
       },
     ],
   },
+  {
+    name: "Aditi Maharor",
+    role: "Co-Head",
+    batch: "2024",
+    photo:
+      "https://i.ibb.co/Y495401D/Whats-App-Image-2026-03-15-at-1-47-51-PM.jpg",
+    socials: [
+      {
+        label: "@",
+        url: "#",
+        color: "#E4405F",
+      },
+    ],
+  },
 ];
 
 const Core = () => {
@@ -974,25 +988,23 @@ const Core = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mx-auto mb-10 justify-items-center">
+          <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
+            Logistics Team
+          </p>
 
-  <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
-    Logistics Team
-  </p>
-
-  {logisticsTeam.map((member, i) => (
-    <div
-      key={member.name}
-      className={
-        logisticsTeam.length === 5 && i === 4
-          ? "lg:col-start-2 lg:translate-x-1/2"
-          : ""
-      }
-    >
-      <CoreTeamCard member={member} index={i} />
-    </div>
-  ))}
-
-</div>
+          {logisticsTeam.map((member, i) => (
+            <div
+              key={member.name}
+              className={
+                logisticsTeam.length === 5 && i === 4
+                  ? "lg:col-start-2 lg:translate-x-1/2"
+                  : ""
+              }
+            >
+              <CoreTeamCard member={member} index={i} />
+            </div>
+          ))}
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 md:gap-6 mx-auto mb-10">
           <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
@@ -1111,7 +1123,7 @@ const Core = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 lg:px-[117px] mx-auto mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mx-auto mb-10">
           <p className="col-span-full font-display text-center text-5xl font-bold tracking-wide bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
             Outreach & Alumni Affair Team
           </p>
