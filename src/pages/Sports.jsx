@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { sectionSlide, gridStagger, cardSnap } from "../utils/motion";
-import { Users, ArrowRight, Maximize2, RefreshCw, LogIn } from "lucide-react";
+import { Users, ArrowRight, Maximize2, RefreshCw, LogIn, Lock } from "lucide-react";
+
+// ─── Global sports page kill-switch ───────────────────────────────────────────
+const REGISTRATIONS_CLOSED = true;
+// ──────────────────────────────────────────────────────────────────────────────
 import { Link } from "react-router-dom";
 import SportDetailsModal from "../components/ui/SportDetailsModal";
 import {
@@ -492,6 +496,28 @@ const Sports = () => {
           </div>
         </motion.div>
 
+        {REGISTRATIONS_CLOSED ? (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col items-center justify-center py-24 px-6 text-center"
+          >
+            <div className="mb-8 p-6 rounded-full border border-prakida-flame/30 bg-prakida-flame/5">
+              <Lock size={48} className="text-prakida-flame" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-display font-black text-white uppercase italic tracking-tighter mb-4">
+              Registrations{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
+                Closed
+              </span>
+            </h2>
+            <p className="text-gray-400 max-w-md font-mono text-sm leading-relaxed">
+              Sports registrations for Prakida are now closed. Thank you to
+              everyone who registered. Stay tuned for updates.
+            </p>
+          </motion.div>
+        ) : (
         <motion.div
           variants={gridStagger}
           initial="hidden"
@@ -629,9 +655,10 @@ const Sports = () => {
             );
           })}
         </motion.div>
+        )}
 
         {/* E-Sports Section */}
-        <div className="mt-16">
+        {!REGISTRATIONS_CLOSED && <div className="mt-16">
           <div className="text-center mb-10">
             <div className="inline-block px-4 py-1 border border-prakida-flame/30 rounded-full mb-4">
               <span className="text-prakida-flame text-xs font-mono tracking-widest uppercase">
@@ -745,7 +772,7 @@ const Sports = () => {
               </motion.div>
             ))}
           </motion.div>
-        </div>
+        </div>}
       </div>
 
       <AnimatePresence>

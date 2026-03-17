@@ -3,15 +3,47 @@ import { useNavigate } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { useAuth } from "../context/AuthContext";
-import { Users, BedDouble, RefreshCw } from "lucide-react";
+import { Users, BedDouble, RefreshCw, Lock } from "lucide-react";
 import MemberSelector from "../components/MemberSelector";
 import { SPORTS_CONFIG } from "../lib/sportsConfig";
+import { motion } from "framer-motion";
+
+// ─── Kill-switch: set to false to re-enable accommodation bookings ──────────
+const REGISTRATIONS_CLOSED = true;
+// ────────────────────────────────────────────────────────────────────────────
 
 const PRICE_PER_PERSON = 1349;
 
 const AccommodationRegistration = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  if (REGISTRATIONS_CLOSED) {
+    return (
+      <div className="pt-24 min-h-screen bg-black flex items-center justify-center px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col items-center text-center max-w-lg"
+        >
+          <div className="mb-8 p-6 rounded-full border border-prakida-flame/30 bg-prakida-flame/5">
+            <Lock size={48} className="text-prakida-flame" />
+          </div>
+          <h1 className="text-3xl md:text-4xl font-display font-black text-white uppercase italic tracking-tighter mb-4">
+            Accommodation{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-prakida-flame to-yellow-500">
+              Closed
+            </span>
+          </h1>
+          <p className="text-gray-400 font-mono text-sm leading-relaxed">
+            Accommodation registrations for Prakida are now closed. Thank you
+            to everyone who booked. Stay tuned for updates.
+          </p>
+        </motion.div>
+      </div>
+    );
+  }
 
   const [loading, setLoading] = useState(true);
   const [members, setMembers] = useState([]);

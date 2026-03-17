@@ -3,9 +3,13 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useAuth } from "../context/AuthContext";
 import { gsap } from "gsap";
-import { X } from "lucide-react";
+import { X, Lock } from "lucide-react";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { auth } from "../lib/firebase";
+
+// ─── Kill-switch: set to false to re-enable merch orders ───────────────────
+const MERCH_ORDERS_CLOSED = true;
+// ────────────────────────────────────────────────────────────────────────────
 
 const BASE_API_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -445,38 +449,42 @@ export default function Merchandise() {
                     </div>
 
                     <div className="flex items-center gap-2 mt-auto">
-                      {
-                        <button
-                          onClick={() => setModalProduct(p)}
-                          aria-label={`View ${p.title}`}
-                          className="w-10 h-10 flex items-center justify-center rounded-full border border-white/10 bg-transparent text-white/70 hover:bg-white/5"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            className="w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="1.5"
-                              d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7z"
-                            />
-                            <circle cx="12" cy="12" r="3" strokeWidth="1.5" />
-                          </svg>
-                        </button>
-                      }
-
-                      <a
-                        href="https://forms.gle/Br9XiUMFt9nCDsf59"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 px-3 py-2 text-sm rounded-full bg-gradient-to-r from-[#f95263] via-[#c55438] to-[#e4790d] text-white shadow-sm font-semibold hover:opacity-90 transition-opacity text-center"
+                      <button
+                        onClick={() => setModalProduct(p)}
+                        aria-label={`View ${p.title}`}
+                        className="w-10 h-10 flex items-center justify-center rounded-full border border-white/10 bg-transparent text-white/70 hover:bg-white/5"
                       >
-                        Order Now
-                      </a>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                            d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7z"
+                          />
+                          <circle cx="12" cy="12" r="3" strokeWidth="1.5" />
+                        </svg>
+                      </button>
+
+                      {MERCH_ORDERS_CLOSED ? (
+                        <span className="flex-1 px-3 py-2 text-sm rounded-full border border-white/15 text-white/40 font-semibold text-center cursor-not-allowed flex items-center justify-center gap-1">
+                          <Lock size={12} /> Orders Closed
+                        </span>
+                      ) : (
+                        <a
+                          href="https://forms.gle/Br9XiUMFt9nCDsf59"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 px-3 py-2 text-sm rounded-full bg-gradient-to-r from-[#f95263] via-[#c55438] to-[#e4790d] text-white shadow-sm font-semibold hover:opacity-90 transition-opacity text-center"
+                        >
+                          Order Now
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -579,14 +587,20 @@ export default function Merchandise() {
                     </div>
 
                     <div className="mt-auto">
-                      <a
-                        href="https://forms.gle/Br9XiUMFt9nCDsf59"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block px-4 py-2 rounded-full bg-gradient-to-r from-[#f95263] via-[#c55438] to-[#e4790d] text-white font-semibold hover:opacity-90 transition-opacity text-center"
-                      >
-                        Order Now
-                      </a>
+                      {MERCH_ORDERS_CLOSED ? (
+                        <div className="flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-white/15 text-white/40 font-semibold text-sm cursor-not-allowed">
+                          <Lock size={14} /> Orders Closed
+                        </div>
+                      ) : (
+                        <a
+                          href="https://forms.gle/Br9XiUMFt9nCDsf59"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block px-4 py-2 rounded-full bg-gradient-to-r from-[#f95263] via-[#c55438] to-[#e4790d] text-white font-semibold hover:opacity-90 transition-opacity text-center"
+                        >
+                          Order Now
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
